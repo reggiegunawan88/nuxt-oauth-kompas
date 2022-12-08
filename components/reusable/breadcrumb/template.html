@@ -1,0 +1,17 @@
+<div class="items-start mx-2 pb-6">
+  <ol class="flex flex-row items-center">
+    <li>
+      <a href="https://www.kompas.id/">
+        <font-awesome-icon :icon="['fas', 'home']" class="text-brand-1 text-base mx-3" />
+      </a>
+    </li>
+    <li class="flex flex-row items-center">
+      <font-awesome-icon :icon="['fas', 'chevron-right']" class="text-xxs" />
+      <NuxtLink class="text-brand-1 font-bold text-sm mx-3" to="/manage-account/my-account">Kelola Akun </NuxtLink>
+    </li>
+    <li v-for="(item,i) in crumbs" :key="i" class="flex flex-row items-center">
+      <font-awesome-icon :icon="['fas', 'chevron-right']" class="text-xxs" />
+      <p class="text-customTextColor font-bold text-sm mx-3">{{translateText(item.title)}}</p>
+    </li>
+  </ol>
+</div>

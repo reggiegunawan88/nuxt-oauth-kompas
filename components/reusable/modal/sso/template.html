@@ -1,0 +1,28 @@
+<div>
+  <!-- modal overlay -->
+  <transition name="fade" appear>
+    <div v-if="$store.state.modal.showModalSSO" class="fixed top-0 right-0 left-0 bottom-0 content-none z-50 opacity-75 bg-customTextColor cursor-pointer" @click="$store.dispatch('modal/hideModalConfirmation')"></div>
+  </transition>
+  <!-- modal content -->
+  <div v-if="$store.state.modal.showModalSSO" class="fixed w-full h-full z-50">
+    <div class="flex m-auto max-w-xs h-full justify-center items-center">
+      <div v-if="loading">
+        <font-awesome-icon class="animate-spin text-green-50 text-5xl" :icon="['fas', 'spinner']" />
+      </div>
+      <div v-else>
+        <div class="flex flex-col justify-items-center bg-white rounded p-5 z-50 opacity-100">
+          <!-- title and desc -->
+          <div class="mb-4">
+            <p class="font-sans font-bold text-xl">Hapus Akses</p>
+            <p class="font-sans text-sm mt-2">Anda yakin ingin menghapus akses ke Kompas.id dari situs dan aplikasi ini?</p>
+          </div>
+          <!-- button -->
+          <div class="flex flex-row justify-end">
+            <button class="font-sans text-green-50 text-base font-bold text-right mx-6" @click="$store.dispatch('modal/hideModalSSO')">Kembali</button>
+            <button class="btn-secondary" @click="revoke">Hapus</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

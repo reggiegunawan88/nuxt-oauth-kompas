@@ -1,0 +1,100 @@
+<div class="pb-40">
+  <div class="h-full w-full col-span-2 px-6 py-8 tablet:border-default tablet:border-gray-100">
+    <div class="flex flex-col divide-y-default divide-gray-100">
+      <div>
+        <p class="font-sans font-bold text-customTextColor text-left text-2xl">Akun Saya</p>
+        <!-- skeleton loading -->
+        <div v-if="!dataLoaded" class="mt-3">
+          <div name="skeleton" class="h-3 rounded-sm w-full bg-gray-150 animate-pulse my-2"></div>
+          <div name="skeleton" class="h-3 rounded-sm w-full bg-gray-150 animate-pulse my-4"></div>
+
+          <div class="grid grid-flow-row mt-3">
+            <div class="flex flex-row justify-between gap-x-2">
+              <div name="skeleton" class="h-5 rounded-sm w-2/6 bg-gray-150 animate-pulse my-4"></div>
+              <div name="skeleton" class="h-5 rounded-sm w-full bg-gray-150 animate-pulse my-4"></div>
+            </div>
+            <div class="flex flex-row justify-between gap-x-2">
+              <div name="skeleton" class="h-5 rounded-sm w-2/6 bg-gray-150 animate-pulse my-4"></div>
+              <div name="skeleton" class="h-5 rounded-sm w-full bg-gray-150 animate-pulse my-4"></div>
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <!-- profile description -->
+          <div class="my-3">
+            <p v-if="userMembership.firstName == '' && userMembership.lastName == ''">Halo, <b>Kompas.id User</b>! Terimakasih sudah menjadi pengguna setia Kompas.id sejak <b>{{ userYear }}</b>.</p>
+            <p v-else>
+              Halo, <b>{{capitalizeUsername( userMembership.firstName)}} {{capitalizeUsername( userMembership.lastName)}}</b>! Terima kasih sudah menjadi pengguna setia Kompas.id sejak
+              <b>{{ userYear }}</b>.
+            </p>
+          </div>
+          <div class="grid grid-flow-row gap-y-3 mb-6">
+            <!-- user name and button edit -->
+            <div class="hidden mobileL:block">
+              <div class="grid grid-cols-3 justify-between items-center">
+                <p class="font-sans font-bold text-customTextColor row-span-2">Nama</p>
+                <p v-if="userMembership.firstName == '' && userMembership.lastName == ''" class="font-sans font-base text-customTextColor text-left text-base">Kompas.id User</p>
+                <p v-else class="font-sans font-base text-customTextColor text-left text-base break-words">{{userMembership.firstName}} {{userMembership.lastName}}</p>
+                <!-- conditional edit btn based on user verified -->
+                <div v-if="userVerified" @click="editProfile()" class="flex flex-row items-center cursor-pointer justify-end text-green-50">
+                  <font-awesome-icon class="text-base" :icon="['fas', 'edit']" />
+                  <p class="font-sans text-left text-base">Ubah</p>
+                </div>
+                <div v-if="!userVerified" class="flex flex-row items-center cursor-not-allowed justify-end text-grey-40">
+                  <font-awesome-icon class="text-base" :icon="['fas', 'edit']" />
+                  <p class="font-sans text-left text-base">Ubah</p>
+                </div>
+                <!-- end -->
+              </div>
+            </div>
+            <!-- mobile view -->
+            <div class="flex flex-col mobileL:hidden">
+              <div class="grid grid-cols-2 items-center justify-between">
+                <p class="font-sans font-bold text-customTextColor row-span-2">Nama</p>
+                <!-- conditional edit btn based on user verified -->
+                <div v-if="userVerified" @click="editProfile()" class="flex flex-row items-center cursor-pointer justify-end text-green-50">
+                  <font-awesome-icon class="text-base" :icon="['fas', 'edit']" />
+                  <p class="font-sans text-left text-base">Ubah</p>
+                </div>
+                <div v-if="!userVerified" class="flex flex-row items-center cursor-not-allowed justify-end text-grey-40">
+                  <font-awesome-icon class="text-base" :icon="['fas', 'edit']" />
+                  <p class="font-sans text-left text-base">Ubah</p>
+                </div>
+                <!-- end -->
+              </div>
+              <p v-if="userMembership.firstName == '' && userMembership.lastName == ''" class="font-sans font-base text-customTextColor text-left text-base">Kompas.id User</p>
+              <p v-else class="font-sans font-base text-customTextColor text-left text-base">{{capitalizeUsername( userMembership.firstName)}} {{capitalizeUsername( userMembership.lastName)}}</p>
+            </div>
+
+            <!-- user email -->
+            <div class="hidden mobileL:block">
+              <div class="grid grid-cols-3 justify-between items-center">
+                <p class="font-sans font-bold text-customTextColor">Email</p>
+                <p class="font-sans font-base text-customTextColor text-left text-base break-words">{{ userData.email }}</p>
+              </div>
+            </div>
+            <!-- mobile view -->
+            <div class="flex flex-col mobileL:hidden">
+              <p class="font-sans font-bold text-customTextColor">Email</p>
+              <p class="font-sans font-base text-customTextColor text-left text-base">{{ userData.email }}</p>
+            </div>
+          </div>
+          <!-- Reader Achievement -->
+          <kompas-manageAccount-myAccount-achievement />
+          <!-- Widget Banner section -->
+          <div v-if="userVerified === null && $store.state.kelolaAkun.userDataComplete === null" class="w-full items-center justify-center">
+            <div name="skeleton" class="h-12 rounded bg-gray-150 animate-pulse my-10 mx-10"></div>
+          </div>
+          <div>
+            <!-- user not yet verified or user data incomplete -->
+            <div class="-mx-6" v-if="userVerified === false || $store.state.kelolaAkun.userDataComplete === false">
+              <kompas-manageAccount-widget-banner />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- promotion section -->
+      <kompas-manageAccount-myAccount-promotions />
+    </div>
+  </div>
+</div>

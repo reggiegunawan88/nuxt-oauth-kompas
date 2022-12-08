@@ -1,0 +1,29 @@
+<!-- ACTIVATE AGAIN ON 12 SEPT 2021 -->
+<div v-if="userVerified === false || !userDataCompleted" class="border-default border-gray-100 items-center justify-items-center mx-4 my-5">
+  <!-- icon & text -->
+  <div class="grid grid-col-3 grid-flow-col items-center p-4">
+    <div class="w-12 h-12 laptop:row-span-2">
+      <img class="w-full h-full object-cover" src="./../../../assets/kelola-akun/kompas-bell-phone.png" alt="phone-ring" />
+    </div>
+
+    <!-- account verify (priority) -->
+    <div v-if="userVerified === false" class="grid row-span-2 items-center laptop:grid-flow-col">
+      <div class="font-sans text-base text-customTextColor items-start justify-center mx-3">Verifikasi akun sekarang untuk dapat mengubah dan melengkapi data diri demi keamanan akun Anda.</div>
+      <div class="max-w-full mx-4 items-center">
+        <button @click="resendEmailVerification" class="btn-secondary w-full mobileS:mt-3 tablet:mt-3 laptop:mt-0">
+          Verifikasi Akun
+        </button>
+      </div>
+    </div>
+
+    <!-- complete profile  -->
+    <div v-if="(userVerified || userVerified === null) && !userDataCompleted" class="grid row-span-2 items-center laptop:grid-flow-col">
+      <div class="font-sans text-base text-customTextColor items-start justify-center mx-3">Lengkapi data diri Anda untuk mendapatkan pengalaman terbaik di Kompas.id.</div>
+      <div class="max-w-full items-center mx-4">
+        <button @click="completeProfile" class="btn-secondary w-full mobileS:mt-3 tablet:mt-3 laptop:mt-0">
+          Lengkapi Data
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

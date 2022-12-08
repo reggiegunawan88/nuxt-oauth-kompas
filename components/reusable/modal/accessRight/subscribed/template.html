@@ -1,0 +1,50 @@
+<!-- modal content -->
+<div style="height: 578px" class="flex flex-col justify-items-center gap-y-4 bg-white rounded p-5 z-50 overflow-y-auto">
+  <!-- title and desc -->
+  <div class="flex flex-row justify-between items-center">
+    <p class="font-sans font-bold text-xl">Hak Akses Anda</p>
+    <font-awesome-icon :icon="['fas', 'times']" class="text-gray-300 cursor-pointer" @click="$store.dispatch('modal/hideModalAccessRight')" />
+  </div>
+  <ul class="flex flex-col list-outside list-disc gap-y-6 leading-6 mx-6">
+    <!-- content list -->
+    <li>
+      <b>Akses ke Seluruh Artikel Berbayar dan Artikel “Bebas Akses”</b> <br />
+      Anda dapat mengakses seluruh artikel Kompas.id kapan saja dan di mana saja. Dapatkan pengalaman terbaik dalam memahami informasi melalui berbagai rubrik andalan seperti Opini, Riset, Di Balik
+      Berita, dan Multimedia. Dapatkan juga berita komprehensif seputar topik terkini melalui Berita Utama.
+    </li>
+    <li>
+      <b>Akses Tanpa Batas ke ePaper Kompas</b> <br />
+      Baca 30 edisi terbaru dan arsip harian Kompas dalam bentuk digital. Anda dapat mengakses ePaper Kompas di
+      <a href="https://epaper.kompas.id/" class="font-bold underline text-blue-royal-60">situs web</a> dan aplikasi Kompas.id.
+    </li>
+    <li>
+      <b>Sajian Visual Interaktif dalam Tutur Visual</b> <br />
+      Rasakan pengalaman maksimal dalam memahami informasi mendalam. Klik <a href="https://interaktif.kompas.id/" class="font-bold underline text-blue-royal-60">di sini</a> untuk akses Tutur Visual.
+    </li>
+    <li>
+      <b>Liputan Peristiwa Terkini dalam Reportase Langsung</b> <br />
+      Ikuti liputan wartawan harian Kompas mengenai suatu peristiwa secara langsung dari berbagai lokasi kejadian disertai juga dengan foto dan video dalam Reportase Langsung.
+    </li>
+    <li>
+      <b>Dapatkan Berbagai Fitur Premium di Aplikasi</b> <br />
+      Simpan berita dengan “Baca Nanti”. Dengarkan berita dengan fitur “Audio Berita”. Anda juga dapat mengakses 30 edisi terbaru ePaper Kompas. Unduh aplikasi Kompas.id di
+      <a href="https://play.google.com/store/apps/details?id=id.kompas.app&hl=en&gl=US" class="font-bold underline text-blue-royal-60">Google Play Store</a> atau
+      <a href="https://apps.apple.com/id/app/kompas-id/id1242195037" class="font-bold underline text-blue-royal-60">App Store</a>.
+    </li>
+    <li>
+      <b>Akses ke Event Kompas Editors Talk</b> <br />
+      Ikuti event Kompas Editors Talk yang akan diselenggarakan secara eksklusif oleh harian Kompas.
+    </li>
+  </ul>
+
+  <div class="bg-grey-20 p-4">
+    <p class="text-sm">
+      <b>Anda ingin membatalkan langganan? </b>Lihat caranya
+      <a
+        href="https://kb.kompas.id/baca/berlangganan-koran-cetak/ komplain-dan-keluhan-berlangganan-koran-cetak/ bagaimana-jika-saya-ingin-membatalkan-langganan-saya/"
+        class="font-bold underline text-blue-royal-60"
+        >di sini.</a
+      >
+    </p>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<div>
+  <sso-linkedAccess v-if="linkedAccess" />
+  <div class="justify-items-center px-5 mobileS:py-13 tablet:py-20" v-else>
+    <div class="rounded-lg mx-auto max-w-md tablet:p-13 tablet:border-default border-grey-50 ">
+      <div class="grid grid-flow-row justify-center">
+        <sso-unlinkedAccess />
+        <!-- btn section -->
+        <div class="flex flex-row gap-5 justify-end mt-8">
+          <button class="btn-secondary-outlined" @click="handleCancel">Batal</button>
+          <button class="btn-secondary" @click="handleAccess">Beri Akses</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

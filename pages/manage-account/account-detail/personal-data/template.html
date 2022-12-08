@@ -1,0 +1,34 @@
+<div>
+  <!-- Widget Banner section -->
+  <div v-if="$store.state.kelolaAkun.userDataComplete === null" class="w-full items-center justify-center">
+    <div name="skeleton" class="h-12 rounded bg-gray-150 animate-pulse my-10 mx-10"></div>
+  </div>
+  <div v-else>
+    <kompas-manageAccount-widget-banner />
+  </div>
+
+  <!-- Content section -->
+  <div class="my-6 mx-4 tablet:mx-6">
+    <!-- Text and button section -->
+    <div class="flex flex-row justify-between">
+      <p class="font-sans font-bold text-xl text-customTextColor">Data Diri</p>
+      <!-- skeleton -->
+      <div v-if="$store.state.kelolaAkun.provinceList.length === 0" name="skeleton" class="h-5 w-13 rounded-sm bg-gray-150 animate-pulse my-2"></div>
+      <div v-else>
+        <div v-if="!userVerified">
+          <a class="flex items-center cursor-not-allowed text-grey-40">
+            <font-awesome-icon class="text-base mx-1" :icon="['fas', 'edit']" />
+            <p class="font-sans font-bold">Ubah</p>
+          </a>
+        </div>
+        <div v-if="userVerified">
+          <a class="flex items-center cursor-pointer" @click="editData">
+            <font-awesome-icon class="text-green-50 text-base mx-1" :icon="['fas', 'edit']" />
+            <p class="font-sans font-bold text-green-50">Ubah</p>
+          </a>
+        </div>
+      </div>
+    </div>
+    <kompas-manageAccount-accountDetail-personalData />
+  </div>
+</div>

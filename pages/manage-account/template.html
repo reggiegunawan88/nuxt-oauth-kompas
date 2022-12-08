@@ -1,0 +1,24 @@
+<section>
+  <!-- modal confirmation section -->
+  <reusable-modal-confirmation />
+  <reusable-modal-device />
+  <reusable-modal-deleteAddress />
+  <reusable-modal-sso />
+  <reusable-modal-changePassword />
+  <reusable-modal-formPhoneNumber />
+  <reusable-modal-formOtp />
+
+  <div class="relative pt-20 pb-31 mx-auto tablet:px-7 laptopM:px-8 laptopL:max-w-3xl">
+    <!-- breadcrumb section -->
+    <reusable-breadcrumb />
+    <!-- page content section -->
+    <div class="grid grid-flow-row tablet:grid-cols-3 gap-2">
+      <div class="tablet:col-span-1 tablet:mr-6">
+        <kompas-manageAccount-profile />
+      </div>
+      <div class="tablet:col-span-2">
+        <nuxt-child />
+      </div>
+    </div>
+  </div>
+</section>

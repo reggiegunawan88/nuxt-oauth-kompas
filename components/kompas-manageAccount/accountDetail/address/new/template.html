@@ -1,0 +1,336 @@
+<!-- Content section -->
+<div>
+  <!-- EDIT FORM -->
+  <div class="grid grid-flow-row tablet:grid-flow-cols tablet:grid-cols-2 tablet:gap-x-8">
+    <!-- skeleton loading: alamat -->
+    <div v-if="daftarProvinsi.length === 0">
+      <div name="skeleton" class="h-3 rounded-sm w-1/3 bg-gray-150 animate-pulse mb-4"></div>
+      <div name="skeleton" class="h-10 rounded-sm w-full bg-gray-150 animate-pulse mb-4"></div>
+    </div>
+    <div v-else>
+      <!-- Nama alamat -->
+      <div ref="label" class="flex flex-col mb-4">
+        <p class="font-sans text-base font-bold text-customTextColor">Nama Alamat<a class="text-errorTextColor">*</a></p>
+        <input
+          v-model="label"
+          placeholder="Contoh: Alamat Kantor"
+          @blur="fillAddressLabel(label)"
+          @change="fillAddressLabel(label)"
+          class="w-full border-default text-customTextColor h-10 mt-2 px-3 focus:outline-none focus:ring-2 focus:border-blue-royal-60"
+          :class="labelEmpty ? 'border-errorTextColor' : 'border-gray-100'"
+          type="text"
+        />
+        <!-- error message -->
+        <div v-if="labelEmpty" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+          <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+          <span class="leading-none ml-2 text-xs">Nama alamat harus diisi.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- skeleton loading: no telp -->
+    <div v-if="daftarProvinsi.length === 0">
+      <div name="skeleton" class="h-3 rounded-sm w-1/3 bg-gray-150 animate-pulse mb-4"></div>
+      <div name="skeleton" class="h-10 rounded-sm w-full bg-gray-150 animate-pulse mb-4"></div>
+    </div>
+    <div v-else>
+      <!-- No telp -->
+      <div ref="nomorTelp" class="flex flex-col mb-4">
+        <p class="font-sans text-base font-bold text-customTextColor">Nomor Telepon<a class="text-errorTextColor">*</a></p>
+        <input
+          v-model="nomorTelp"
+          placeholder="Contoh: 081234567890"
+          maxlength="13"
+          class="w-full border-default text-customTextColor h-10 mt-2 px-3 focus:outline-none focus:ring-2 focus:border-blue-royal-60"
+          :class="nomorTelpEmpty || maxPhoneNumber || minPhoneNumber || phoneNumberIncorrect ? 'border-errorTextColor' : 'border-gray-100'"
+          type="text"
+          @change="fillPhoneNumber(nomorTelp)"
+          @blur="fillPhoneNumber(nomorTelp)"
+          @keyup="fillPhoneNumber(nomorTelp)"
+        />
+        <!-- error message -->
+        <!-- phone number empty -->
+        <div v-if="nomorTelpEmpty" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+          <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+          <span class="leading-none ml-2 text-xs">Nomor telepon harus diisi.</span>
+        </div>
+        <!-- phone number contains special char -->
+        <div v-if="phoneNumberIncorrect" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+          <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+          <span class="leading-none ml-2 text-xs">Masukkan nomor telepon dengan benar dan valid.</span>
+        </div>
+        <!-- phone number below 6 char -->
+        <div v-if="minPhoneNumber" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+          <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+          <span class="leading-none ml-2 text-xs">Masukkan minimal 6 digit nomor telepon yang valid.</span>
+        </div>
+        <!-- phone number more than 13 char -->
+        <div v-if="maxPhoneNumber" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+          <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+          <span class="leading-none ml-2 text-xs">Masukkan maksimal 13 digit nomor telepon yang valid.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- skeleton loading: nama depan -->
+    <div v-if="daftarProvinsi.length === 0">
+      <div name="skeleton" class="h-3 rounded-sm w-1/3 bg-gray-150 animate-pulse mb-4"></div>
+      <div name="skeleton" class="h-10 rounded-sm w-full bg-gray-150 animate-pulse mb-4"></div>
+    </div>
+    <div v-else>
+      <!-- Nama depan -->
+      <div ref="namaDepan" class="flex flex-col mb-4">
+        <p class="font-sans text-base font-bold text-customTextColor">Nama Depan<a class="text-errorTextColor">*</a></p>
+        <input
+          v-model="namaDepan"
+          placeholder="Nama Depan Penerima"
+          @keypress="onlyAlphabetInput($event)"
+          @blur="fillFirstName(namaDepan)"
+          @change="fillFirstName(namaDepan)"
+          class="w-full border-default text-customTextColor h-10 mt-2 px-3 focus:outline-none focus:ring-2 focus:border-blue-royal-60"
+          :class="namaDepanEmpty || firstNameInvalid ? 'border-errorTextColor' : 'border-gray-100'"
+          type="text"
+        />
+        <!-- error message -->
+        <div v-if="namaDepanEmpty" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+          <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+          <span class="leading-none ml-2 text-xs">Nama depan harus diisi.</span>
+        </div>
+        <div v-if="firstNameInvalid" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+          <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+          <span class="leading-none ml-2 text-xs">Nama depan hanya bisa diisi dengan huruf dan simbol (').</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- skeleton loading: nama belakang -->
+    <div v-if="daftarProvinsi.length === 0">
+      <div name="skeleton" class="h-3 rounded-sm w-1/3 bg-gray-150 animate-pulse mb-4"></div>
+      <div name="skeleton" class="h-10 rounded-sm w-full bg-gray-150 animate-pulse mb-4"></div>
+    </div>
+    <div v-else>
+      <!-- Nama belakang -->
+      <div ref="namaBelakang" class="flex flex-col mb-4">
+        <p class="font-sans text-base font-bold text-customTextColor">Nama Belakang</p>
+        <input
+          v-model="namaBelakang"
+          placeholder="Nama Belakang Penerima"
+          @keypress="onlyAlphabetInput($event)"
+          @change="fillLastName(namaBelakang)"
+          @blur="fillLastName(namaBelakang)"
+          class="w-full border-default text-customTextColor h-10 mt-2 px-3 focus:outline-none focus:ring-2 focus:border-blue-royal-60"
+          :class="lastNameInvalid ? 'border-errorTextColor' : 'border-gray-100'"
+          type="text"
+        />
+        <!-- error message -->
+        <div v-if="lastNameInvalid" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+          <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+          <span class="leading-none ml-2 text-xs">Nama belakang hanya bisa diisi dengan huruf dan simbol (').</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- skeleton loading : provinsi -->
+    <div v-if="daftarProvinsi.length === 0">
+      <div name="skeleton" class="h-3 rounded-sm w-1/3 bg-gray-150 animate-pulse mb-4"></div>
+      <div name="skeleton" class="h-10 rounded-sm w-full bg-gray-150 animate-pulse mb-4"></div>
+    </div>
+    <div v-else>
+      <!-- Provinsi -->
+      <div ref="provinsi" class="flex flex-col mb-4">
+        <p class="font-sans text-base font-bold text-customTextColor">Provinsi<a class="text-errorTextColor">*</a></p>
+        <div class="select-wrapper">
+          <select
+            @change="selectProvince($event.target.value)"
+            @keydown.tab="checkProvinceValue($event.target.value)"
+            class="
+              selectpicker
+              w-full
+              justify-items-center
+              border-default
+              bg-transparent
+              text-customTextColor
+              h-10
+              mt-2
+              px-3
+              pr-7
+              focus:outline-none
+              focus:ring-2
+              focus:border-blue-royal-60
+              overflow-ellipsis
+            "
+            :class="provinsiEmpty ? 'border-errorTextColor' : 'border-gray-100'"
+            type="text"
+          >
+            <option v-if="provinsi.length === 0" disabled value="" selected>Pilih Provinsi</option>
+            <option v-else disabled selected>{{provinsi}}</option>
+            <option v-for="provinsi in daftarProvinsi" :value="provinsi.province">{{provinsi.province}}</option>
+          </select>
+        </div>
+        <!-- error message -->
+        <div v-if="provinsiEmpty" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+          <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+          <span class="leading-none ml-2 text-xs">Provinsi harus diisi.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- skeleton loading: kabupaten/kota -->
+    <div v-if="daftarProvinsi.length === 0">
+      <div name="skeleton" class="h-3 rounded-sm w-1/3 bg-gray-150 animate-pulse mb-4"></div>
+      <div name="skeleton" class="h-10 rounded-sm w-full bg-gray-150 animate-pulse mb-4"></div>
+    </div>
+    <div v-else>
+      <!-- Kabupaten/Kota -->
+      <div ref="kabupatenKota" class="flex flex-col mb-4">
+        <p class="font-sans text-base font-bold text-customTextColor">Kabupaten/Kota<a class="text-errorTextColor">*</a></p>
+        <div class="select-wrapper">
+          <select
+            v-model="kabupatenKota"
+            @change="selectCity($event.target.value)"
+            @keydown.tab="checkCityValue($event.target.value)"
+            class="w-full border-default bg-transparent text-customTextColor h-10 mt-2 px-3 pr-7 focus:outline-none focus:ring-2 focus:border-blue-royal-60 overflow-ellipsis"
+            :class="[kabupatenKotaEmpty ? 'border-errorTextColor' : 'border-gray-100', this.provinsi.length === 0 ? 'bg-grey-20' : 'bg-transparent']"
+            :disabled="provinsi.length === 0"
+            type="text"
+          >
+            <option v-if="kabupatenKota.length === 0" class="text-customTextColor" disabled value="" selected>Pilih Kabupaten/Kota</option>
+            <option v-else disabled selected>{{kabupatenKota}}</option>
+            <option v-for="kabKota in daftarKabupatenKota" :value="kabKota.city">{{kabKota.city}}</option>
+          </select>
+        </div>
+        <!-- error message -->
+        <div v-if="kabupatenKotaEmpty" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+          <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+          <span class="leading-none ml-2 text-xs">Kabupaten/Kota harus diisi.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- skeleton loading: kecamatan -->
+    <div v-if="daftarProvinsi.length === 0">
+      <div name="skeleton" class="h-3 rounded-sm w-1/3 bg-gray-150 animate-pulse mb-4"></div>
+      <div name="skeleton" class="h-10 rounded-sm w-full bg-gray-150 animate-pulse mb-4"></div>
+    </div>
+    <div v-else>
+      <!-- Kecamatan -->
+      <div class="flex flex-col">
+        <p class="font-sans text-base font-bold text-customTextColor">Kecamatan</p>
+        <div class="select-wrapper">
+          <select
+            @change="selectDistrict($event.target.value)"
+            class="w-full border-default border-gray-100 text-customTextColor h-10 mt-2 mb-4 px-3 pr-7 focus:outline-none focus:ring-2 focus:border-blue-royal-60 overflow-ellipsis"
+            :class="kabupatenKota.length === 0 ? 'bg-grey-20' : 'bg-transparent'"
+            type="text"
+            :disabled="kabupatenKota.length === 0"
+          >
+            <option class="text-customTextColor" value="">Pilih Kecamatan</option>
+            <option v-if="kecamatan.length" class="text-customTextColor" value="kecamatan" selected>{{kecamatan}}</option>
+            <option v-for="kecamatan in daftarKecamatan" :value="kecamatan.district">{{kecamatan.district}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- skeleton loading: kelurahan -->
+    <div v-if="daftarProvinsi.length === 0">
+      <div name="skeleton" class="h-3 rounded-sm w-1/3 bg-gray-150 animate-pulse mb-4"></div>
+      <div name="skeleton" class="h-10 rounded-sm w-full bg-gray-150 animate-pulse mb-4"></div>
+    </div>
+    <div v-else>
+      <!-- Kelurahan -->
+      <div class="flex flex-col">
+        <p class="font-sans text-base font-bold text-customTextColor">Kelurahan</p>
+        <div class="select-wrapper">
+          <select
+            @change="selectVillage($event.target.value)"
+            class="w-full border-default border-gray-100 text-customTextColor h-10 mt-2 mb-4 px-3 pr-7 focus:outline-none focus:ring-2 focus:border-blue-royal-60 overflow-ellipsis"
+            :class="kecamatan.length === 0 ? 'bg-grey-20' : 'bg-transparent'"
+            type="text"
+            :disabled="kecamatan.length === 0"
+          >
+            <option class="text-customTextColor" value="">Pilih Kelurahan</option>
+            <option v-if="kelurahan.length" class="text-customTextColor" value="" selected>{{kelurahan}}</option>
+            <option v-for="kelurahan in daftarKelurahan" :value="kelurahan.village">{{kelurahan.village}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- skeleton loading: alamat -->
+    <div v-if="daftarProvinsi.length === 0">
+      <div name="skeleton" class="h-3 rounded-sm w-1/3 bg-gray-150 animate-pulse mb-4"></div>
+      <div name="skeleton" class="h-31 rounded-sm w-full bg-gray-150 animate-pulse mb-4"></div>
+    </div>
+    <!-- Alamat -->
+    <div v-else ref="alamat" class="flex flex-col row-span-2 mb-4">
+      <p class="font-sans text-base font-bold text-customTextColor">Alamat<a class="text-errorTextColor">*</a></p>
+      <textarea
+        v-model="alamat"
+        class="w-full h-32 border-default text-customTextColor mt-2 px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:border-blue-royal-60"
+        :class="alamatEmpty ? 'border-errorTextColor' : 'border-gray-100'"
+        @change="fillAddress(alamat)"
+        @blur="fillAddress(alamat)"
+        keyup="fillAddress(alamat)"
+      ></textarea>
+      <!-- error message -->
+      <div v-if="alamatEmpty" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+        <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+        <span class="leading-none ml-2 text-xs">Alamat harus diisi.</span>
+      </div>
+    </div>
+
+    <!-- skeleton loading: kode pos -->
+    <div v-if="daftarProvinsi.length === 0">
+      <div name="skeleton" class="h-3 rounded-sm w-1/3 bg-gray-150 animate-pulse mb-4"></div>
+      <div name="skeleton" class="h-10 rounded-sm w-full bg-gray-150 animate-pulse mb-4"></div>
+    </div>
+    <div v-else>
+      <!-- Kode Pos -->
+      <div ref="kodePos" class="flex flex-col mb-4">
+        <p class="font-sans text-base font-bold text-customTextColor">Kode Pos<a class="text-errorTextColor">*</a></p>
+        <input
+          v-model="kodePos"
+          maxlength="5"
+          class="w-full border-default text-customTextColor h-10 mt-2 px-3 focus:outline-none focus:ring-2 focus:border-blue-royal-60"
+          :class="kodePosEmpty ? 'border-errorTextColor' : 'border-gray-100'"
+          type="text"
+          @change="fillPostalCode(kodePos)"
+          @blur="fillPostalCode(kodePos)"
+          @keypress="onlyNumberInput($event)"
+        />
+        <!-- error message -->
+        <div v-if="kodePosEmpty" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+          <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+          <span class="leading-none ml-2 text-xs">Kode pos harus diisi.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- skeleton loading: button -->
+  <div v-if="daftarProvinsi.length === 0">
+    <div class="flex flex-row w-full items-start">
+      <div name="skeleton" class="h-10 rounded-sm w-1/3 bg-gray-150 animate-pulse mr-4 my-4 px-4 py-3"></div>
+      <div name="skeleton" class="h-10 rounded-sm w-1/3 bg-gray-150 animate-pulse mr-4 my-4 px-4 py-3"></div>
+    </div>
+  </div>
+  <div v-else>
+    <!-- Checkbox -->
+    <div v-if="addressListEmpty" class="flex flex-row items-center gap-x-2 mb-7">
+      <input type="checkbox" :checked="true" disabled class="border-default border-gray-100 w-4 h-4" />
+      <p class="font-sans text-base text-grey-40">Jadikan alamat utama.</p>
+    </div>
+    <div v-else class="flex flex-row items-center gap-x-2 mb-7">
+      <input type="checkbox" v-model="checkbox" class="border-default border-gray-100 w-4 h-4" @change="setMainAddress(checkbox)" />
+      <p class="font-sans text-base text-customTextColor">Jadikan alamat utama.</p>
+    </div>
+    <!-- Button section -->
+    <div class="flex flex-row w-full items-start gap-x-4 mb-10">
+      <!-- Conditional: Button save shipping address -->
+      <button @click="saveAddress" class="btn-secondary my-0">Simpan</button>
+      <!-- Button cancel editing -->
+      <button @click="cancelEdit" class="btn-secondary-outlined my-0">Batal</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="border-t-default border-gray-100 pt-8 pb-7 tablet:pb-64 laptopM:pb-20 desktopL:pb-36">
+  <p style="max-width: 674px;" class="m-auto text-center text-base text-grey-50 mb-8">Mulai perjalanan Anda sebagai pelanggan Kompas.id dengan konten rekomendasi dibawah ini:</p>
+  <div class="grid grid-cols-1 tablet:grid-cols-2 desktopL:grid-cols-3 gap-8" v-if="isLoading">
+    <div class="flex space-x-6 laptopM:space-x-5 cursor-pointer" v-for="item in 9">
+      <div class="flex-none">
+        <div name="skeleton" class="h-24 rounded-sm w-32 laptopM:w-52 desktopL:w-44 bg-gray-150 animate-pulse mb-4"></div>
+      </div>
+      <div class="flex-grow">
+        <div name="skeleton" class="h-4 rounded-sm w-full bg-gray-150 animate-pulse mb-4"></div>
+        <div name="skeleton" class="h-4 rounded-sm w-full bg-gray-150 animate-pulse mb-4"></div>
+        <div name="skeleton" class="h-4 rounded-sm w-full bg-gray-150 animate-pulse mb-5"></div>
+        <div name="skeleton" class="h-4 rounded-sm w-1/3 bg-gray-150 animate-pulse"></div>
+      </div>
+    </div>
+  </div>
+  <div class="grid grid-cols-1 tablet:grid-cols-2 desktopL:grid-cols-3 gap-8" v-else-if="!isLoading && latestArticles.length">
+    <div
+      v-for="(item, i) in latestArticles"
+      class="flex space-x-6 laptopM:space-x-5 cursor-pointer"
+      :key="`articles-${i}`"
+      @click="redirectToArticle(item.permalink)"
+    >
+      <div class="flex-none">
+        <div class="w-32 laptopM:w-52 desktopL:w-44">
+          <k-img class="w-full" v-if="item.thumbnails.sizes.thumbnail.permalink" :src="item.thumbnails.sizes.thumbnail.permalink" aspect-ratio="16/9" :alt="item.title" />
+        </div>
+      </div>
+      <div class="flex-grow">
+        <h2 class="text-base text-customTextColor font-bold break-words pb-2">{{ item.title }}</h2>
+        <span class="text-sm text-gray-450">{{ formatArticleDate(item.publishedDate) }}</span>
+      </div>
+    </div>
+  </div>
+</div>

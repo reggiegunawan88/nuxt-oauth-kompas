@@ -1,0 +1,58 @@
+<div class="rounded border-default border-gray-100 mb-5 overflow-hidden bg-blue-royal-10 p-3 tablet:p-5">
+  <div class="flex items-center relative">
+    <div class="flex-grow z-[1]">
+      <p class="text-base tablet:text-lg text-customTextColor font-bold mb-1 pr-[113px] laptop:pr-[223px]">Hai Steven Bujang Saragih Adam Smith, status baca Anda adalah <span class="text-brand-1">Pembaca Santai (Lv. 1)</span></p>
+      <p class="text-sm text-grey-50 mb-3 pr-[113px] laptop:pr-[223px]">Pencapaian Anda sebagai pembaca Kompas.id. Dapatkan medali lainnya dengan baca lebih banyak artikel.</p>
+      <div class="flex gap-1 content-center bg-white rounded-full p-2 max-w-[307px]">
+        <div class="flex-grow" v-for="(item, index) in readerBadge" :key="`badge-${index}`" :class="!item.status ? 'kompas-notAchieved' : 'kompas-achieved'">
+          <div class="relative" style="width:40px;height:40px;" :class="item.popper === true ? 'popper-show' : ''">
+            <PopperVue
+              :show="item.popper"
+              :arrow="true"
+              arrowClass="bg-grey-600"
+              :options="{
+                strategy: 'fixed',
+                placement: 'bottom',
+                offset: [0, 30],
+                modifiers: [
+                  {
+                    name: 'offset',
+                    options: {
+                      offset: [0, 10],
+                    },
+                  },
+                ],
+              }"
+            >
+              <div @click.prevent="item.popper = !item.popper" class="relative" :id="`header-popperButton-${index}`">
+                <span class="kompas-icon-medal text-center w-full block">
+                  <img class="m-auto" :src="item.image" :alt="item.title">
+                </span>
+                <span v-if="!item.status" class="absolute text-brand-1 text-xs font-bold top-2/4 left-2/4" style="transform: translate(-50%, -50%);"><font-awesome-icon :icon="['fas', 'lock']" /></span>
+              </div>
+              <template #popper>
+                <div class="bg-grey-600 p-4 text-left text-white text-xs w-48 block rounded" :id="`header-popperBox-${index}`">
+                  <span class="flex">
+                    <span class="font-bold flex-grow">{{ item.title }}</span>
+                    <span><font-awesome-icon class="cursor-pointer" @click="item.popper = false" :icon="['fas', 'times']" /></span>
+                  </span>
+                  {{ item.popperInfo }}
+                </div>
+              </template>
+            </PopperVue>
+          </div>
+        </div>
+        <div class="flex-auto pt-2 pb-2">
+          <NuxtLink to="/manage-account/reader-achievement">
+            <span class="text-brand-1 text-sm tablet:text-base font-bold" style="transform: translate(-50%, -50%);">Lihat koleksi <font-awesome-icon class="flex-none" :icon="['fas', 'chevron-right']" /></span>
+          </NuxtLink>
+        </div>
+      </div>
+    </div>
+    <div class="flex-auto absolute right-0 top-[-8px] pb-[56px] tablet:pb-0">
+      <div class="w-[163px] laptop:w-[197px]">
+        <img src="~/assets/kelola-akun/badges/pembaca-santai.svg" alt="pembaca-santai.svg">
+      </div>
+    </div>
+  </div>
+</div>

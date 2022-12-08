@@ -1,0 +1,237 @@
+<!-- Content section -->
+<div class="my-4">
+  <div class="grid grid-rows-1 gap-x-8 gap-y-4 tablet:grid-cols-2">
+    <!-- Nama depan -->
+    <div ref="firstName" class="flex flex-col">
+      <p class="font-sans font-bold text-base text-customTextColor">Nama Depan<span class="text-errorTextColor">*</span></p>
+      <input
+        v-model="firstName"
+        type="text"
+        @change="fillFirstName(firstName)"
+        @keypress="nameInput($event)"
+        @blur="fillFirstName(firstName)"
+        :class="isFirstNameEmpty || firstNameInvalid ? 'focus:ring-2 border-errorTextColor' : 'focus:ring-2 focus:border-blue-royal-60 border-gray-100'"
+        class="border-default pl-3 mt-2 font-sans leading-tight h-10 w-full rounded-sm text-base text-gray-600 focus:outline-none focus:ring-2 focus:border-blue-royal-50"
+      />
+      <!-- error message -->
+      <!-- first name empty -->
+      <div v-if="isFirstNameEmpty" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+        <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+        <span class="leading-none ml-2 text-xs">Nama depan harus diisi.</span>
+      </div>
+      <!-- first name contains special char : mobile view -->
+      <div v-if="firstNameInvalid" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+        <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+        <span class="leading-none ml-2 text-xs">Nama depan hanya bisa diisi dengan huruf dan simbol (').</span>
+      </div>
+    </div>
+    <!-- Nama Belakang -->
+    <div ref="lastName" class="flex flex-col">
+      <p class="font-sans font-bold text-base text-customTextColor">Nama Belakang</p>
+      <input
+        v-model="lastName"
+        type="text"
+        @keypress="nameInput($event)"
+        @change="fillLastName(lastName)"
+        @blur="fillLastName(lastName)"
+        :class="lastNameInvalid ? 'focus:ring-2 border-errorTextColor' : 'focus:ring-2 focus:border-blue-royal-60 border-gray-100'"
+        class="border-default pl-3 mt-2 font-sans leading-tight h-10 w-full rounded-sm text-base text-gray-600 focus:outline-none focus:ring-2 focus:border-blue-royal-50"
+      />
+      <!-- error message -->
+      <!-- last name contains special char : mobile view -->
+      <div v-if="lastNameInvalid" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+        <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+        <span class="leading-none ml-2 text-xs">Nama belakang hanya bisa diisi dengan huruf dan simbol (').</span>
+      </div>
+    </div>
+    <!-- Email -->
+    <div class="flex flex-col">
+      <p class="font-sans font-bold text-base text-customTextColor">Email</p>
+      <input
+        :placeholder="[[ userData.email ]]"
+        class="
+          border-default
+          p-2
+          pl-3
+          mt-2
+          border-gray-100
+          bg-gray-50
+          text-gray-450
+          font-sans
+          leading-tight
+          h-10
+          w-full
+          tablet:text-left
+          rounded-sm
+          text-base
+          focus:outline-none
+          focus:ring-2
+          focus:border-blue-royal-50
+        "
+        disabled
+      />
+    </div>
+    <!-- Nomor telp -->
+    <div ref="phoneNumber" class="flex flex-col">
+      <p v-if="userData.length != 0" class="font-sans font-bold text-base text-customTextColor">Nomor Telepon</p>
+      <input
+        v-model="phoneNumber"
+        type="text"
+        maxlength="13"
+        placeholder="081234567890"
+        @keydown.space.prevent
+        pattern="[0-9]"
+        @change="fillPhoneNumber(phoneNumber)"
+        @blur="fillPhoneNumber(phoneNumber)"
+        @keypress="onlyNumberInput($event)"
+        @keyup="fillPhoneNumber(phoneNumber)"
+        :class="maxPhoneNumber || minPhoneNumber || phoneNumberIncorrect ? 'focus:ring-2 border-errorTextColor' : 'focus:ring-2 focus:border-blue-royal-60 border-gray-100'"
+        class="border-default pl-3 mt-2 font-sans leading-tight h-10 w-full rounded-sm text-base text-gray-600 focus:outline-none focus:ring-2"
+      />
+      <!-- warning msg -->
+      <!-- phone number contains special char -->
+      <div v-if="phoneNumberIncorrect" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+        <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+        <span class="leading-none ml-2 text-xs">Masukkan nomor telepon dengan benar dan valid.</span>
+      </div>
+      <!-- phone number > 13 char -->
+      <div v-if="maxPhoneNumber" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+        <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+        <span class="leading-none ml-2 text-xs">Masukkan maksimal 13 digit nomor telepon yang valid.</span>
+      </div>
+      <!-- phone number < 6 char -->
+      <div v-if="minPhoneNumber" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+        <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+        <span class="leading-none ml-2 text-xs">Masukkan minimal 6 digit nomor telepon yang valid.</span>
+      </div>
+    </div>
+    <!-- Jenis kelamin -->
+    <div class="flex flex-col">
+      <p class="font-sans font-bold text-base text-customTextColor">Jenis Kelamin</p>
+      <div class="grid grid-cols-2 pt-4 items-center gap-x-5 w-max">
+        <!-- option: male -->
+        <div class="cursor-pointer">
+          <input type="radio" id="laki-laki" value="1" v-model="gender" />
+          <label for="laki-laki" class="inline-flex items-center">Laki-laki</label>
+        </div>
+        <!-- option: female -->
+        <div class="cursor-pointer">
+          <input type="radio" id="perempuan" value="2" v-model="gender" />
+          <label for="perempuan" class="inline-flex items-center">Perempuan</label>
+        </div>
+      </div>
+    </div>
+    <!-- Tgl lahir -->
+    <div ref="dateBirth" class="flex flex-col tablet:col-span-2 laptopL:col-span-1">
+      <p class="font-sans font-bold text-base text-customTextColor">Tanggal Lahir</p>
+      <div class="grid grid-cols-3 pt-2 gap-x-2">
+        <select
+          class="bg-white font-sans leading-tight rounded-sm text-base focus:outline-none focus:ring-2 focus:border-blue-royal-50 py-2 px-3"
+          :class="emptyDate? 'border-default border-errorTextColor' : 'border-default border-gray-100'"
+          v-model="date"
+          @change="setBirthDate()"
+        >
+          <option value="" selected>Tanggal</option>
+          <!-- if date < 10, then format '0' + date (01, 02, etc) -->
+          <option v-for="date in maxDate" :key="date" :value="date">{{ date >= 10 ? date : 0 + date.toString() }}</option>
+        </select>
+        <select
+          class="bg-white font-sans leading-tight rounded-sm text-base focus:outline-none focus:ring-2 focus:border-blue-royal-50 py-2 px-3"
+          :class="emptyMonth? 'border-default border-errorTextColor' : 'border-default border-gray-100'"
+          v-model="month"
+          @change="setBirthDate()"
+        >
+          <option value="" selected>Bulan</option>
+          <option v-for="(month, index) in $moment.months()" :key="month" :value="(index+1)">{{ month }}</option>
+        </select>
+        <select
+          class="bg-white font-sans leading-tight rounded-sm text-base focus:outline-none focus:ring-2 focus:border-blue-royal-50 py-2 px-3"
+          :class="emptyYear? 'border-default border-errorTextColor' : 'border-default border-gray-100'"
+          v-model="year"
+          @change="setBirthDate()"
+        >
+          <option value="" selected>Tahun</option>
+          <option v-for="year in maxYears" :key="year" :value="$moment().format('YYYY') - (year - 1)">{{$moment().format('YYYY') - (year - 1) }}</option>
+        </select>
+      </div>
+      <!-- warning message -->
+      <div v-if="emptyDate || emptyMonth || emptyYear" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+        <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+        <span class="leading-none ml-2 text-xs">Tanggal lahir wajib diisi lengkap.</span>
+      </div>
+      <div v-if="!isValid" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+        <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+        <span class="leading-none ml-2 text-xs">Tanggal lahir tidak valid.</span>
+      </div>
+    </div>
+    <!-- Negara -->
+    <div class="flex flex-col">
+      <p class="font-sans font-bold text-base text-customTextColor">Negara</p>
+      <div>
+        <select
+          v-model="country"
+          @change="selectCountry($event.target.value)"
+          class="border-default pl-3 border-gray-100 font-sans leading-tight h-10 w-full rounded-sm text-base text-gray-600 focus:outline-none focus:ring-2 focus:border-blue-royal-50 mt-2"
+        >
+          <option class="text-customTextColor" value="" disabled>Pilih Negara</option>
+          <option v-for="country in countryList" class="text-customTextColor" :value="country.name">{{country.name}}</option>
+        </select>
+      </div>
+    </div>
+    <!-- Provinsi -->
+    <div v-if="country !== ''" class="flex flex-col">
+      <p class="font-sans font-bold text-base text-customTextColor">Domisili Provinsi</p>
+      <div>
+        <select
+          v-if="country === 'Indonesia'"
+          @change="selectProvince($event.target.value)"
+          v-model="province"
+          class="border-default pl-2 mt-2 border-gray-100 font-sans leading-tight h-10 w-full rounded-sm text-base text-gray-600 focus:outline-none focus:ring-2 focus:border-blue-royal-50"
+          type="text"
+        >
+          <option class="text-grey-20" disabled value="" selected>Pilih Provinsi</option>
+          <option v-for="item in provinceList" :value="item.province">{{item.province}}</option>
+        </select>
+        <!-- Input field change if user not select Indonesia -->
+        <input
+          v-else
+          v-model="province"
+          type="text"
+          class="border-default pl-3 border-gray-100 font-sans leading-tight mt-2 h-10 w-full rounded-sm text-base text-gray-600 focus:outline-none focus:ring-2 focus:border-blue-royal-50"
+        />
+      </div>
+    </div>
+    <!-- Kab/Kota -->
+    <div v-if="country !== ''" class="flex flex-col">
+      <p class="font-sans font-bold text-base text-customTextColor">Domisili Kabupaten/Kota</p>
+      <div>
+        <select
+          v-if="country === 'Indonesia'"
+          @change="selectCity($event.target.value)"
+          v-model="city"
+          :class="province.length === 0 ? 'bg-gray-100' : ''"
+          class="border-default pl-2 border-gray-100 font-sans leading-tight mt-2 h-10 w-full rounded-sm text-base text-gray-600 focus:outline-none focus:ring-2 focus:border-blue-royal-50"
+          type="text"
+          :disabled="province.length === 0"
+        >
+          <option v-if="city === ''" class="text-grey-20" disabled value="" selected>Pilih Kabupaten/Kota</option>
+          <option v-else class="text-grey-20" selected>{{city}}</option>
+          <option v-for="item in cityList" :value="item.city">{{item.city}}</option>
+        </select>
+        <!-- Input field change if user not select Indonesia -->
+        <input
+          v-else
+          v-model="city"
+          type="text"
+          class="border-default pl-3 border-gray-100 font-sans leading-tight mt-2 h-10 w-full rounded-sm text-base text-gray-600 focus:outline-none focus:ring-2 focus:border-blue-royal-50"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Button confirm -->
+  <div class="flex flex-row gap-x-4 mt-4">
+    <button class="btn-secondary" @click="validateUserData()">Simpan</button>
+    <button class="btn-secondary-outlined" @click="cancelEdit()">Batal</button>
+  </div>
+</div>

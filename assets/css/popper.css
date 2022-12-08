@@ -1,0 +1,29 @@
+.kompas-notAchieved {
+  @apply text-grey-40 font-normal;
+}
+.kompas-achieved {
+  @apply text-customTextColor font-bold;
+}
+.kompas-notAchieved .kompas-icon-medal {
+  @apply grayscale opacity-50;
+}
+
+.kompas-steps-notAchieved .kompas-steps-popper {
+  @apply border-blue-royal-10;
+}
+.kompas-steps-achieved .kompas-steps-popper {
+  @apply border-blue-royal-60;
+}
+.kompas-steps-notAchieved .kompas-icon-medal {
+  @apply grayscale opacity-50;
+}
+.kompas-steps-notAchieved .kompas-steps-title {
+  @apply text-grey-40;
+}
+.kompas-steps-achieved .kompas-steps-title {
+  @apply text-customTextColor;
+}
+
+.popper-show {
+  z-index: 1;
+}

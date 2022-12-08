@@ -1,0 +1,55 @@
+<div>
+  <!-- modal overlay -->
+  <transition name="fade" appear>
+    <div
+      v-if="$store.state.modal.auth.showModal"
+      class="fixed top-0 right-0 left-0 bottom-0 content-none z-50 opacity-75 bg-customTextColor cursor-pointer"
+      @click="$store.dispatch('modal/hideModalAuth')"
+    ></div>
+  </transition>
+  <!-- modal content -->
+  <div v-if="$store.state.modal.auth.showModal" class="fixed w-full h-full z-50">
+    <div class="flex flex-col w-full h-full justify-center items-center">
+      <div style="max-width: 328px" class="flex flex-col justify-items-center bg-white text-customTextColor font-sans rounded z-50 opacity-100 mx-4 gap-y-3">
+        <!-- main content -->
+        <div class="p-6">
+          <!-- title and desc -->
+          <div class="flex flex-col gap-y-3 mb-6">
+            <div class="flex flex-row justify-between items-center">
+              <p class="font-sans font-bold text-lg">{{ modalData.title }}</p>
+              <font-awesome-icon :icon="['fas', 'times']" class="text-lg text-grey-40 mx-4 cursor-pointer" @click="$store.dispatch('modal/hideModalAuth')" />
+            </div>
+            <p class="font-sans text-base mt-2">
+              {{ modalData.desc }}
+              <!-- conditional rendering: email/phone number value -->
+              <!-- phone num: condition 1 -->
+              <b v-if="modalData.type === 'phone' && modalData.title === 'Nomor Anda Belum Terdaftar'">(+{{ getCountryCode() }}) {{ getPhoneNumber() }}<span class="font-normal">?</span></b>
+              <!-- phone num: condition 2 -->
+              <b v-else-if="modalData.type === 'phone' && modalData.title === 'Nomor sudah Terdaftar'"
+                >(+{{ getCountryCode() }}) {{ getPhoneNumber() }} <span class="font-normal">atau ubah nomor?</span></b
+              >
+              <!-- phone num: condition 3 -->
+              <b v-else-if="modalData.type === 'phone' && (modalData.actionBtn === 'login' || modalData.actionBtn === 'register')">(+{{ getCountryCode() }}) {{ getPhoneNumber() }}.</b>
+              <!-- email -->
+              <b v-else-if="modalData.type === 'email'">{{ getEmailValue() }}</b>
+            </p>
+          </div>
+          <!-- button -->
+          <div class="flex flex-row-reverse gap-x-2 place-items-center">
+            <button class="btn-submit w-[fit-content]" @click="actionBtn">
+              <p v-if="!showSpinner">{{ modalData.btnPrimaryText }}</p>
+              <font-awesome-icon v-else :icon="['fas', 'circle-notch']" class="animate-spin" />
+            </button>
+            <button class="btn-secondary-outlined" @click="$store.dispatch('modal/hideModalAuth')">{{ modalData.btnSecondaryText }}</button>
+          </div>
+        </div>
+
+        <!-- update phone number hyperlink -->
+        <div v-if="modalData.showLink" class="text-left text-sm bg-grey-20 p-6">
+          <p>Nomor WhatsApp Anda sudah tidak aktif?</p>
+          <span class="text-blue-royal-60 underline font-bold cursor-pointer" @click="requestChangePhoneNum">Perbarui nomor</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

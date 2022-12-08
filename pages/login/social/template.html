@@ -1,0 +1,18 @@
+<div class="pt-20 pb-50">
+  <!-- Text section -->
+  <div class="px-4 max-w-sm mx-auto">
+    <div class="flex flex-col gap-y-3 font-sans pt-8 text-customTextColor text-center">
+      <p class="font-bold text-2xl">Anda Sudah Punya Akun</p>
+      <p class="text-base">Email <b>{{ email }}</b> sudah pernah terdaftar melalui akun di bawah ini. Untuk memudahkan Anda, silakan masuk melalui akun terdaftar berikut.</p>
+    </div>
+  </div>
+  <!-- Socmed login button -->
+  <div class="mx-auto max-w-xs mt-8">
+    <!-- Gmail -->
+    <kompas-auth-auth-google v-if="google" />
+    <!-- facebook -->
+    <kompas-auth-auth-FB v-if="facebook" />
+    <!-- Apple -->
+    <kompas-auth-auth-apple v-if="apple" />
+  </div>
+</div>

@@ -1,0 +1,113 @@
+<!-- navigation list mode -->
+<div class="flex flex-col rounded bg-white border-default border-gray-100 mt-6 p-2">
+  <!-- nav: akun saya page -->
+  <div class="flex flex-col font-sans rounded text-customTextColor font-bold text-base focus:outline-none">
+    <NuxtLink to="/manage-account/my-account">
+      <div class="flex flex-row p-3">
+        <font-awesome-icon class="text-brand-1 text-xl" :icon="['fas', 'user']" fixed-width />
+        <p class="font-sans text-base text-customTextColor mx-4">Akun Saya</p>
+      </div>
+    </NuxtLink>
+  </div>
+  <!-- nav: transaksi page -->
+  <div class="flex flex-col font-sans rounded text-customTextColor font-bold text-base focus:outline-none">
+    <a href="https://gerai.kompas.id/my-account/orders">
+      <div class="flex flex-row p-3 items-center">
+        <font-awesome-icon class="text-brand-1 text-xl" :icon="['fas', 'exchange-alt']" fixed-width />
+        <p class="font-sans text-base text-customTextColor mx-4">Transaksi</p>
+      </div>
+    </a>
+  </div>
+  <!-- nav: informasi berlangganan page -->
+  <div class="flex flex-col font-sans rounded text-customTextColor font-bold text-base focus:outline-none">
+    <a href="https://gerai.kompas.id/my-account/view-subscription/11078811/">
+      <div class="flex flex-row p-3 items-center">
+        <font-awesome-icon class="text-brand-1 text-lg" :icon="['fas', 'newspaper']" fixed-width />
+        <p class="font-sans text-base text-customTextColor mx-4">Informasi Berlangganan</p>
+      </div>
+    </a>
+  </div>
+  <!-- nav: hak akses page -->
+  <div class="flex flex-col font-sans rounded text-customTextColor font-bold text-base focus:outline-none">
+    <NuxtLink to="/manage-account/access-right">
+      <div class="flex flex-row p-3 items-center">
+        <font-awesome-icon class="text-brand-1 text-lg" :icon="['fas', 'user-lock']" fixed-width />
+        <p class="font-sans text-base text-customTextColor mx-4">Hak Akses</p>
+      </div>
+    </NuxtLink>
+  </div>
+  <!-- nav: tiket page -->
+  <div class="flex flex-col font-sans rounded text-customTextColor font-bold text-base focus:outline-none">
+    <NuxtLink to="/manage-account/my-product/ticket">
+      <div class="flex flex-row p-3 items-center">
+        <font-awesome-icon class="text-brand-1 text-lg" :icon="['fas', 'ticket-alt']" fixed-width />
+        <p class="font-sans text-base text-customTextColor mx-4">Tiket</p>
+      </div>
+    </NuxtLink>
+  </div>
+  <!-- nav: voucer page -->
+  <div class="flex flex-col font-sans rounded text-customTextColor font-bold text-base focus:outline-none">
+    <a href="https://gerai.kompas.id/my-account/vouchers/">
+      <div class="flex flex-row p-3 items-center">
+        <font-awesome-icon class="text-brand-1 text-xl" :icon="['fas', 'receipt']" fixed-width />
+        <p class="font-sans text-base text-customTextColor mx-4">Voucer</p>
+      </div>
+    </a>
+  </div>
+  <!-- nav: unduh produk page -->
+  <div class="flex flex-col font-sans rounded text-customTextColor font-bold text-base focus:outline-none">
+    <a href="https://gerai.kompas.id/my-account/downloads/">
+      <div class="flex flex-row p-3 items-center">
+        <font-awesome-icon class="text-brand-1 text-lg" :icon="['fas', 'download']" fixed-width />
+        <p class="font-sans text-base text-customTextColor mx-4">Unduh Produk</p>
+      </div>
+    </a>
+  </div>
+  <!-- address: to gerai.kompas.id -->
+  <div class="flex flex-col font-sans rounded text-customTextColor font-bold text-base focus:outline-none">
+    <a href="https://gerai.kompas.id/my-account/edit-address/">
+      <div class="flex flex-row p-3 items-center">
+        <font-awesome-icon class="text-brand-1 text-lg" :icon="['fas', 'address-book']" fixed-width />
+        <p class="font-sans text-base text-customTextColor mx-4">Alamat</p>
+      </div>
+    </a>
+  </div>
+  <!-- nav: detail akun page -->
+  <div @click="$router.push('/manage-account/account-detail/personal-data')" class="flex flex-col font-sans rounded text-customTextColor font-bold text-base focus:outline-none">
+    <NuxtLink to="/manage-account/account-detail">
+      <div class="flex flex-row p-3 items-center">
+        <font-awesome-icon class="text-brand-1 text-lg" :icon="['fas', 'address-card']" fixed-width />
+        <p class="font-sans text-base text-customTextColor mx-4">Detail Akun</p>
+      </div>
+    </NuxtLink>
+  </div>
+  <!-- nav: notification page -->
+  <div class="flex flex-col font-sans rounded text-customTextColor font-bold text-base focus:outline-none">
+    <NuxtLink to="/manage-account/notification">
+      <div class="flex flex-row p-3 items-center">
+        <font-awesome-icon class="text-brand-1 text-lg flex-none" :icon="['fas', 'bell']" fixed-width />
+        <p class="flex-grow font-sans text-base text-customTextColor mx-4">Notifikasi</p>
+        <p class="flex-none">
+          <client-only>
+            <span
+              class="font-sans text-base rounded-full items-center justify-center bg-orange-40 text-white py-1 px-2"
+              v-if="(notificationCount !== null && notificationCount !== 0) && !notificationLoading"
+            >
+              {{ notificationCount }}
+            </span>
+          </client-only>
+        </p>
+      </div>
+    </NuxtLink>
+  </div>
+  <!-- nav: aktivitas page -->
+  <!-- activate later -->
+  <div @click="$router.push('/manage-account/activity/device')" class="flex flex-col font-sans rounded text-customTextColor font-bold text-base focus:outline-none">
+    <NuxtLink to="/manage-account/activity">
+      <div class="flex flex-row p-3">
+        <font-awesome-icon class="text-brand-1 text-xl" :icon="['fas', 'running']" fixed-width />
+        <p class="font-sans text-base text-customTextColor mx-4">Aktivitas</p>
+      </div>
+    </NuxtLink>
+  </div>
+</div>

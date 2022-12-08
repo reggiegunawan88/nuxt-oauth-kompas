@@ -1,0 +1,100 @@
+<div class="mb-13">
+  <div class="grid grid-rows-1 gap-y-5 mt-5">
+    <!-- skeleton loading : shipping address -->
+    <div v-if="daftarProvinsi.length === 0">
+      <div class="block text-green-50 my-2">
+        <div name="skeleton" class="h-12 rounded w-full bg-gray-150 animate-pulse"></div>
+      </div>
+    </div>
+    <!-- button add new address -->
+    <button @click="addNewAddress" v-else class="btn-secondary-outlined bg-green-10">
+      <div class="flex flex-row items-center gap-x-2 text-green-50 my-5">
+        <font-awesome-icon :icon="['fas', 'plus-circle']" />
+        <p class="font-sans font-bold text-base">Tambah Alamat Baru</p>
+      </div>
+    </button>
+
+    <!-- skeleton loading : list address -->
+    <div v-if="daftarProvinsi.length === 0">
+      <div class="block text-green-20 my-2">
+        <div name="skeleton" class="h-31 rounded-sm w-full bg-gray-150 animate-pulse"></div>
+      </div>
+      <div class="block text-green-20 my-3">
+        <div name="skeleton" class="h-31 rounded-sm w-full bg-gray-150 animate-pulse"></div>
+      </div>
+      <div class="block text-green-20 my-3">
+        <div name="skeleton" class="h-31 rounded-sm w-full bg-gray-150 animate-pulse"></div>
+      </div>
+      <div class="block text-green-20 my-3">
+        <div name="skeleton" class="h-31 rounded-sm w-full bg-gray-150 animate-pulse"></div>
+      </div>
+    </div>
+    <!-- list address content -->
+    <div v-else v-for="(address, idx) in userAddress" class="border-default border-grey-30 rounded">
+      <!-- main address: idx = 0 -->
+      <div v-if="idx === 0" class="border-default border-blue-royal-50 rounded">
+        <div class="grid grid-cols-1 gap-y-4 p-5">
+          <!-- label text -->
+          <p class="w-[fit-content] font-sans font-bold text-blue-royal-60 text-sm bg-blue-royal-10 p-2 rounded">Alamat Utama</p>
+          <p class="font-sans font-bold text-base text-customTextColor">{{capitalizedName(address.label)}}</p>
+          <!-- address details -->
+          <div class="flex flex-row">
+            <font-awesome-icon class="text-blue-royal-60 mt-2" :icon="['fas', 'map-marked-alt']" />
+            <div class="flex flex-col font-sans text-base text-customTextColor justify-center mx-3">
+              <p class="font-bold">{{ capitalizedName(address.firstName) }} {{ capitalizedName(address.lastName) }}</p>
+              <p>{{ address.phoneNumber }}</p>
+              <!-- address details -->
+              <div class="block">
+                <!-- alamat -->
+                <span class="font-sans text-base text-customTextColor">{{ address.address }},</span>
+                <!-- kelurahan & kecamatan -->
+                <span v-if="address.village.length" class="font-sans text-base text-customTextColor">{{address.village}},</span>
+                <span v-if="address.district.length" class="font-sans text-base text-customTextColor">{{ address.district }},</span>
+                <!-- kota, provinsi, kodepos -->
+                <span class="font-sans text-base text-customTextColor">{{ address.city }}, {{ address.province }}, {{ address.postalCode }}</span>
+              </div>
+            </div>
+          </div>
+          <!-- edit address -->
+          <div>
+            <button @click="updateAddress(address, address.addressId)" class="btn-secondary-borderless my-0">Ubah Alamat</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- inactive address list -->
+      <div v-else class="grid grid-cols-1 gap-y-4 p-5">
+        <!-- label text and btn delete -->
+        <div class="flex flex-row items-center justify-between">
+          <p class="font-sans font-bold text-base text-customTextColor">{{ capitalizedName(address.label) }}</p>
+          <button @click="deleteAddress(address.addressId)">
+            <font-awesome-icon class="text-grey-40 text-xl" :icon="['fas', 'trash-alt']" />
+          </button>
+        </div>
+        <!-- address details -->
+        <div class="flex flex-row">
+          <font-awesome-icon class="text-blue-royal-60 mt-2" :icon="['fas', 'map-marked-alt']" />
+          <div class="flex flex-col font-sans text-base text-customTextColor justify-center mx-3">
+            <p class="font-bold">{{capitalizedName(address.firstName)}} {{capitalizedName(address.lastName)}}</p>
+            <p>{{ address.phoneNumber }}</p>
+            <!-- address details -->
+            <div class="block">
+              <!-- alamat -->
+              <span class="font-sans text-base text-customTextColor">{{ address.address }},</span>
+              <!-- kelurahan & kecamatan -->
+              <span v-if="address.village.length" class="font-sans text-base text-customTextColor">{{address.village}},</span>
+              <span v-if="address.district.length" class="font-sans text-base text-customTextColor">{{ address.district }},</span>
+              <!-- kota, provinsi, kodepos -->
+              <span class="font-sans text-base text-customTextColor">{{ address.city }}, {{ address.province }}, {{ address.postalCode }}</span>
+            </div>
+          </div>
+        </div>
+        <!-- edit address -->
+        <div class="flex flex-col items-center gap-y-4 mobileM:flex-row mobileM:gap-x-4">
+          <button @click="setMainAddress(address.addressId)" class="btn-secondary-outlined w-[fit-content]">Jadikan Alamat Utama</button>
+          <button @click="updateAddress(address, address.addressId)" class="btn-secondary">Ubah Alamat</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

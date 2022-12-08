@@ -1,0 +1,68 @@
+<div class="pt-20 pb-20 min-h-screen justify-items-center">
+   <!-- Content -->
+   <div class="pb-24">
+      <div class="mx-4 justify-items-center items-center">
+         <p class="capitalize font-bold font-serif leading-normal pt-8 text-2xl mx-4 text-center text-customTextColor">
+            Atur Ulang Kata Sandi
+         </p>
+         <p class="font-sans leading-relaxed pt-2 pb-7 text-base text-center mx-4 text-customTextColor">
+            Silakan masukkan alamat email Anda. Kami akan mengirimkan tautan untuk mengganti kata sandi Anda.
+         </p>
+         <!-- Section Kirim Email -->
+         <div class="border-2 border-gray-50 max-w-sm mx-auto p-6 rounded">
+            <div class="font-sans text-base my-2 font-bold text-customTextColor">
+               Email
+            </div>
+            <!-- Input email -->
+            <input id="email" v-model="email" name="email" type="email" class="bg-white" :class="
+                  isEmailEmpty || incorrectEmail || errorEmail
+                  ? 'border-2 border-errorTextColor font-sans leading-tight p-4 h-10 rounded-sm text-base text-gray-600 w-full focus:outline-none focus:ring-2 focus:border-errorTextColor'
+                  : 'border-default border-gray-100 font-sans leading-tight p-4 h-10 rounded-sm text-base text-gray-600 w-full focus:outline-none focus:ring-2 focus:border-blue-royal-50'
+                  " @keyup="fillEmail(email)" />
+            <!-- Warning email error -->
+            <!-- email empty -->
+            <div v-if="isEmailEmpty" class="flex flex-row text-errorTextColor text-xs m-2 items-center">
+               <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" /> <span
+                  class="leading-none ml-2 text-xs">Email harus diisi</span>
+            </div>
+            <!-- email format incorret -->
+            <div v-if="incorrectEmail && !isEmailEmpty"
+               class="flex flex-row text-errorTextColor text-xs m-2 items-center">
+               <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" /> <span
+                  class="leading-none ml-2 text-xs">Masukkan format email dengan benar dan valid.</span>
+            </div>
+            <!-- email not found -->
+            <div v-else-if="emailNotFound" class="flex flex-row text-errorTextColor text-xs m-2 items-center">
+               <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" /> <span
+                  class="leading-none ml-2 text-xs">Email tidak terdaftar. Silakan periksa kembali.</span>
+            </div>
+            <!-- reCAPTCHA -->
+            <div class="pt-3">
+               <vue-recaptcha :sitekey="$config.googleRecaptchaKey" :load-recaptcha-script="true" style="transform: scale(0.8);
+               -webkit-transform:scale(0.705);
+               transform-origin:0 0;
+               -webkit-transform-origin:0 0;
+               width: 150px;" @verify="markRecaptchaAsVerified" @expired="onCaptchaExpired"></vue-recaptcha>
+               <div class="flex flex-row text-errorTextColor text-xs items-center mt-4">
+                  <p>
+                  <p v-if="loginForm.pleaseTickRecaptchaMessage">
+                     <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />&nbsp;{{
+                     loginForm.pleaseTickRecaptchaMessage }}
+                  </p>
+                  <p v-else-if="loginForm.pleaseTickRecaptchaMessage=''">
+                     <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />&nbsp;{{
+                     loginForm.pleaseTickRecaptchaMessage }}
+                  </p>
+                  </p>
+               </div>
+            </div>
+            <!-- Button -->
+            <button
+               class="btn-secondary w-full text-xl"
+               @click.prevent="validateForm()">
+               Kirim Tautan
+            </button>
+         </div>
+      </div>
+   </div>
+</div>

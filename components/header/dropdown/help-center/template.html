@@ -1,0 +1,52 @@
+<div class="mt-4 mb-20 leading-4">
+  <p class="font-sans text-base text-customTextColor text-left">Pusat Bantuan</p>
+  <div class="flex flex-shrink-0 flex-col text-sm gap-y-4 my-4">
+    <!-- Tanya Jawab -->
+    <div class="flex flex-row items-center px-2">
+      <font-awesome-icon class="text-xl text-blue-royal-60" :icon="['fas', 'comments']" fixed-width />
+      <div class="flex flex-col mx-4 leading-4 text-base gap-y-2">
+        <p class="font-sans text-customTextColor">Tanya Jawab</p>
+        <a href="http://kb.kompas.id/" class="font-bold">http://kb.kompas.id/</a>
+      </div>
+    </div>
+    <!-- Kompas Kring -->
+    <div class="flex flex-row items-center px-2">
+      <font-awesome-icon class="text-xl text-blue-royal-60" :icon="['fas', 'phone-alt']" fixed-width />
+      <div class="relative flex flex-col flex-grow mx-4 leading-4 gap-y-2 text-base">
+        <p v-if="copySuccess" class="absolute bg-gray-450 font-sans text-white text-xs rounded-full px-2 top-4">Berhasil menyalin!</p>
+        <p class="font-sans text-customTextColor">Kompas Kring</p>
+        <p id="kompasKring" class="font-bold">+6221 2567 6000</p>
+      </div>
+      <div @click="copyKompasKring" class="bg-gray-50 px-4 py-2 rounded cursor-pointer">
+        <font-awesome-icon class="text-sm" :icon="['far', 'copy']" fixed-width />
+      </div>
+    </div>
+    <!-- Whatsapp -->
+    <div>
+      <a href="https://api.whatsapp.com/send?phone=6281290050800" class="flex flex-row items-center px-2">
+        <font-awesome-icon class="text-xl text-blue-royal-60" :icon="['fab', 'whatsapp']" fixed-width />
+        <div class="flex flex-col mx-4 leading-4 gap-y-2 text-base">
+          <p class="font-sans text-customTextColor">Whatsapp</p>
+          <p class="font-bold">+62812 900 50 800</p>
+        </div>
+      </a>
+    </div>
+
+    <!-- Email -->
+    <a href="mailto:hotline@kompas.id" class="flex flex-row items-center px-2">
+      <font-awesome-icon class="text-xl text-blue-royal-60" :icon="['fas', 'envelope']" fixed-width />
+      <div class="flex flex-col mx-4 leading-4 gap-y-2 text-base">
+        <p class="font-sans text-customTextColor">Email</p>
+        <p class="font-bold">hotline@kompas.id</p>
+      </div>
+    </a>
+    <!-- Jam Kerja -->
+    <div class="flex flex-row items-center px-2">
+      <font-awesome-icon class="text-xl text-blue-royal-60" :icon="['fas', 'clock']" fixed-width />
+      <div class="flex flex-col mx-4 leading-4 gap-y-2 text-base">
+        <p class="font-sans text-customTextColor">Jam Kerja</p>
+        <p class="font-bold">06.00 - 16.00 WIB</p>
+      </div>
+    </div>
+  </div>
+</div>

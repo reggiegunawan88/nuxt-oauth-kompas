@@ -1,0 +1,127 @@
+pipeline {
+  agent any
+
+  environment {
+      REGISTRY_DEV = 'kmazsearegistry.azurecr.io/nuxt-oauth2-kompasid-dev'
+      DEPLOYMENT_DEV = 'nuxt-oauth2-kompasid-dev'
+      REGISTRY_STAGING = 'kmazsearegistry.azurecr.io/nuxt-oauth2-kompasid-stg'
+      DEPLOYMENT_STAGING = 'nuxt-oauth2-kompasid-stg'
+      REGISTRY_PROD = 'kmazsearegistry.azurecr.io/nuxt-oauth2-kompasid-prd'
+      DEPLOYMENT_PROD = 'nuxt-oauth2-kompasid-prd'
+  }
+  
+  stages {
+    stage('Code Quality') { 
+      steps{
+        script {
+        if (env.GIT_BRANCH == 'origin/development') {
+          def scannerHome = tool 'sonarqube';
+              withSonarQubeEnv("sonarqube") {
+              sh "${tool("sonarqube")}/bin/sonar-scanner \
+              -Dsonar.projectKey=nuxt-oauth2-kompasid-dev \
+              -Dsonar.sources=. \
+              -Dsonar.host.url=https://sonarqube.kompas.cloud \
+              -Dsonar.login=e9bda408c2f1e6724832d018c371940763d554b1"
+            }
+          }
+          else if(env.GIT_BRANCH == 'origin/staging') {
+            def scannerHome = tool 'sonarqube';
+              withSonarQubeEnv("sonarqube") {
+              sh "${tool("sonarqube")}/bin/sonar-scanner \
+              -Dsonar.projectKey=nuxt-oauth2-kompasid-stg \
+              -Dsonar.sources=. \
+              -Dsonar.host.url=https://sonarqube.kompas.cloud \
+              -Dsonar.login=e9bda408c2f1e6724832d018c371940763d554b1"
+            }
+          }
+          else if(env.GIT_BRANCH == 'origin/master') {
+            def scannerHome = tool 'sonarqube';
+              withSonarQubeEnv("sonarqube") {
+              sh "${tool("sonarqube")}/bin/sonar-scanner \
+              -Dsonar.projectKey=nuxt-oauth2-kompasid-prd \
+              -Dsonar.sources=. \
+              -Dsonar.host.url=https://sonarqube.kompas.cloud \
+              -Dsonar.login=e9bda408c2f1e6724832d018c371940763d554b1"
+            }
+          }
+          else {}
+        }
+      }  
+    }
+    stage('Docker Build') {
+      steps {
+        script {
+          if (env.GIT_BRANCH == 'origin/development') {
+            sh "docker build -t ${REGISTRY_DEV}:${env.BUILD_NUMBER} ."
+          }
+          else if (env.GIT_BRANCH == 'origin/staging') {
+            sh "docker build -t ${REGISTRY_STAGING}:${env.BUILD_NUMBER} ."
+          } 
+          else if (env.GIT_BRANCH == 'origin/master') {
+            sh "docker build -t ${REGISTRY_PROD}:${env.BUILD_NUMBER} ."
+          }
+          else{}
+        }
+      }
+    }
+    stage('Docker Push') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'acr_credentials', passwordVariable: 'acrpass', usernameVariable: 'acruser')]) {
+          script {
+            if (env.GIT_BRANCH == 'origin/development') {
+              sh "docker login kmazsearegistry.azurecr.io -u ${env.acruser} -p ${env.acrpass}"
+              sh "docker push ${REGISTRY_DEV}:${env.BUILD_NUMBER}"
+            }
+            else if (env.GIT_BRANCH == 'origin/staging') {
+              sh "docker login kmazsearegistry.azurecr.io -u ${env.acruser} -p ${env.acrpass}"
+              sh "docker push ${REGISTRY_STAGING}:${env.BUILD_NUMBER}"
+            }
+            else if (env.GIT_BRANCH == 'origin/master') {
+              sh "docker login kmazsearegistry.azurecr.io -u ${env.acruser} -p ${env.acrpass}"
+              sh "docker push ${REGISTRY_PROD}:${env.BUILD_NUMBER}"
+            }
+            else {}
+          }
+        }
+      }
+    }
+    stage('Patch Image') {
+      steps {
+        script {
+          if (env.GIT_BRANCH == 'origin/development') {
+            withKubeConfig([credentialsId: 'kube-km-aks-dev01']) {
+              sh "kubectl patch deployment ${DEPLOYMENT_DEV} --patch '{\"spec\":{\"template\":{\"spec\":{\"containers\":[{\"image\":\"${REGISTRY_DEV}:${env.BUILD_NUMBER}\",\"name\":\"${DEPLOYMENT_DEV}\"}]}}}}' "
+            }
+          }
+          else if (env.GIT_BRANCH == 'origin/staging') {
+            withKubeConfig([credentialsId: 'kube-km-aks-prod-01']) {
+              sh "kubectl patch deployment ${DEPLOYMENT_STAGING} -n nuxt-oauth2-kompasid-stg --patch '{\"spec\":{\"template\":{\"spec\":{\"containers\":[{\"image\":\"${REGISTRY_STAGING}:${env.BUILD_NUMBER}\",\"name\":\"${DEPLOYMENT_STAGING}\"}]}}}}' "
+            }
+          }
+          else if (env.GIT_BRANCH == 'origin/master') {
+            withKubeConfig([credentialsId: 'kube-km-aks-prod-01']) {
+              sh "kubectl patch deployment ${DEPLOYMENT_PROD} -n nuxt-oauth2-kompasid-prd --patch '{\"spec\":{\"template\":{\"spec\":{\"containers\":[{\"image\":\"${REGISTRY_PROD}:${env.BUILD_NUMBER}\",\"name\":\"${DEPLOYMENT_PROD}\"}]}}}}' "
+            }
+          }
+          else {}
+        }
+      }
+    }
+    stage('Docker Remove Image') {
+      steps {
+        script {
+          if (env.GIT_BRANCH == 'origin/development') {
+            sh "docker rmi ${REGISTRY_DEV}:${env.BUILD_NUMBER}"
+          }
+          else if (env.GIT_BRANCH == 'origin/staging') {
+            sh "docker rmi ${REGISTRY_STAGING}:${env.BUILD_NUMBER}"
+          }
+          else if (env.GIT_BRANCH == 'origin/master') {
+            sh "docker rmi ${REGISTRY_PROD}:${env.BUILD_NUMBER}"
+          }
+          else{}
+        }
+      }
+    }
+  }
+}

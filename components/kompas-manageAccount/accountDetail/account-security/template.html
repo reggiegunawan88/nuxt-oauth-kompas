@@ -1,0 +1,49 @@
+<div class="laptop:pb-16 tablet:pb-9">
+   <!-- {{ userAuthentication }} -->
+   <div v-if="!userData.email || !userData.authentication" class="pt-2">
+      <div name="skeleton" class="h-4 rounded-sm w-2/3 bg-gray-150 animate-pulse my-2"></div>
+      <div name="skeleton" class="h-4 rounded-sm w-2/3 bg-gray-150 animate-pulse my-2"></div>
+      <div name="skeleton" class="h-4 rounded-sm w-1/3 bg-gray-150 animate-pulse my-2"></div>
+      <div name="skeleton" class="h-4 rounded-sm w-1/3 bg-gray-150 animate-pulse my-2"></div>
+      <div name="skeleton" class="h-4 rounded-sm w-1/3 bg-gray-150 animate-pulse my-2"></div>
+   </div>
+   <div class="pt-2" v-else>
+      <!-- title section -->
+      <p class="font-sans font-base text-base text-customTextColor mb-3" v-if="userData.isSocial">Saat ini akun Anda terhubung dengan <span class="font-bold">{{ getSocialName(userData.authentication) }}.</span></p>
+
+      <!-- account section -->
+      <div class="mb-4 tablet:mb-6">
+         <div class="flex items-center gap-x-3 mb-1.5">
+            <span class="font-bold">Email</span>
+            <span v-if="userData.userStatus.isVerified" class="bg-green-50 text-white text-xs italic p-3 font-sans-default rounded px-2 py-1"><font-awesome-icon class="text-xxs" :icon="['fas', 'check-circle']" /> Terverifikasi</span>
+         </div>
+         <div>{{ userData.email }}</div>
+      </div>
+      <div class="flex items-center mb-4 tablet:mb-6 max-w-full mobileM:max-w-[365px]">
+         <div class="flex-auto">
+            <div class="flex items-center gap-x-3 mb-1">
+               <span class="font-bold">Nomor Ponsel</span>
+               <span v-if="userData.userStatus.phoneVerified" class="bg-green-50 text-white text-xs italic p-3 font-sans-default rounded px-2 py-1"><font-awesome-icon class="text-xxs" :icon="['fas', 'check-circle']" /> Terverifikasi</span>
+            </div>
+            <div><span v-if="userData.userStatus.phoneVerified">+{{ userData.countryCode }}</span>{{ userData.phoneNumber || 'Belum Diatur' }}</div>
+         </div>
+         <div class="flex-none">
+            <button class="btn-brand-1-outline h-8 rounded" @click="handleSubmitPhoneNumber('update')" v-if="userData.phoneNumber">Ubah</button>
+            <button class="btn-brand-1-outline h-8 rounded" @click="handleSubmitPhoneNumber('create')" v-else>Tambah Nomor</button>
+         </div>
+      </div>
+      <div class="flex items-center max-w-full mobileM:max-w-[365px]">
+         <div class="flex-auto">
+            <div class="flex items-center gap-x-3 mb-1">
+               <span class="font-bold">Kata Sandi</span>
+            </div>
+            <div v-if="userData.isPassEmpty">Belum Diatur</div>
+            <div v-else>* * * * * *</div>
+         </div>
+         <div class="flex-none">
+            <button class="btn-brand-1-outline h-8 rounded" @click="handleSubmitPassword('create')" v-if="userData.isPassEmpty">Buat Kata Sandi</button>
+            <button class="btn-brand-1-outline h-8 rounded" @click="handleSubmitPassword('update')" v-else>Ubah</button>
+         </div>
+      </div>
+   </div>
+</div>

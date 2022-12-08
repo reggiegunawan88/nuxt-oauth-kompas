@@ -1,0 +1,76 @@
+<div class="rounded border-default border-gray-100 mb-5 overflow-hidden bg-blue-royal-10 p-4">
+  <div class="flex items-end">
+    <div class="flex-grow">
+      <p class="text-base text-customTextColor font-bold mb-0">Koleksi Medali Berlangganan</p>
+    </div>
+    <div class="flex-grow-0">
+      <span class="block whitespace-nowrap py-1.5 px-2 bg-orange-10 text-orange-50 text-xs rounded"><b>9</b> / 28 medali</span>
+    </div>
+  </div>
+  <div class="w-full bg-white h-2 rounded my-2">
+    <div class="bg-green-50 h-2 rounded" style="width: 45%"></div>
+  </div>
+  <p class="text-sm text-customTextColor mb-4">Tambah koleksi medali dengan variasi cara berlangganan Anda.</p>
+  <button class="btn-brand-1-borderless mb-5 h-8 rounded" @click="handleToggleCollapse()">Lihat semua medali <font-awesome-icon class="ml-3" :icon="toggleCollapse ? ['fas', 'chevron-up'] : ['fas', 'chevron-down']" /></button>
+  <div v-if="toggleCollapse" class="bg-white py-5 px-4 tablet:px-6">
+    <div class="grid grid-cols-3 tablet:grid-cols-4 gap-5 justify-center justify-items-center text-center">
+      <div
+        v-for="(item, index) in medalCollection"
+        :key="`subs-medal-${index}`"
+        class="text-sm"
+        :class="!item.status ? 'kompas-notAchieved' : 'kompas-achieved'"
+      >
+        <div class="relative mb-1" :class="item.popper === true ? 'popper-show' : ''">
+          <PopperVue
+            :show="item.popper"
+            :arrow="true"
+            arrowClass="bg-grey-600"
+            :options="{
+              strategy: 'fixed',
+              placement: 'bottom',
+              offset: [0, 30],
+              modifiers: [
+                {
+                  name: 'offset',
+                  options: {
+                    offset: [0, 10],
+                  },
+                },
+              ],
+            }"
+          >
+            <div @click.prevent="item.popper = !item.popper" class="relative" :id="`subs-popperButton-${index}`">
+              <span class="kompas-icon-medal block">
+                <img class="mx-auto" width="80" height="80" :src="item.image" :alt="item.title">
+              </span>
+              <span v-if="!item.status" class="absolute text-brand-1 font-bold top-2/4 left-2/4" style="transform: translate(-50%, -50%);">4/21</span>
+            </div>
+            <template #popper>
+              <div class="bg-grey-600 p-4 text-white text-left text-xs w-48 block rounded" :id="`subs-popperBox-${index}`">
+                <span class="flex">
+                  <span class="font-bold flex-grow">{{ item.title }}</span>
+                  <span><font-awesome-icon class="cursor-pointer" @click="item.popper = false" :icon="['fas', 'times']" /></span>
+                </span>
+                {{ item.popperInfo }}
+              </div>
+            </template>
+          </PopperVue>
+        </div>
+
+        {{ item.title }}
+      </div>
+      <!-- <div class="text-sm text-customTextColor opacity-50">
+        <div class="mb-1 rounded-full transition duration-500 ease-in-out border-4 border-blue-100 w-20 h-20 mx-auto">
+          <img width="80" height="80" src="~/assets/kelola-akun/pencapaian-pembaca/pembaca-santai.svg" alt="pembaca-santai">
+        </div>
+        The Expert
+      </div>
+      <div class="text-sm text-customTextColor">
+        <div class="mb-1 rounded-full transition duration-500 ease-in-out border-4 border-blue-royal-60 w-20 h-20 mx-auto">
+          <img width="80" height="80" src="~/assets/kelola-akun/pencapaian-pembaca/pembaca-santai.svg" alt="pembaca-santai">
+        </div>
+        Pecinta Fotografi
+      </div> -->
+    </div>
+  </div>
+</div>

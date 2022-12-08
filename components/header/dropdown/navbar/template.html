@@ -1,0 +1,33 @@
+<li class="font-bold flex flex-shrink-0 gap-y-3 py-4 flex-col text-left text-sm border-b-default border-gray-150 leading-4">
+  <a href="https://gerai.kompas.id/cart" class="flex flex-row items-center p-2">
+    <font-awesome-icon class="text-xl text-blue-royal-60" :icon="['fas', 'shopping-cart']" fixed-width />
+    <p class="flex-grow text-base font-bold mx-4">Keranjang</p>
+    <p class="flex-none">
+      <!-- <span class="font-sans text-sm rounded-full items-center justify-center bg-orange-40 text-white px-3 py-2"></span> -->
+    </p>
+  </a>
+  <a href="https://account.kompas.id/manage-account/my-account" class="flex flex-row items-center p-2">
+    <font-awesome-icon class="text-xl text-blue-royal-60" :icon="['fas', 'user-cog']" fixed-width />
+    <p class="text-base font-bold mx-4">Kelola Akun</p>
+  </a>
+  <a href="https://gerai.kompas.id/my-account/orders" class="flex flex-row items-center p-2">
+    <font-awesome-icon class="text-xl text-blue-royal-60" :icon="['fas', 'exchange-alt']" fixed-width />
+    <p class="flex-grow text-base font-bold mx-4">Transaksi</p>
+    <p class="flex-none">
+      <!-- <span class="font-sans text-sm rounded-full items-center justify-center bg-orange-40 text-white px-3 py-2 min-w-1">3</span> -->
+    </p>
+  </a>
+  <a href="https://account.kompas.id/notification" class="flex flex-row items-center p-2">
+    <font-awesome-icon class="text-xl text-blue-royal-60" :icon="['fas', 'bell']" fixed-width />
+    <p class="flex-grow text-base font-bold mx-4">Notifikasi</p>
+    <p class="flex-none">
+      <!-- conditional rendering based on notification count -->
+      <span v-if="notifications > 0 && notifications <= 9" class="font-sans text-sm rounded-3xl items-center justify-center bg-orange-40 text-white py-1 px-2 min-w-1">{{ notifications }}</span>
+      <span v-if="notifications > 9" class="font-sans text-sm rounded-3xl items-center justify-center bg-orange-40 text-white min-w-1" style="padding: 6px 6px">9+</span>
+    </p>
+  </a>
+  <a :href="$config.homepageKompasAuth.replace('login', 'logout')" class="flex flex-row items-center p-2">
+    <font-awesome-icon class="text-xl text-blue-royal-60" :icon="['fas', 'sign-out-alt']" fixed-width />
+    <p class="text-base font-bold mx-4">Keluar</p>
+  </a>
+</li>

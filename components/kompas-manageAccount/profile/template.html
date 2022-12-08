@@ -1,0 +1,39 @@
+<div class="h-full">
+  <div class="items-center bg-blue-royal-10 font-sans text-grey-60 rounded-lg text-left w-full">
+    <div class="flex flex-col">
+      <!-- profile text section -->
+      <div class="flex flex-row items-center tablet:flex-col laptopL:flex-row">
+        <!-- avatar profile -->
+        <div v-if="!dataLoaded" name="skeleton" class="mx-5 w-16 my-5 rounded-full flex items-center justify-center py-4 px-6 h-16 bg-grey-30 animate-pulse"></div>
+        <div v-else class="p-4 mx-5 my-5 rounded-full h-16 w-16 flex items-center justify-center bg-brand-1 relative">
+          <p class="text-white text-xl font-sans font-bold">{{ firstName.charAt(0) }}</p>
+          <img v-if="userMembership.isActive === 'Aktif Berlangganan'" class="absolute mb-[-3px] bottom-0 right-0 h-[24px] w-[24px]" src="~/assets/kelola-akun/crown-blue-10.svg" alt="User" />
+        </div>
+        <!-- skeleton profile -->
+        <div v-if="!dataLoaded" class="mx-3 w-full grid laptopL:justify-items-start tablet:justify-items-center text-left tablet:text-center laptopL:text-left tablet:mb-3 laptopL:mb-0">
+          <div name="skeleton" class="h-3 rounded-sm w-2/3 bg-gray-150 animate-pulse"></div>
+          <div name="skeleton" class="h-3 rounded-sm w-1/2 bg-gray-150 animate-pulse my-2"></div>
+          <div name="skeleton" class="h-3 rounded-sm w-1/2 bg-gray-150 animate-pulse"></div>
+        </div>
+        <div v-else class="mx-3 text-left tablet:text-center laptopL:text-left tablet:mb-3 laptopL:mb-0">
+          <h1 class="font-sans font-bold text-base text-customTextColor">{{ firstName }} {{ lastName }}</h1>
+          <p class="font-sans text-sm text-grey-50">{{ userMembership.isActive }}</p>
+          <b :class="isExpire ? 'text-sm text-orange-40' : 'text-sm text-grey-50'">{{ userMembership.expired }}</b>
+        </div>
+      </div>
+      <!-- cta btn section -->
+      <div v-if="isLangganan == false" class="mx-3 mb-5">
+        <a @click="goSubscribe"
+          ><button class="font-sans rounded-lg h-10 w-full flex justify-center items-center bg-green-50 text-white font-bold text-base focus:outline-none">{{ buttonExpired }}</button></a
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- navigation menu section -->
+  <!-- list nav for tablet mode and higher -->
+  <kompas-manageAccount-profile-list class="hidden tablet:block" />
+
+  <!-- dropdown nav for mobile mode -->
+  <kompas-manageAccount-profile-dropdown class="block tablet:hidden" />
+</div>

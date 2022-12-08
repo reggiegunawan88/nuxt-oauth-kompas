@@ -1,0 +1,26 @@
+<div class="modal-outer" v-if="$store.state.modal.modalOtpPhoneNumber">
+   <!-- modal content -->
+   <div class="fixed overflow-x-hidden overflow-y-auto w-full h-full z-[1000]">
+      <!-- modal overlay -->
+      <transition name="fade" appear>
+         <div
+            class="fixed top-0 right-0 left-0 bottom-0 content-none z-50 opacity-75 bg-customTextColor cursor-pointer"
+            @click.self="$store.dispatch('modal/hideModalOtpPhoneNumber')"
+         ></div>
+      </transition>
+      <!-- modal content -->
+      <div class="relative w-[320px] tablet:w-[480px] mx-auto my-32 z-[100]">
+         <div class="bg-white rounded w-full p-6">
+            <div class="flex items-center">
+               <p class="flex-auto font-sans font-bold text-xl text-customTextColor">Masukkan Kode Verifikasi</p>
+               <button class="flex-none text-grey-40" @click="$store.dispatch('modal/hideModalOtpPhoneNumber')">
+                  <font-awesome-icon class="text-base" :icon="['fas', 'times']" />
+               </button>
+            </div>
+            <div class="mt-5">
+               <kompas-auth-otp-code />
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

@@ -1,0 +1,16 @@
+<div class="mt-6">
+  <!-- skeleton loading -->
+  <div v-if="isLoading">
+    <kompas-manageAccount-transaction-lazyLoading />
+  </div>
+  <div v-else>
+    <div v-if="!listTransaction.length">
+      <kompas-manageAccount-transaction-emptyState />
+    </div>
+    <div v-else class="grid grid-cols-1 gap-y-6">
+      <div v-for="item in listTransaction">
+        <kompas-manageAccount-transaction-card :item="item" />
+      </div>
+    </div>
+  </div>
+</div>

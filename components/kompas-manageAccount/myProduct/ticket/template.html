@@ -1,0 +1,82 @@
+<div>
+  <div class="pt-5" v-if="!dataLoaded">
+    <!-- skeleton loading -->
+    <kompas-manageAccount-myProduct-ticket-lazyLoading />
+  </div>
+  <div v-else>
+    <div class="pt-12" v-if="tickets === null || !tickets.length">
+      <!-- empty state -->
+      <div class="flex justify-center pt-2">
+        <div class="text-center">
+          <img src="~/assets/kelola-akun/empty-state-promosi.png" alt="Belum ada tiket" class="mx-auto mb-4" width="180" height="180" />
+          <p class="font-bold text-lg text-customTextColor mb-2">Anda Belum Memiliki Tiket</p>
+          <p class="text-base text-customTextColor mb-6">Dapatkan tiket dari berbagai event menarik di Kompas.</p>
+          <button @click="redirectEvent" class="btn-primary-outlined mx-auto">Cari Tiket</button>
+        </div>
+      </div>
+    </div>
+    <div class="pt-5" v-else>
+      <!-- data available -->
+      <!-- <div class="flex flex-col laptop:flex-row laptop:items-center mb-6">
+          <div class="flex-none text-base text-grey-60 font-bold pr-5 mb-3 laptop:mb-0">Urutkan Berdasarkan</div>
+          <div class="flex-grow"> -->
+      <!-- sort by feature -->
+      <!-- <select class="select-default h-10 text-base text-customTextColor bg-white max-w-xs focus:outline-none cursor-pointer" v-model="sortValue" @change="sortBy">
+              <option v-for="item in sortCategories" :value="item.name">{{item.name}}</option>
+            </select>
+          </div>
+        </div> -->
+
+      <!-- add loading spinner while hit API filter -->
+      <reusable-spinner v-if="sortLoading" />
+      <div v-else>
+        <div class="flex flex-col">
+          <!-- ticket data list -->
+          <div v-for="(item, i) in tickets" :key="item.ticketId" class="border-default border-gray-100 mb-4 p-4 rounded">
+            <div class="flex flex-row">
+              <div class="flex-grow pr-3">
+                <!-- event label -> Paid | Free & Has Ended -->
+                <div class="flex flex-row gap-x-2">
+                  <span v-if="item.statusDone" class="text-xs text-customTextColor font-bold bg-grey-30 px-2 py-1.5 rounded">Telah Berakhir</span>
+                  <span v-if="item.price === 0" class="text-xs text-orange-50 font-bold bg-orange-10 px-2 py-1.5 rounded">Event Gratis</span>
+                  <span v-else class="text-xs text-orange-50 font-bold bg-orange-10 px-2 py-1.5 rounded">Event Berbayar</span>
+                </div>
+                <p class="font-bold text-base text-customTextColor my-2 max-w-md">{{ item.event }}</p>
+                <p class="text-sm text-gray-450 mb-5">{{ reformDateWithMonthName(item.startDate) }}</p>
+                <button class="text-blue-royal-60" @click="toggleDisplay(item.ticketId)">
+                  <span class="font-bold underline">Lihat data pemegang tiket</span>
+                  <font-awesome-icon :icon="['fas', 'chevron-down']" />
+                </button>
+              </div>
+              <div class="flex-none">
+                <img :src="item.bannerUrl" :alt="item.title" width="80" height="80" />
+              </div>
+            </div>
+            <div class="bg-blue-100 p-4 mt-4 rounded" v-if="item.toggled">
+              <div class="grid grid-cols-3 text-sm text-customTextColor max-w-md">
+                <div class="col-auto font-bold w-36 pb-3">Kode Tiket</div>
+                <div class="col-span-2 pb-3">{{ item.ticketId }}</div>
+                <div class="col-auto font-bold w-36 pb-3">Nama</div>
+                <div class="col-span-2 pb-3">{{ item.firstName }} {{ item.lastName }}</div>
+                <div class="col-auto font-bold w-36 pb-3">Email</div>
+                <div class="col-span-2 pb-3">{{ item.email }}</div>
+                <div class="col-auto font-bold w-36 pb-3">No. Telepon</div>
+                <div class="col-span-2 pb-3">{{ item.phoneNumber }}</div>
+              </div>
+            </div>
+          </div>
+          <!-- end of ticket data list -->
+        </div>
+        <!-- load more btn -->
+        <div class="text-center mt-6">
+          <div v-if="loadMoreLoading">
+            <font-awesome-icon class="animate-spin text-blue-royal-60 text-5xl" :icon="['fas', 'spinner']" />
+          </div>
+          <div v-else>
+            <button @click="loadMoreAction" v-if="loadMore" class="btn-primary-outlined mx-auto">Lihat Lainnya</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

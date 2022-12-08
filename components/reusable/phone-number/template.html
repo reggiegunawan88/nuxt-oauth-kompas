@@ -1,0 +1,31 @@
+<!-- Phone Number section -->
+<div>
+  <kau-phone-number 
+    :country-code-url="'/api/v1/countries/country-codes'" 
+    :phone-number-value="phoneNumber"
+    :country-code-value="countryCode" 
+    :is-error="maxPhoneNumber || minPhoneNumber || incorrectPhoneNumber || isPhoneNumberEmpty && isRequired"
+    @valueChanged="(data) => fillPhoneNum(data)">
+      <div slot="title">
+        <slot></slot>
+      </div>    
+  </kau-phone-number>
+  <div :class="incorrectPhoneNumber || minPhoneNumber || maxPhoneNumber || isPhoneNumberEmpty && isRequired ? 'mt-2 mb-4 tablet:mb-0' : 'hidden'">
+    <!-- error scenario -->
+    <!-- phone number contains special char -->
+    <div v-if="incorrectPhoneNumber" class="flex flex-row text-errorTextColor text-xs items-center">
+      <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+      <span class="leading-none ml-2 text-xs">Masukkan nomor telepon dengan benar dan valid.</span>
+    </div>
+    <!-- phone number below 6 char -->
+    <div v-if="minPhoneNumber" class="flex flex-row text-errorTextColor text-xs items-center">
+      <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+      <span class="leading-none ml-2 text-xs">Masukkan minimal 6 digit nomor telepon yang valid.</span>
+    </div>
+    <!-- phone number more than 13 char -->
+    <div v-if="maxPhoneNumber || isPhoneNumberEmpty && isRequired" class="flex flex-row text-errorTextColor text-xs items-center">
+      <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+      <span class="leading-none ml-2 text-xs">Masukkan maksimal 13 digit nomor telepon yang valid.</span>
+    </div>
+  </div>
+</div>

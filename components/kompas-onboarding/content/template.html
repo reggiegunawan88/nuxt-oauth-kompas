@@ -1,0 +1,82 @@
+<div class="max-w-md mx-auto">
+  <div class="flex flex-col text-center">
+    <!-- title section -->
+    <div class="flex flex-col">
+      <p class="max-w-sm laptopM:max-w-lg self-center font-sans font-bold text-xl laptopM:text-3xl text-gray-600">Unduh Aplikasi Kompas.id untuk Baca Berita Kapan Saja & Dimana Saja</p>
+      <div class="max-w-xs mx-auto mt-2 laptopM:mt-4">
+        <p class="font-sans text-grey-50">Masukkan nomor WhatsApp Anda, kami akan kirim tautan untuk mengunduh aplikasi:</p>
+      </div>
+    </div>
+
+    <!-- input field -->
+    <div class="flex flex-col mt-6 tablet:flex-row tablet:self-center gap-x-3">
+      <div class="flex flex-col justify-center">
+        <div class="flex flex-row items-center">
+          <select class="bg-grey-30 h-10 py-3 text-center focus:outline-none" v-model="countryCode">
+            <option v-for="country in list" :value="country.id" @change="chooseCountryCode($event.target.value)" class="text-sm">{{country.id}}</option>
+          </select>
+          <input
+            type="text"
+            placeholder="853-6265-8888"
+            class="border-default h-10 p-4 w-full focus:outline-none"
+            :class="maxPhoneNumber || minPhoneNumber || phoneNumberIncorrect || whatsappInvalid ? 'border-errorTextColor shadow-md' : 'border-grey-30'"
+            v-model="phoneNumber"
+            @change="fillPhoneNum(phoneNumber)"
+            @keyup="fillPhoneNum(phoneNumber)"
+          />
+        </div>
+        <div :class="phoneNumberIncorrect || minPhoneNumber || maxPhoneNumber || whatsappInvalid || connError ? 'mt-2 mb-4 tablet:mb-0' : 'hidden'">
+          <!-- error scenario -->
+          <!-- phone number contains special char -->
+          <div v-if="phoneNumberIncorrect" class="flex flex-row text-errorTextColor text-xs items-center">
+            <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+            <span class="leading-none ml-2 text-xs">Masukkan nomor telepon dengan benar dan valid.</span>
+          </div>
+          <!-- phone number below 6 char -->
+          <div v-if="minPhoneNumber" class="flex flex-row text-errorTextColor text-xs items-center">
+            <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+            <span class="leading-none ml-2 text-xs">Masukkan minimal 6 digit nomor telepon yang valid.</span>
+          </div>
+          <!-- phone number more than 13 char -->
+          <div v-if="maxPhoneNumber" class="flex flex-row text-errorTextColor text-xs items-center">
+            <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+            <span class="leading-none ml-2 text-xs">Masukkan maksimal 13 digit nomor telepon yang valid.</span>
+          </div>
+          <!-- whatsapp phone num invalid/not exist -->
+          <div v-if="whatsappInvalid" class="flex flex-row text-errorTextColor text-xs items-center">
+            <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+            <span class="leading-4 ml-2 text-xs text-left"
+              >Masukkan nomor Whatsapp yang valid dan aktif. <br />
+              Silakan tunggu {{ timer }} detik untuk kirim tautan kembali.</span
+            >
+          </div>
+          <!-- connection problem -->
+          <div v-if="connError" class="flex flex-row text-errorTextColor text-xs items-center">
+            <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+            <span class="leading-4 ml-2 text-xs text-left"> Silakan tunggu {{ timer }} detik untuk kirim tautan kembali.</span>
+          </div>
+        </div>
+      </div>
+      <!-- btn submit -->
+      <button
+        class="btn-submit rounded w-full text-lg my-2 tablet:my-0 tablet:w-auto"
+        :class="phoneNumber === '' || whatsappInvalid || connError || minPhoneNumber || maxPhoneNumber ? 'bg-kompasLightGrey text-kompasGrey' : 'bg-green-50'"
+        :disabled="phoneNumber === '' || whatsappInvalid || connError || minPhoneNumber || maxPhoneNumber || isLoading"
+        @click="submitPhoneNum"
+      >
+        <font-awesome-icon :icon="['fas','circle-notch']" class="animate-spin mx-10" v-if="isLoading" />
+        <p v-else>Kirim Tautan</p>
+      </button>
+    </div>
+
+    <!-- privacy notes -->
+    <div class="mt-4">
+      <p class="font-sans text-sm text-grey-40">
+        Baca tentang
+        <a href="https://kb.kompas.id/baca/privasi-dan-keamanan-data/bagaimana-cara-menyampaikan-pertanyaan-mengenai-data-pribadi/" class="font-bold text-blue-royal-60 underline"
+          >privasi dan keamanan data.</a
+        >
+      </p>
+    </div>
+  </div>
+</div>

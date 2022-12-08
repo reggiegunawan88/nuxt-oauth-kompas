@@ -1,0 +1,40 @@
+<div class="flex flex-col gap-y-8">
+  <!-- banner -->
+  <div class="bg-blue-royal-10 text-customTextColor rounded p-6">
+    <div class="flex flex-row justify-between">
+      <!-- text -->
+      <div class="flex flex-col gap-y-3">
+        <p class="text-xl font-bold">Anda Belum Berlangganan</p>
+        <p>Untuk berlangganan silakan kunjungi Gerai Kompas.id atau partner e-commerce kami.</p>
+        <button class="btn-submit self-start">Langganan Sekarang</button>
+      </div>
+      <!-- img -->
+      <img src="~/assets/kelola-akun/kompas-bell-phone.png" class="w-32 h-32" />
+    </div>
+  </div>
+
+  <!-- hak akses -->
+  <div class="flex flex-col gap-y-5">
+    <div class="flex flex-col gap-y-3">
+      <p class="text-lg font-bold">Hak Akses</p>
+      <p class="text-grey-50">Informasi mengenai ragam konten Kompas.id yang dapat diakses oleh pembaca.</p>
+    </div>
+    <div class="flex flex-col gap-y-4">
+      <p class="text-grey-50">Hak akses Anda meliputi:</p>
+      <div class="flex flex-row gap-x-5">
+        <font-awesome-icon :icon="['fas', 'check']" class="text-green-50 mt-1" />
+        <div class="flex flex-col gap-y-1">
+          <p class="font-bold">Baca Artikel Bebas Akses Sepuasnya</p>
+          <p class="text-grey-50">Anda dapat membaca seluruh artikel berlabel "Bebas Akses" sepuasnya.</p>
+        </div>
+      </div>
+      <div class="flex flex-row gap-x-5">
+        <font-awesome-icon :icon="['fas', 'check']" class="text-green-50 mt-1" />
+        <div class="flex flex-col gap-y-1">
+          <p class="font-bold">Coba Baca Artikel Berbayar</p>
+          <p class="text-grey-50">Anda dapat mencoba membaca artikel berbayar sebanyak 5 artikel per bulan. Berlangganan sekarang untuk akses tanpa batas.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

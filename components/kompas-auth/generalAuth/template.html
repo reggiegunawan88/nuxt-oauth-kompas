@@ -1,0 +1,54 @@
+<!-- Kompas Auth -->
+<div>
+  <!-- Input field (email/phone number) -->
+  <div class="flex flex-col gap-y-2">
+    <p ref="inputField" class="font-sans text-base font-bold text-customTextColor">Email atau Nomor Telepon</p>
+    <div class="flex flex-row">
+      <!-- country code dropdown -->
+      <select v-if="showDropdown" class="bg-grey-30 h-10 py-3 text-center focus:outline-none cursor-pointer" v-model="countryCode">
+        <option v-for="country in listCode" :value="country.id" @change="chooseCountryCode($event.target.value)" class="text-sm">{{country.id}}</option>
+      </select>
+      <input
+        id="inputField"
+        name="inputField"
+        class="border-default h-10 p-4 w-full focus:outline-none"
+        :class="inputEmpty || generalError || emailError || maxPhoneNumError ? 'border-errorTextColor shadow-md' : 'border-grey-30'"
+        v-model="inputField"
+        @change="fillInputField(inputField)"
+        @keyup="fillInputField(inputField)"
+        @keyup.enter="continueAuth"
+        @keydown.space.prevent
+      />
+    </div>
+
+    <p v-if="showInputLabel" class="text-xs text-grey-40">Contoh format nama@email.com atau 081234567890.</p>
+  </div>
+
+  <!-- warning msg -->
+  <!-- input field empty && phone num invalid -->
+  <div v-if="inputEmpty || generalError" class="flex flex-row error-text-input items-center mb-5">
+    <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+    <span class="leading-none ml-2 text-xs">Masukan email atau nomor ponsel yang valid.</span>
+  </div>
+  <!-- email invalid -->
+  <div v-if="emailError" class="flex flex-row error-text-input items-center mb-5">
+    <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+    <span class="leading-none ml-2 text-xs">Masukkan format email yang benar dan valid.</span>
+  </div>
+  <!-- phone number off limit -->
+  <div v-if="maxPhoneNumError" class="flex flex-row error-text-input items-center mb-5">
+    <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+    <span class="leading-none ml-2 text-xs">Masukkan maksimal 13 digit nomor ponsel yang valid.</span>
+  </div>
+  <!-- otp exceeded limit -->
+  <div v-if="otpExceedLimit" class="flex flex-row error-text-input items-center mb-5">
+    <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+    <span class="leading-4 ml-2 text-xs">Silakan tunggu 30 menit untuk melanjutkan dengan nomor telepon.</span>
+  </div>
+
+  <!-- button submit -->
+  <button id="lanjutkan" class="btn-submit w-full mt-3" :disabled="authBlocked || showSpinner" @click="continueAuth">
+    <p v-if="!showSpinner">Lanjutkan</p>
+    <font-awesome-icon v-else :icon="['fas', 'circle-notch']" class="animate-spin" />
+  </button>
+</div>

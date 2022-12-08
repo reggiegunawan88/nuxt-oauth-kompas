@@ -1,0 +1,122 @@
+<!-- Kompas email register -->
+<div>
+  <div class="grid grid-rows-1 tablet:grid-cols-2 tablet:gap-6">
+    <!-- First Name section -->
+    <div ref="firstName">
+      <p class="font-sans text-base my-2 font-bold text-customTextColor">Nama Depan<span class="text-errorTextColor">*</span></p>
+      <!-- Input name -->
+      <input
+        id="firstName"
+        v-model="firstName"
+        name="firstName"
+        type="text"
+        label="firstName"
+        class="bg-white"
+        :class="
+          isFirstNameEmpty || incorrectFirstName
+            ? 'border-input-error'
+            : 'border-input'
+        "
+        @blur="fillFirstName(firstName)"
+        @change="fillFirstName(firstName)"
+        @keydown.tab="fillFirstName(firstName)"
+        @keypress="nameInput($event)"
+        @keydown.space="preventSpace($event, firstName)"
+        @keyup.enter="submitData"
+      />
+      <!-- Warning name -->
+      <div v-if="isFirstNameEmpty" class="flex flex-row error-text-input items-center">
+        <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+        <span class="leading-none ml-2 text-xs">Nama depan harus diisi.</span>
+      </div>
+      <!-- Warning invalid name format -->
+      <div v-if="incorrectFirstName" class="flex flex-row error-text-input items-center">
+        <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+        <span class="leading-none ml-2 text-xs">Nama depan harus menggunakan huruf.</span>
+      </div>
+    </div>
+
+    <!-- Last Name section -->
+    <div ref="lastName">
+      <p class="font-sans text-base my-2 font-bold text-customTextColor">Nama Belakang</p>
+      <!-- Input name -->
+      <input
+        id="lastName"
+        v-model="lastName"
+        name="lastName"
+        type="text"
+        label="lastName"
+        class="bg-white"
+        :class="
+          incorrectLastName
+          ? 'border-input-error'
+          : 'border-input'"
+        @keypress="nameInput($event)"
+        @keydown.space="preventSpace($event, lastName)"
+        @blur="fillLastName(lastName)"
+        @change="fillLastName(lastName)"
+        @keydown.tab="fillLastName(lastName)"
+      />
+      <!-- Warning invalid name format -->
+      <div v-if="incorrectLastName" class="flex flex-row error-text-input items-center">
+        <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+        <span class="leading-none ml-2 text-xs">Nama belakang harus menggunakan huruf.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Email section -->
+  <p ref="email" class="font-sans text-base my-2 mt-4 font-bold text-customTextColor">Email<span class="text-errorTextColor">*</span></p>
+  <!-- Input email -->
+  <input
+    id="email"
+    v-model="email"
+    name="email"
+    type="email"
+    class="bg-white"
+    :class="
+     isEmailEmpty || incorrectEmail || isEmailExist
+     ? 'border-input-error'
+     : 'border-input'"
+    @blur="checkEmailFormat(email)"
+    @change="checkEmailFormat(email)"
+    @keydown.tab="checkEmailFormat(email)"
+    @keyup="email === ''? null : fillEmail(email)"
+    @keydown.space.prevent
+  />
+  <!-- Warning email error -->
+  <div v-if="isEmailEmpty" class="flex flex-row error-text-input items-center">
+    <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+    <span class="leading-none ml-2 text-xs">Email harus diisi.</span>
+  </div>
+  <div v-if="incorrectEmail && !isEmailEmpty" class="flex flex-row error-text-input items-center">
+    <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+    <span class="leading-none ml-2 text-xs">Masukkan format email dengan benar dan valid.</span>
+  </div>
+  <div v-if="isEmailExist && !isEmailEmpty" :password="passwordVal" class="flex flex-row error-text-input items-center" @score="onScore">
+    <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+    <span class="leading-none ml-2 text-xs">Maaf, email telah digunakan.</span>
+  </div>
+
+  <!-- password checker component -->
+  <p ref="password" class="font-sans text-base my-2 mt-4 font-bold text-customTextColor">Kata Sandi<span class="text-errorTextColor">*</span></p>
+  <reusable-password ref="password" />
+
+  <!-- reCAPTCHA -->
+  <div ref="recaptcha" class="my-3">
+    <vue-recaptcha :sitekey="$config.googleRecaptchaKey" :load-recaptcha-script="true" size="normal" @verify="markRecaptchaAsVerified" @expired="markRecaptchaAsExpired"></vue-recaptcha>
+  </div>
+
+  <!-- reCAPTCHA message -->
+  <div v-if="recaptchaMessage" class="flex flex-row error-text-input mb-2 items-center">
+    <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+    <span class="leading-none ml-2 text-xs">{{recaptchaMessage }}</span>
+  </div>
+
+  <!-- Button section -->
+  <div class="text-justify font-sans text-xs">
+    <span class="text-customTextColor">Dengan menekan tombol di bawah ini, saya setuju dengan </span>
+    <a href="https://kompas.id/syarat-dan-ketentuan/" class="hyperlink-text">Syarat dan Ketentuan.</a>
+    <button @click.prevent="submitData" id="daftar" type="submit" class="btn-submit w-full text-xl">Daftar</button>
+  </div>
+</div>

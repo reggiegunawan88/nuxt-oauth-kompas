@@ -1,0 +1,112 @@
+<div>
+  <!-- Content section -->
+  <div class="my-4">
+    <div class="grid grid-rows-1 gap-x-8 gap-y-4 tablet:grid-cols-2">
+      <!-- Nama depan -->
+      <div v-if="daftarProvinsi.length === 0" class="flex flex-col">
+        <!-- skeleton loading -->
+        <div name="skeleton" class="h-3 rounded-sm w-1/3 bg-gray-150 animate-pulse my-2"></div>
+        <div name="skeleton" class="h-3 rounded-sm w-2/3 bg-gray-150 animate-pulse"></div>
+      </div>
+      <div v-else>
+        <!-- if firstname in userData empty, then get firstName from membership -->
+        <div v-if="userData.firstName === ''">
+          <p class="font-sans font-bold text-base text-customTextColor">Nama Depan</p>
+          <p class="font-sans text-base text-customTextColor">{{ capitalizeName(userMembership.firstName) }}</p>
+        </div>
+        <div v-else>
+          <p class="font-sans font-bold text-base text-customTextColor">Nama Depan</p>
+          <p class="font-sans text-base text-customTextColor">{{ capitalizeName(userData.firstName) }}</p>
+        </div>
+      </div>
+      <!-- Nama belakang -->
+      <div v-if="daftarProvinsi.length === 0" class="flex flex-col">
+        <!-- skeleton loading -->
+        <div name="skeleton" class="h-3 rounded-sm w-1/3 bg-gray-150 animate-pulse my-2"></div>
+        <div name="skeleton" class="h-3 rounded-sm w-2/3 bg-gray-150 animate-pulse"></div>
+      </div>
+      <div v-else-if="userData.lastName !== ''">
+        <p class="font-sans font-bold text-base text-customTextColor">Nama Belakang</p>
+        <p class="font-sans text-base text-customTextColor">{{ capitalizeName(userData.lastName) }}</p>
+      </div>
+
+      <!-- Email -->
+      <div v-if="daftarProvinsi.length === 0" name="skeleton">
+        <div name="skeleton" class="h-3 rounded-sm w-1/3 bg-gray-150 animate-pulse my-2"></div>
+        <div name="skeleton" class="h-3 rounded-sm w-2/3 bg-gray-150 animate-pulse"></div>
+      </div>
+      <div v-else-if="userData.email != ''">
+        <p class="font-sans font-bold text-base text-customTextColor">Email</p>
+        <p class="font-sans text-base text-customTextColor break-words">{{userData.email}}</p>
+      </div>
+      <!-- Nomor telpon -->
+      <div v-if="daftarProvinsi.length === 0" name="skeleton">
+        <div name="skeleton" class="h-3 rounded-sm w-1/3 bg-gray-150 animate-pulse my-2"></div>
+        <div name="skeleton" class="h-3 rounded-sm w-2/3 bg-gray-150 animate-pulse"></div>
+      </div>
+      <div v-else-if="userData.phoneNumber != ''">
+        <p class="font-sans font-bold text-base text-customTextColor">Nomor Telepon</p>
+        <p class="font-sans text-base text-customTextColor">{{userData.phoneNumber}}</p>
+      </div>
+      <!-- Gender -->
+      <div v-if="daftarProvinsi.length === 0" name="skeleton">
+        <div name="skeleton" class="h-3 rounded-sm w-1/3 bg-gray-150 animate-pulse my-2"></div>
+        <div name="skeleton" class="h-3 rounded-sm w-2/3 bg-gray-150 animate-pulse"></div>
+      </div>
+      <div v-else-if="userData.gender != ''">
+        <p class="font-sans font-bold text-base text-customTextColor">Jenis Kelamin</p>
+        <div>
+          <!-- gender 0 -> undefined -->
+          <p v-if="userData.gender === 0" class="font-sans text-base text-customTextColor">-</p>
+          <!-- gender 1 -> Laki-laki -->
+          <p v-if="userData.gender === 1" class="font-sans text-base text-customTextColor">Laki-laki</p>
+          <!-- gender 2 -> Perempuan -->
+          <p v-if="userData.gender === 2" class="font-sans text-base text-customTextColor">Perempuan</p>
+        </div>
+      </div>
+      <!-- Tanggal lahir -->
+      <div v-if="daftarProvinsi.length === 0" name="skeleton">
+        <div name="skeleton" class="h-3 rounded-sm w-1/3 bg-gray-150 animate-pulse my-2"></div>
+        <div name="skeleton" class="h-3 rounded-sm w-2/3 bg-gray-150 animate-pulse"></div>
+      </div>
+      <div v-else-if="userData.dateBirth !== emptyDateBirthFormat">
+        <p class="font-sans font-bold text-base text-customTextColor">Tanggal Lahir</p>
+        <p v-if="userData.dateBirth!=='0001-01-01T00:00:00Z'" class="font-sans text-base text-customTextColor">{{ getFullDate() }}</p>
+      </div>
+      <!-- Negara -->
+      <div v-if="daftarProvinsi.length === 0" name="skeleton">
+        <div name="skeleton" class="h-3 rounded-sm w-1/3 bg-gray-150 animate-pulse my-2"></div>
+        <div name="skeleton" class="h-3 rounded-sm w-2/3 bg-gray-150 animate-pulse"></div>
+      </div>
+      <div v-else-if="userData.country !== ''">
+        <p class="font-sans font-bold text-base text-customTextColor">Negara</p>
+        <p class="font-sans text-base text-customTextColor break-words">{{userData.country}}</p>
+      </div>
+      <!-- Provinsi -->
+      <div v-if="daftarProvinsi.length === 0" name="skeleton">
+        <div name="skeleton" class="h-3 rounded-sm w-1/3 bg-gray-150 animate-pulse my-2"></div>
+        <div name="skeleton" class="h-3 rounded-sm w-2/3 bg-gray-150 animate-pulse"></div>
+      </div>
+      <div v-else-if="userData.province !== ''">
+        <p class="font-sans font-bold text-base text-customTextColor">Domisili Provinsi</p>
+        <p class="font-sans text-base text-customTextColor break-words">{{userData.province}}</p>
+      </div>
+      <!-- Kabupaten/Kota -->
+      <div v-if="daftarProvinsi.length === 0" name="skeleton">
+        <div name="skeleton" class="h-3 rounded-sm w-1/3 bg-gray-150 animate-pulse my-2"></div>
+        <div name="skeleton" class="h-3 rounded-sm w-2/3 bg-gray-150 animate-pulse"></div>
+      </div>
+      <div v-else-if="userData.city !== ''">
+        <p class="font-sans font-bold text-base text-customTextColor">Domisili Kabupaten/Kota</p>
+        <p class="font-sans text-base text-customTextColor break-words">{{userData.city}}</p>
+      </div>
+    </div>
+  </div>
+  <!-- Privacy notes box  -->
+  <div class="bg-blue-royal-10 mt-6 mb-13">
+    <div class="flex flex-col">
+      <p class="font-sans text-sm text-customTextColor p-4">Kompas.id berkomitmen melindungi privasi pelanggan dengan menjamin keamanan dan kerahasiaan semua informasi pribadi Anda.</p>
+      <div class="w-full text-right p-4"><a href="https://kompas.id/syarat-dan-ketentuan/" class="font-sans font-bold text-base text-blue-royal-60 underline">Selengkapnya</a></div>
+    </div>
+  </div>
+</div>

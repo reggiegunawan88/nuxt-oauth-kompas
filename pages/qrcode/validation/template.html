@@ -1,0 +1,149 @@
+<div class="pt-12 px-4 max-w-sm mx-auto mb-20">
+  <reusable-spinner v-if="loadingValidate" />
+  <div v-else>
+    <div class="pt-12 pb-5 text-center">
+      <h3 class="text-xl tablet:text-2xl text-customTextColor font-bold mb-2 font-serif">Selangkah Lagi untuk<br>Mendapatkan Akses Premium<br>Kompas.id</h3>
+      <p class="text-base text-grey-50">Dapatkan akses ke seluruh konten premium Kompas.id, terhitung sejak Anda mengirimkan data diri.</p>
+    </div>
+    <div>
+      <div class="grid grid-rows-1 gap-4 mb-4">
+        <div ref="firstName">
+          <p class="font-sans text-base mb-2 font-bold text-customTextColor">Nama Depan<span class="text-errorTextColor">*</span></p>
+          <input
+            id="firstName"
+            v-model="firstName"
+            name="firstName"
+            type="text"
+            label="firstName"
+            class="bg-white"
+            :class="
+              isFirstNameEmpty || incorrectFirstName
+                ? 'border-input-error'
+                : 'border-input'
+            "
+            @blur="fillFirstName(firstName)"
+            @change="fillFirstName(firstName)"
+            @keydown.tab="fillFirstName(firstName)"
+            @keypress="nameInput($event)"
+            @keydown.space="preventSpace($event, firstName)"
+          />
+          <!-- Warning name -->
+          <div v-if="isFirstNameEmpty" class="flex flex-row error-text-input items-center">
+            <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+            <span class="leading-none ml-2 text-xs">Nama depan harus diisi.</span>
+          </div>
+          <!-- Warning invalid name format -->
+          <div v-if="incorrectFirstName" class="flex flex-row error-text-input items-center">
+            <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+            <span class="leading-none ml-2 text-xs">Nama depan harus menggunakan huruf.</span>
+          </div>
+        </div>
+        <div ref="lastName">
+          <p class="font-sans text-base mb-2 font-bold text-customTextColor">Nama Belakang</p>
+          <input
+            id="lastName"
+            v-model="lastName"
+            name="lastName"
+            type="text"
+            label="lastName"
+            class="bg-white"
+            :class="
+              incorrectLastName
+              ? 'border-input-error'
+              : 'border-input'"
+            @keypress="nameInput($event)"
+            @keydown.space="preventSpace($event, lastName)"
+            @blur="fillLastName(lastName)"
+            @change="fillLastName(lastName)"
+            @keydown.tab="fillLastName(lastName)"
+          />
+          <!-- Warning invalid name format -->
+          <div v-if="incorrectLastName" class="flex flex-row error-text-input items-center">
+            <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+            <span class="leading-none ml-2 text-xs">Nama belakang harus menggunakan huruf.</span>
+          </div>
+        </div>
+        <div ref="phoneNumber">
+          <p class="font-sans text-base mb-2 font-bold text-customTextColor">Nomor Telepon<span class="text-errorTextColor">*</span></p>
+          <div class="mt-1 flex flex-row items-center">
+            <select class="bg-grey-30 h-10 py-3 text-center focus:outline-none" v-model="countryCode">
+              <option v-for="country in list" :value="country.value" @change="chooseCountryCode($event.target.value)" class="text-sm">{{country.id}}</option>
+            </select>
+            <input
+              type="text"
+              placeholder="812-3456-7890"
+              class="border-default h-10 p-4 w-full focus:outline-none"
+              :class="maxPhoneNumber || minPhoneNumber || incorrectPhoneNumber || isPhoneNumberEmpty ? 'border-errorTextColor shadow-md' : 'border-grey-30'"
+              v-model="phoneNumber"
+              @change="fillPhoneNum(phoneNumber)"
+              @keyup="fillPhoneNum(phoneNumber)"
+              @keypress="phoneNumberInput($event)"
+            />
+          </div>
+          <div :class="incorrectPhoneNumber || minPhoneNumber || maxPhoneNumber || isPhoneNumberEmpty ? 'mt-2 mb-4 tablet:mb-0' : 'hidden'">
+            <!-- error scenario -->
+            <!-- phone number contains special char -->
+            <div v-if="incorrectPhoneNumber" class="flex flex-row text-errorTextColor text-xs items-center">
+              <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+              <span class="leading-none ml-2 text-xs">Masukkan nomor telepon dengan benar dan valid.</span>
+            </div>
+            <!-- phone number below 6 char -->
+            <div v-if="minPhoneNumber" class="flex flex-row text-errorTextColor text-xs items-center">
+              <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+              <span class="leading-none ml-2 text-xs">Masukkan minimal 6 digit nomor telepon yang valid.</span>
+            </div>
+            <!-- phone number more than 13 char -->
+            <div v-if="maxPhoneNumber || isPhoneNumberEmpty" class="flex flex-row text-errorTextColor text-xs items-center">
+              <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+              <span class="leading-none ml-2 text-xs">Masukkan maksimal 13 digit nomor telepon yang valid.</span>
+            </div>
+          </div>
+        </div>
+        <div ref="email">
+          <p class="font-sans text-base mb-2 font-bold text-customTextColor">Email<span class="text-errorTextColor">*</span></p>
+          <input
+            id="email"
+            v-model="email"
+            name="email"
+            type="email"
+            class="bg-grey-30 text-grey-50"
+            :class="
+            isEmailEmpty || incorrectEmail
+            ? 'border-input-error'
+            : 'border-input'"
+            :disabled="true"
+            @blur="checkEmailFormat(email)"
+            @change="checkEmailFormat(email)"
+            @keydown.tab="checkEmailFormat(email)"
+            @keyup="email === ''? null : fillEmail(email)"
+            @keydown.space.prevent
+          />
+          <!-- Warning email error -->
+          <div v-if="isEmailEmpty" class="flex flex-row error-text-input items-center">
+            <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+            <span class="leading-none ml-2 text-xs">Email harus diisi.</span>
+          </div>
+          <div v-if="incorrectEmail && !isEmailEmpty" class="flex flex-row error-text-input items-center">
+            <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+            <span class="leading-none ml-2 text-xs">Masukkan format email dengan benar dan valid.</span>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 mb-4 bg-orange-10 rounded">
+        <p class="text-xs text-customTextColor font-bold">Syarat & Ketentuan</p>
+        <ul class="list-disc list-outside pl-6 text-xs text-grey-50">
+          <li>Program ini berlaku khusus untuk pelanggan koran Kompas.</li>
+          <li>Kompas akan melakukan verifikasi menggunakan data diri yang sudah Anda berikan.</li>
+        </ul>
+      </div>
+      <p class="text-xs text-grey-50 text-center mt-5">
+        Jika Anda melanjutkan proses ini, maka Anda setuju dengan syarat & ketentuan yang berlaku. Butuh bantuan? Hubungi <a class="text-blue-600 font-bold block tablet:inline underline" href="https://api.whatsapp.com/send?phone=6281290050800&text=Halo,%20saya%20membutuhkan%20bantuan/informasi%20mengenai%20Kompas.id" target="_blank" @click="goToHotline">Layanan Pelanggan</a>.
+      </p>
+    </div>
+    <div class="sticky bottom-0 mt-3 py-4 bg-white tablet:relative tablet:py-0">
+      <button class="btn-secondary m-0 w-full" @click="submitForm">Dapatkan Akses Premium</button>
+    </div>
+    <!-- widget WA Hotline -->
+    <reusable-whatsapp-widget />
+  </div>
+</div>

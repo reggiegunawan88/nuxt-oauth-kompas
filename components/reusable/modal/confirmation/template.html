@@ -1,0 +1,28 @@
+<div>
+  <!-- modal overlay -->
+  <transition name="fade" appear>
+    <div v-if="$store.state.modal.showModalConfirmation"
+      class="fixed top-0 right-0 left-0 bottom-0 content-none z-50 opacity-75 bg-customTextColor cursor-pointer"
+      @click="isCancel"></div>
+  </transition>
+  <!-- modal content -->
+  <div v-if="$store.state.modal.showModalConfirmation" class="fixed w-full h-full z-50">
+    <div class="flex m-auto w-full h-full justify-center items-center">
+      <div class="flex flex-col justify-items-center bg-white rounded p-5 z-50 opacity-100">
+        <!-- title and desc -->
+        <div class="mb-6">
+          <p class="font-sans font-bold text-xl">Yakin batal mengubah {{ $store.state.modal.modalTitle }}?</p>
+          <p class="font-sans text-sm mt-2">{{ capitalizedDescription() }} yang Anda ubah belum tersimpan.</p>
+        </div>
+        <!-- button -->
+        <div class="grid grid-cols-2 text-right">
+          <button class="font-sans text-green-50 text-base font-bold text-right mx-6"
+            @click="isCancel">Batal</button>
+          <button
+            class="font-sans font-bold text-base rounded-lg h-10 w-full flex justify-center items-center bg-green-50 text-white focus:outline-none"
+            @click="abort">Lanjutkan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

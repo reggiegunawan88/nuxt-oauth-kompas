@@ -1,0 +1,25 @@
+<div>
+  <!-- modal overlay -->
+  <transition name="fade" appear>
+    <div
+      v-if="$store.state.modal.modalTermsAndConditions"
+      class="fixed top-0 right-0 left-0 bottom-0 content-none z-50 opacity-75 bg-customTextColor cursor-pointer"
+      @click="$store.dispatch('modal/hideModalTermsAndConditions')"
+    ></div>
+  </transition>
+  <!-- modal content -->
+  <div v-if="$store.state.modal.modalTermsAndConditions" class="fixed z-50 top-1/2 left-1/2 right-0 w-80 tablet:w-auto tablet:max-w-md modal-fixed-center">
+    <div class="bg-white rounded w-full p-6">
+      <div class="flex justify-between mb-4">
+        <div class="text-xl font-bold text-customTextColor">Syarat & Ketentuan</div>
+        <div class="cursor-pointer text-grey-40 mt-1.5" @click="$store.dispatch('modal/hideModalTermsAndConditions')">
+          <font-awesome-icon :icon="['fas', 'times']" class="text-lg" />
+        </div>
+      </div>
+      <ul class="list-disc text-customTextColor text-base pl-7">
+        <li class="mb-5">Program ini berlaku khusus untuk pelanggan koran Kompas.</li>
+        <li>Kompas akan melakukan verifikasi menggunakan data diri yang sudah Anda berikan.</li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="relative px-4 mx-auto max-w-full tablet:px-7 laptopM:px-8 laptopL:max-w-3xl laptopL:px-20 desktopL:px-0">
+  <!-- desktopL:mx-auto -->
+  <!-- desktopL:max-w-3xl -->
+  <div class="flex flex-col-reverse tablet:flex-row items-center pt-16 mb-8 mt-12 tablet:pb-16 tablet:pt-20 max-w-1xl mx-auto">
+    <div class="flex-grow text-center tablet:text-left">
+      <h1 class="text-xl text-gray-600 tablet:text-1xl laptopM:text-3xl font-bold mb-1 tablet:mb-3">
+        Terima Kasih sudah Memilih untuk<br />
+        Berlangganan Kompas.id!
+      </h1>
+      <p class="text-base text-grey-50 mb-8 tablet:mb-10">Pilihan yang tepat untuk menjadi bagian dari jurnalisme berkualitas. <span class="inline tablet:block">Selamat bergabung!</span></p>
+      <button class="btn-submit text-xl p-1 w-full tablet:w-36 rounded" @click="btnContinueReading">Lanjut Baca</button>
+    </div>
+    <div class="flex-none">
+      <div class="pb-10 tablet:pb-0">
+        <img src="~/assets/onboarding/kompas-berhasil-berlangganan.gif" alt="kompas-berhasil-berlangganan.gif" />
+      </div>
+    </div>
+  </div>
+  <reusable-latestArticle />
+</div>

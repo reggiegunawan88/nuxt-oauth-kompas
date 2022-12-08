@@ -1,0 +1,29 @@
+<div class="h-full">
+  <div class="h-full w-full max-h-full col-span-2 tablet:border-default tablet:border-gray-100">
+    <!-- Text section -->
+    <div class="flex flex-col">
+      <p class="font-bold text-2xl text-customTextColor font-sans mb-4 mt-8 mx-4">
+        Aktivitas
+      </p>
+      <p class="text-base text-customTextColor font-sans mx-4 mb-7">
+        Rekam jejak aktivitas Anda selama berada di Kompas.id.
+      </p>
+    </div>
+    <!-- Navbar section -->
+    <nav class="max-w-full mx-4 z-0 tablet:mx-6">
+      <div class="-mb-px font-bold grid grid-cols-3 mobileS:text-sm text-center text-grey-40">
+        <NuxtLink class="p-3 border-b-2 border-grey-40" to="/manage-account/activity/device">
+          Atur Perangkat
+        </NuxtLink>
+        <NuxtLink class="p-3 border-b-2 border-grey-40" to="/manage-account/activity/account-linking">
+          Akses Akun
+        </NuxtLink>
+        <div class="p-3 border-b-2 border-grey-40">
+        </div>
+      </div>
+    </nav>
+
+    <!-- Sub-page for atur perangkat and akses akun -->
+    <nuxt-child />
+  </div>
+</div>

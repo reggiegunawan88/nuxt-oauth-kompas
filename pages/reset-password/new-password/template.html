@@ -1,0 +1,27 @@
+<div class="pt-20 pb-20 laptopM:py-24">
+  <!-- Loading screen -->
+  <div v-if="$store.state.kompasAuth.jwtActive === null">
+    <kompas-auth-spinner />
+  </div>
+
+  <!-- Link expired -->
+  <div v-if="$store.state.kompasAuth.jwtActive === false" class="px-4 pb-24">
+    <p class="capitalize font-bold font-serif leading-normal pt-8 text-2xl text-center text-gray-600">Tautan Sudah Tidak Berlaku</p>
+    <p class="font-sans leading-relaxed max-w-sm mx-auto pt-2 pb-6 text-base text-center text-gray-600">
+      Tautan atur ulang kata sandi tidak bisa digunakan atau sudah tidak valid. Silakan klik <b>Kirim Ulang Tautan</b> lalu periksa email Anda.
+    </p>
+    <div class="max-w-sm mx-auto p-1 rounded">
+      <button class="btn-secondary my-4 mx-auto" @click="resendEmailResetPassword">
+        Kirim Ulang Tautan
+      </button>
+    </div>
+  </div>
+
+  <!-- Link valid -->
+  <div v-else-if="$store.state.kompasAuth.jwtActive === true" class="px-4 pb-24">
+    <p class="capitalize font-bold font-serif leading-normal pt-8 text-2xl text-center text-gray-600">Atur Ulang Kata Sandi</p>
+    <p class="font-sans leading-relaxed max-w-sm mx-auto pt-2 pb-6 text-base text-center text-gray-600">Silakan masukkan kata sandi baru Anda.</p>
+    <!-- Form Section -->
+    <kompas-auth-new-password></kompas-auth-new-password>
+  </div>
+</div>

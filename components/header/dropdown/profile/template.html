@@ -1,0 +1,82 @@
+<div class="border-b-default border-gray-150 flex flex-shrink-0 flex-col bg-blue-royal-10 p-4">
+  <div class="flex flex-row mb-5 items-center gap-4 leading-none">
+    <!-- avatar -->
+    <!-- skeleton loading -->
+    <div v-if="firstName === ''" name="skeleton" class="bg-grey-30 py-5 rounded-full h-16 w-16 animate-pulse"></div>
+    <div v-else class="flex bg-blue-royal-60 p-5 rounded-full h-16 w-16 items-center justify-center relative">
+      <span class="capitalize text-2xl text-white font-bold">{{ initialName }}</span>
+      <img v-if="userMembership.isActive === 'Aktif Berlangganan'" class="absolute mb-[-3px] bottom-0 right-0 h-[24px] w-[24px]" src="~/assets/kelola-akun/crown-blue-10.svg" alt="User" />
+    </div>
+    <!-- text -->
+    <!-- skeleton loading -->
+    <div v-if="firstName === ''" class="flex flex-col text-left w-31 gap-y-2">
+      <div name="skeleton" class="h-3 rounded-sm w-full bg-gray-150 animate-pulse"></div>
+      <div name="skeleton" class="h-3 rounded-sm w-full bg-gray-150 animate-pulse"></div>
+      <div name="skeleton" class="h-3 rounded-sm w-full bg-gray-150 animate-pulse"></div>
+    </div>
+    <div v-else class="flex flex-col text-left gap-y-2">
+      <p class="capitalize font-bold text-base pb-1 whitespace-nowrap text-blue-royal-60">{{ firstName }} {{ lastName }}</p>
+      <p class="capitalize pb-1 text-sm whitespace-nowrap">{{ subscriptionText }}</p>
+      <p v-if="!isSubscribed" class="capitalize font-bold text-sm pb-1 whitespace-nowrap text-orange-tangerine-700">{{ expired }}</p>
+    </div>
+  </div>
+  <!-- subscribe button -->
+  <!-- skeleton loading -->
+  <div v-if="isSubscribed === null" class="btn-submit w-full mt-0 mb-4 animate-pulse bg-grey-30"></div>
+  <!-- show subs button if user subs is true -->
+  <div v-else-if="!isSubscribed">
+    <button @click="subscribe" class="btn-submit w-full mt-0 mb-4">{{ buttonText }}</button>
+  </div>
+  <div class="border-default border-t-0 border-blue-200 my-3"></div>
+    <div class="rounded-lg bg-white p-3">
+      <NuxtLink to="/manage-account/reader-achievement" class="flex items-center cursor-pointer text-base text-blue-royal-60 mb-3">
+        <span class="flex-1 font-bold">Pembaca Santai (Lv. 1)</span>
+        <font-awesome-icon class="flex-none" :icon="['fas', 'chevron-right']" />
+      </NuxtLink>
+      <div class="grid grid-cols-4 gap-3">
+        <div v-for="(item, index) in readerBadge" :key="`badge-${index}`" :class="!item.status ? 'kompas-notAchieved' : 'kompas-achieved'">
+          <div class="relative" style="width:52px;height:52px;" :class="item.popper === true ? 'popper-show' : ''">
+            <PopperVue
+              :show="item.popper"
+              :arrow="true"
+              arrowClass="bg-grey-600"
+              :options="{
+                strategy: 'fixed',
+                placement: 'bottom',
+                offset: [0, 30],
+                modifiers: [
+                  {
+                    name: 'offset',
+                    options: {
+                      offset: [0, 10],
+                    },
+                  },
+                ],
+              }"
+            >
+              <div @click.prevent="item.popper = !item.popper" class="relative" :id="`header-popperButton-${index}`">
+                <span class="kompas-icon-medal text-center w-full block">
+                  <img class="m-auto" :src="item.image" :alt="item.title">
+                </span>
+                <span v-if="!item.status" class="absolute text-brand-1 font-bold top-2/4 left-2/4" style="transform: translate(-50%, -50%);"><font-awesome-icon :icon="['fas', 'lock']" /></span>
+              </div>
+              <template #popper>
+                <div class="bg-grey-600 p-4 text-left text-white text-xs w-48 block rounded" :id="`header-popperBox-${index}`">
+                  <span class="flex">
+                    <span class="font-bold flex-grow">{{ item.title }}</span>
+                    <span><font-awesome-icon class="cursor-pointer" @click="item.popper = false" :icon="['fas', 'times']" /></span>
+                  </span>
+                  {{ item.popperInfo }}
+                </div>
+              </template>
+            </PopperVue>
+          </div>
+        </div>
+        <div class="relative">
+          <NuxtLink to="/manage-account/reader-achievement" class="block rounded-full bg-grey-200" style="width:52px;height:52px;">
+            <span class="absolute text-brand-1 font-bold top-2/4 left-2/4" style="transform: translate(-50%, -50%);">4/21</span>
+          </NuxtLink>
+        </div>
+      </div>
+    </div>
+</div>

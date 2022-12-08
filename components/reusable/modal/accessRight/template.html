@@ -1,0 +1,12 @@
+<div v-if="$store.state.modal.showModalAccessRight">
+  <!-- modal overlay -->
+  <transition name="fade" appear>
+    <div class="fixed top-0 right-0 left-0 bottom-0 content-none z-50 opacity-75 bg-customTextColor cursor-pointer" @click="$store.dispatch('modal/hideModalConfirmation')"></div>
+  </transition>
+  <!-- modal content -->
+  <div class="w-full fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full z-50 font-sans">
+    <div class="flex m-auto max-w-xs mobileM:max-w-sm laptop:max-w-xl justify-center h-full items-center">
+      <reusable-modal-accessRight-subscribed />
+    </div>
+  </div>
+</div>

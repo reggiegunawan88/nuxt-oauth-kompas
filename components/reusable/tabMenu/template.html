@@ -1,0 +1,11 @@
+<nav class="max-w-full">
+  <div class="tab-menu">
+    <NuxtLink
+      class="inline-block py-3 px-9"
+      :to="item.link"
+      v-for="(item, i) in listMenu"
+      :key="`${item.title}-${i}`"
+    > {{ item.title }} </NuxtLink>
+  </div>
+  <div class="border-b-2 border-grey-30"></div>
+</nav>

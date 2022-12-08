@@ -1,0 +1,36 @@
+<div class="w-full border-default border-grey-30 rounded shadow-sm">
+  <!-- upper date section -->
+  <div class="flex flex-row items-center border-b-default border-grey-30 px-4 py-4 laptopM:px-6 laptopM:py-5">
+    <div class="flex-grow">
+      <p>{{ reformDateWithMonthName(item.createdAt) }}</p>
+    </div>
+    <div class="flex flex-row items-center gap-x-3">
+      <span class="text-xs font-bold p-2 rounded" :class="orderStatusStyle(item.status)">{{ orderStatus(item.status) }}</span>
+      <font-awesome-icon :icon="['fas', 'ellipsis-v']" class="text-grey-40" />
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-y-4 px-4 py-4 laptopM:px-6 laptopM:py-5 text-customTextColor font-sans">
+    <!-- transaction details -->
+    <div class="flex flex-col gap-y-4 border-b-default border-grey-30 pb-4">
+      <p class="text-xs laptopM:text-sm">No. Transaksi: {{ item.code }}</p>
+      <div class="flex flex-row gap-x-2 laptopM:gap-x-3" v-for="subItem in item.product">
+        <img alt="transaction-icon" @error="imagePlaceholder" :src="subItem.thumbnail" class="w-18 h-18" />
+        <div class="flex flex-col text-sm">
+          <p class="font-bold laptopM:text-base">{{ subItem.title }}</p>
+          <p class="text-grey-50">Masa akses: <b>{{ subItem.accessPeriode }} hari</b></p>
+        </div>
+      </div>
+    </div>
+    <!-- pricing details -->
+    <div class="flex flex-row items-center">
+      <div class="flex flex-col flex-grow">
+        <p class="text-sm laptopM:text-base text-grey-50">Total Pembayaran</p>
+        <p class="text-orange-50 font-bold">{{ currency(item.total) }}</p>
+      </div>
+      <div class="flex">
+        <button class="btn-submit laptopM:text-xl">Bayar Sekarang</button>
+      </div>
+    </div>
+  </div>
+</div>

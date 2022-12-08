@@ -1,0 +1,66 @@
+<div class="tablet:pb-13.8 pt-8 mobileS:px-4 tablet:px-6">
+  <div class="mb-4">
+    <p class="font-sans font-bold text-2xl text-customTextColor mb-4">Notifikasi</p>
+    <p class="font-sans font-base text-base text-customTextColor">Daftar informasi atau pemberitahuan tentang masa berlangganan dan akun Anda.</p>
+  </div>
+  <div v-if="!dataLoaded" class="mb-8">
+    <div class="flex flex-col">
+      <div v-for="item in 8" class="flex flex-row cursor-pointer py-3 px-4 rounded">
+        <div class="flex-grow">
+          <div name="skeleton" class="h-4 rounded-sm w-1/3 bg-gray-150 animate-pulse mb-4"></div>
+          <div name="skeleton" class="h-4 rounded-sm w-2/3 bg-gray-150 animate-pulse mb-4"></div>
+          <div name="skeleton" class="h-4 rounded-sm w-10/12 bg-gray-150 animate-pulse"></div>
+        </div>
+        <div class="flex-none">
+          <div name="skeleton" class="h-full rounded-sm w-24 bg-gray-150 animate-pulse"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div v-else>
+    <div v-if="notificationList === null || !notificationList.length">
+      <div class="flex justify-center pt-2">
+        <div class="text-center">
+          <img src="~/assets/kelola-akun/empty-state-notification.png" alt="Belum ada notifikasi" class="mx-auto mb-4" />
+          <p class="font-bold text-xl text-customTextColor mb-4">Belum Ada Notifikasi</p>
+          <p class="text-base text-customTextColor max-w-xs">Kami akan memberitahukan Anda ketika ada informasi dan pemberitahuan terbaru.</p>
+        </div>
+      </div>
+    </div>
+    <div v-else>
+      <div class="mb-8">
+        <button class="font-sans font-bold text-base text-blue-royal-60 underline mb-4" @click="handleIsRead('all', false)">Tandai semua dibaca</button>
+        <div class="flex flex-col">
+          <div
+            v-for="item in notificationList"
+            class="flex flex-row py-3 px-4 rounded cursor-pointer"
+            :class="item.isRead ? '' : 'bg-blue-royal-10'"
+            @click="handleIsRead(item.notificationId, item.isRead, item.linkEndpoint)"
+          >
+            <div class="flex-grow pr-3">
+              <span class="bg-orange-10 text-orange-50 text-xs font-bold rounded px-2 py-1.5 mr-2">{{ item.label }}</span>
+              <span class="text-xs text-grey-40 py-1.5">{{ convertTimestamp(item.time) }}</span>
+              <p class="font-bold text-base text-customTextColor py-1">{{ item.title }}</p>
+              <p class="text-sm text-customTextColor max-w-md">{{ item.description }}</p>
+            </div>
+            <div class="flex-none">
+              <img
+                :src="item.label === 'Akun' ? require(`~/assets/kelola-akun/kompas-notifikasi-akun.png`) : require(`~/assets/kelola-akun/kompas-notifikasi-berlangganan.png`)"
+                alt="Jenis notifikasi"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- load more btn -->
+      <div class="w-full text-center">
+        <div v-if="isLoading">
+          <font-awesome-icon class="animate-spin text-blue-royal-60 text-5xl" :icon="['fas', 'spinner']" />
+        </div>
+        <div v-else>
+          <button v-if="showLoadMore" @click="loadMore" class="px-4 py-2 border-default border-blue-royal-60 text-blue-royal-60 rounded font-bold">Lihat Lainnya</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

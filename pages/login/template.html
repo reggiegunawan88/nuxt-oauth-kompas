@@ -1,0 +1,41 @@
+<div class="pt-12 pb-20">
+  <!-- Modal Popup section -->
+  <reusable-modal-auth />
+
+  <!-- Login section -->
+  <div class="px-4 pb-24">
+    <p class="capitalize font-bold font-serif leading-normal pt-8 text-2xl text-center text-gray-600">Masuk Akun</p>
+    <div class="text-center pt-2 pb-6">
+      <span class="font-sans text-sm text-customTextColor">Belum punya akun?</span>
+      <a @click="gotToRegister" class="hyperlink-text cursor-pointer" id="url_daftar_sekarang">Daftar sekarang</a>.
+    </div>
+
+    <!-- Form Section -->
+    <div class="border-default border-gray-100 max-w-sm mx-auto p-6 rounded">
+      <!-- auth warning -->
+      <kompasAuth-login-warning />
+      <!-- conditional rendering -->
+      <kompas-auth-general-auth v-if="!loginByEmail" />
+      <kompas-auth-login v-else />
+
+      <!-- separator  -->
+      <div class="flex flex-row items-center my-6 w-full">
+        <div class="flex-shrink border-t-2 border-gray-100 mr-2 w-full"></div>
+        <div class="flex-shrink-0 align-middle font-sans text-gray-450 text-center text-xs lg:text-sm">Atau</div>
+        <div class="flex-shrink border-t-2 border-gray-100 ml-2 w-full"></div>
+      </div>
+
+      <!-- Socmed login -->
+      <div>
+        <!-- Gmail -->
+        <kompas-auth-auth-google type="login" />
+        <!-- facebook -->
+        <kompas-auth-auth-FB type="login" />
+        <!-- Apple -->
+        <kompas-auth-auth-apple type="login" />
+      </div>
+    </div>
+  </div>
+  <!-- widget WA Hotline -->
+  <reusable-whatsapp-widget />
+</div>

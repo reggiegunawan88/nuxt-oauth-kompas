@@ -1,0 +1,52 @@
+  {"root": true,
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": [
+    "@nuxtjs/eslint-config-typescript",
+    "plugin:prettier/recommended",
+    "plugin:nuxt/recommended"
+  ],
+  "plugins": ["@typescript-eslint"],  // add your custom rules here
+  "rules": {
+    "prettier/prettier": [
+      "warn",
+      {
+        "semi": false,
+        "endOfLine": "auto"
+      }
+    ],
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": ["variable","function"],
+        "format": ["camelCase"],
+        "leadingUnderscore":"allow"
+      }
+    ],
+    "no-multiple-empty-lines": [2, { "max": 2 }],
+    "max-lines": ["error", {"max": 400, "skipComments": true,"skipBlankLines":true}],
+    "new-cap": "warn",
+    "max-len": [
+      "off",
+      {
+        "code": 81,
+        "ignoreUrls": true,
+        "ignoreStrings": true,
+        "ignoreComments": true,
+        "ignoreTemplateLiterals": true
+      }
+    ],
+    "curly": ["error", "multi-line"],
+    "no-unused-vars": "warn",
+    "vue/no-duplicate-attributes": ["error", {
+      "allowCoexistClass": true,
+      "allowCoexistStyle": true
+    }],
+    // allow async-await
+    "generator-star-spacing": "off",
+    "no-nested-ternary": "warn"
+  }
+}
+

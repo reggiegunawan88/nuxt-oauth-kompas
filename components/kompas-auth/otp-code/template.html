@@ -1,0 +1,49 @@
+<div class="max-w-sm mx-auto px-4 pb-24 text-center gap-y-3">
+  <div class="flex flex-col font-sans text-gray-600 gap-y-3">
+    <p class="capitalize font-bold pt-8 text-xl text-center">Masukkan 6 Digit Kode Verifikasi</p>
+    <p>Kode verifikasi (OTP) telah dikirim melalui WhatsApp ke nomor <b> (+62) {{ getPhoneNumber() }}</b>.</p>
+  </div>
+
+  <!-- OTP code section -->
+  <div class="flex flex-col gap-y-3 mt-3">
+    <div class="flex flex-col gap-y-2">
+      <!-- OTP input -->
+      <div class="inputDash py-3 self-center" :class="otpError ? 'border-errorTextColor' : 'border-blue-royal-50'">
+        <input type="text" pattern="\d*" maxlength="6" @keyup="inputCode($event.target.value)" :class="otpComplete? 'caret-transparent' : 'caret-current'" />
+      </div>
+      <!-- OTP error msg -->
+      <p v-if="otpUnmatched" class="text-xs text-errorTextColor">Kode verifikasi (OTP) tidak sesuai.</p>
+      <p v-if="otpExpired" class="text-xs text-errorTextColor">
+        Masa berlaku kode verifikasi (OTP) telah berakhir. <br />
+        Silakan kirim ulang.
+      </p>
+      <p v-if="otpExceedLimit" class="text-xs text-errorTextColor">
+        Anda telah 5 kali mengirimkan kode verifikasi. <br />
+        Silakan tunggu 30 menit untuk kirim ulang.
+      </p>
+      <p v-if="resendOTPBlocked" class="text-xs text-errorTextColor">Masukkan kode verifikasi (OTP) yang telah dikirim ke nomor WhatsApp atau silakan tunggu untuk kirim ulang tautan.</p>
+    </div>
+
+    <!-- label reminder -->
+    <div class="text-sm max-w-xs mx-auto">
+      <p v-if="otpTimer > 0">Belum terima kode? <b>Tunggu {{ otpTimer }} detik</b>.</p>
+      <p v-else>
+        Belum terima kode? <span class="font-bold text-blue-royal-60 underline cursor-pointer" @click="resendOTP">Kirim ulang</span> atau
+        <span class="font-bold text-blue-royal-60 underline cursor-pointer" @click="redirectAuth">masuk dengan metode lain</span>.
+      </p>
+    </div>
+  </div>
+
+  <!-- btn verification -->
+  <div class="flex max-w-xs mx-auto">
+    <button
+      class="btn-submit w-full mt-5 text-xl"
+      :class="otpComplete && !otpExceedLimit ? 'bg-green-50 text-white' : 'bg-grey-30 text-grey-40 cursor-not-allowed'"
+      @click="submitOTPCode"
+      :disabled="!otpComplete || otpExceedLimit"
+    >
+      <p v-if="!showSpinner">Verifikasi</p>
+      <font-awesome-icon v-else :icon="['fas', 'circle-notch']" class="animate-spin" />
+    </button>
+  </div>
+</div>

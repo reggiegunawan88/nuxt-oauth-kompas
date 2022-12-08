@@ -1,0 +1,98 @@
+<div class="relative px-4 pt-12 pb-4 mx-auto max-w-full tablet:pb-20 tablet:px-7 laptopM:px-8 laptopL:max-w-xl laptopL:px-20 desktopL:px-0">
+  <div class="flex flex-col-reverse tablet:flex-row items-center py-12 max-w-1xl mx-auto">
+    <div class="flex-grow text-center tablet:text-left">
+      <h1 class="text-xl text-gray-600 tablet:text-1xl laptopM:text-3xl font-bold mb-2 tablet:mb-3 font-serif" v-html="bannerContent($route.query.status).title"></h1>
+      <p class="text-base text-grey-50" v-html="bannerContent($route.query.status).info"></p>
+      <i class="text-xs text-grey-50 mb-5 tablet:mb-8 block">*Lihat Syarat dan Ketentuan <a class="underline cursor-pointer" @click="showModalTermsConditions">di sini</a>.</i>
+      <button class="btn-secondary w-full tablet:w-auto" @click="goToHomepage">Mulai Baca</button>
+      <p class="text-xs text-customTextColor">Butuh bantuan? Hubungi <a class="underline text-blue-600 font-bold" href="https://api.whatsapp.com/send?phone=6281290050800&text=Halo,%20saya%20membutuhkan%20bantuan/informasi%20mengenai%20Kompas.id" target="_blank" @click="handleTracker('qrconboardHotline')">Layanan Pelanggan</a>.</p>
+    </div>
+    <div class="flex-none hidden tablet:block">
+      <div class="pb-10 tablet:pb-0">
+        <img src="~/assets/onboarding/kompas-berhasil-berlangganan.gif" alt="kompas-berhasil-berlangganan.gif" />
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col tablet:flex-row gap-4 tablet:gap-8 justify-center bg-blue-royal-10 rounded p-6 mb-10 items-center">
+    <div v-if="!epaperImage" name="skeleton" class="w-96 h-48 bg-grey-20 animate-pulse"></div>
+    <div v-else>
+      <img class="w-96 h-48 object-top object-cover" :src="epaperImage" alt="">
+    </div>
+    <div class="text-center">
+      <p class="text-xl tablet:text-2xl text-customTextColor font-bold mb-5 mt-4 tablet:mt-3 tablet:mb-6">Temukan <span class="text-brand-1">6 halaman ekstra</span><br>di ePaper Kompas!</p>
+      <a class="btn-primary w-full tablet:w-auto mx-auto" target="__blank" :href="epaperLink" @click="handleTracker('qrconboardEpaper')">Baca ePaper</a>
+    </div>
+  </div>
+  <div class="text-center mb-12">
+    <h3 class="mb-1 text-xl text-customTextColor font-bold">Konten Digital Eksklusif</h3>
+    <p class="mb-6 text-base text-customTextColor">Nikmati lebih banyak konten dalam format digital, eksklusif hanya di Kompas.id.</p>
+    <div class="grid gap-8 grid-cols-2 tablet:grid-cols-4">
+      <!-- Tutur Visual -->
+      <div class="cursor-pointer hover:opacity-90">
+        <a href="https://interaktif.kompas.id/" class="hover:underline" @click="handleTracker('qrconboardTurvis')">
+          <img src="~/assets/onboarding/image-tutur-visual.png" alt="Belum ada notifikasi" class="mb-4 mx-auto w-[148px] h-[80px] tablet:w-[187px] tablet:h-[102px]" />
+          <p class="mt-4 mb-1 text-sm text-customTextColor font-bold">TUTUR VISUAL</p>
+          <p class="m-0 text-sm text-grey-50">Konten jurnalistik dalam<br>bentuk multimedia<br>interaktif.</p>
+        </a>
+      </div>
+     <!-- Infogradfik -->
+      <div class="cursor-pointer hover:opacity-90">
+        <a href="https://www.kompas.id/multimedia/eksternal/infografik/" class="hover:underline" @click="handleTracker('qrconboardInfografik')">
+          <img src="~/assets/onboarding/image-infografik.png" alt="Belum ada notifikasi" class="mb-4 mx-auto w-[148px] h-[80px] tablet:w-[187px] tablet:h-[102px]" />
+          <p class="mt-4 mb-1 text-sm text-customTextColor font-bold">INFOGRAFIK</p>
+          <p class="m-0 text-sm text-grey-50">Data disajikan dalam<br>bentuk grafis dengan<br>tema beragam.</p>
+        </a>
+      </div>
+      <!-- Video -->
+      <div class="cursor-pointer hover:opacity-90">
+        <a href="https://www.kompas.id/kategori/video/" class="hover:underline" @click="handleTracker('qrconboardVideo')">
+          <img src="~/assets/onboarding/image-video.png" alt="Belum ada notifikasi" class="mb-4 mx-auto w-[148px] h-[80px] tablet:w-[187px] tablet:h-[102px]" />
+          <p class="mt-4 mb-1 text-sm text-customTextColor font-bold">VIDEO</p>
+          <p class="m-0 text-sm text-grey-50">Tonton berbagai video<br>berita, dokumenter, dan<br>siaran langsung.</p>
+        </a>
+      </div>
+      <!-- Riset -->
+      <div class="cursor-pointer hover:opacity-90">
+        <a href="https://www.kompas.id/kategori/riset/" class="hover:underline" @click="handleTracker('qrconboardRiset')">
+          <img src="~/assets/onboarding/image-riset.png" alt="Belum ada notifikasi" class="mb-4 mx-auto w-[148px] h-[80px] tablet:w-[187px] tablet:h-[102px]" />
+          <p class="mt-4 mb-1 text-sm text-customTextColor font-bold">RISET</p>
+          <p class="m-0 text-sm text-grey-50">Menyajikan hasil survei<br>dan kajian data Litbang<br>Kompas.</p>
+        </a>
+      </div>
+    </div>
+    <div class="border-t-default border-gray-100 mt-10 pb-10"></div>
+    <h3 class="mb-4 text-xl text-customTextColor font-bold">Mengapa Kompas.id?</h3>
+    <div class="grid gap-4 grid-cols-1 tablet:grid-cols-3">
+      <div class="flex justify-center gap-4 items-center text-left tablet:text-center tablet:block">
+        <img class="tablet:mx-auto tablet:mb-1" width="70" height="70" src="~/assets/onboarding/icon-keuntungan-berlangganan-1.png" alt="">
+        <p class="w-40 tablet:w-auto">Berita Mendalam &<br>Tepercaya</p>
+      </div>
+      <div class="flex justify-center gap-4 items-center text-left tablet:text-center tablet:block">
+        <img class="tablet:mx-auto tablet:mb-1" width="70" height="70" src="~/assets/onboarding/icon-keuntungan-berlangganan-2.png" alt="">
+        <p class="w-40 tablet:w-auto">Kemudahan Akses di<br>Berbagai Platform</p>
+      </div>
+      <div class="flex justify-center gap-4 items-center text-left tablet:text-center tablet:block">
+        <img class="tablet:mx-auto tablet:mb-1" width="70" height="70" src="~/assets/onboarding/icon-keuntungan-berlangganan-3.png" alt="">
+        <p class="w-40 tablet:w-auto">Konten & Fitur yang<br>Interaktif</p>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col items-center tablet:flex-row gap-5 laptopM:gap-24 justify-center bg-orange-10 rounded p-6">
+    <div class="text-center tablet:text-left">
+      <p class="text-sm text-customTextColor">Baca konten Harian Kompas lebih nyaman kapan<br class="hidden mobileM:block tablet:hidden"> saja<br class="hidden tablet:block"> & di mana saja! Unduh aplikasi Kompas.id<br class="hidden mobileM:block tablet:hidden"> sekarang.</p>
+    </div>
+    <div class="flex flex-row gap-3 justify-center">
+      <a href="https://play.google.com/store/apps/details?id=id.kompas.app" target="__blank" class="cursor-pointer" @click="handleTracker('qrconboardAndroidapp')">
+        <img class="w-32 h-9" src="~/assets/google-play-badge.png" alt="">
+      </a>
+      <a href="https://apps.apple.com/us/app/kompas-id/id1242195037" target="__blank" class="cursor-pointer" @click="handleTracker('qrconboardIosapp')">
+        <img class="w-28 h-9" src="~/assets/app-store-badge.png" alt="">
+      </a>
+    </div>
+  </div>
+  <!-- widget WA Hotline -->
+  <reusable-whatsapp-widget />
+  <!-- Modal Terms and Conditions -->
+  <reusable-modal-termsAndConditions />
+</div>
+  

@@ -1,0 +1,13 @@
+<div class="pt-20 pb-20 min-h-screen">
+  <!-- success -->
+  <div class="px-4 pb-24 m-3">
+    <p class="font-bold font-serif leading-normal pt-8 text-2xl text-center text-customTextColor">Lengkapi Data Diri Anda</p>
+    <p class="font-sans leading-relaxed max-w-sm mx-auto pt-2 pb-3 text-base text-center text-gray-600">
+      Verifikasi akun berhasil. Silakan lengkapi data diri Anda untuk mendapatkan pengalaman terbaik di Kompas.id atau tutup halaman ini jika Anda buka di aplikasi.
+    </p>
+    <div class="flex flex-row justify-center gap-5 items-center">
+      <button type="submit" @click="$router.push('/manage-account/account-detail/personal-data')" class="btn-secondary w-half">Lengkapi Data Diri</button>
+      <button type="submit" @click="redirectPage" class="btn-secondary-outlined w-half">Lewati</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,90 @@
+<div class="rounded border-default border-gray-100 mb-5 overflow-hidden -mt-px -ml-px relative">
+  <div class="bg-blue-royal-10 p-4 tablet:pr-8">
+    <div class="flex items-center">
+      <div class="flex-grow">
+        <p class="text-base text-customTextColor font-bold mb-1">Hai Steven Bujang Saragih Adam Smith, status baca Anda <br class="hidden tablet:inline"><span class="text-brand-1">Pembaca Santai (Lv. 1)</span></p>
+        <p class="text-sm text-grey-50">Anda berhasil baca 20 artikel dalam seminggu.</p>
+      </div>
+      <div class="flex-auto">
+        <div class="w-24 ml-auto mr-0">
+          <img src="~/assets/kelola-akun/badges/pembaca-setia.svg" alt="pembaca-setia.svg">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-4">
+    <div class="max-w-xs">
+      <div class="flex items-center">
+        <div class="flex-grow">
+          <p class="text-base text-customTextColor font-bold mb-0">Pembaca Santai (Lv. 1)</p>
+        </div>
+        <div class="flex-grow-0">
+          <span class="block whitespace-nowrap py-1.5 px-2 bg-orange-10 text-orange-500 text-xs rounded"><b>18</b> / 20 artikel</span>
+        </div>
+      </div>
+      <div class="w-full bg-blue-royal-10 h-2 rounded my-2">
+        <div class="bg-green-50 h-2 rounded" style="width: 90%"></div>
+      </div>
+      <p class="text-sm text-grey-50">Baca 2 artikel lagi untuk jadi Pembaca Super.</p>
+      <div class="w-full py-5">
+        <div class="flex">
+          <div
+            class="w-1/3"
+            :class="!item.status ? 'kompas-steps-notAchieved' : 'kompas-steps-achieved'"
+            v-for="(item, index) in readingStatus"
+            :key="`reading-${index}`"
+          >
+            <div class="relative mb-1" :class="item.popper === true ? 'popper-show' : ''">
+
+              <PopperVue
+                :show="item.popper"
+                :arrow="true"
+                arrowClass="bg-grey-600"
+                :options="{
+                  strategy: 'fixed',
+                  placement: 'bottom',
+                  offset: [0, 30],
+                  modifiers: [
+                    {
+                      name: 'offset',
+                      options: {
+                        offset: [0, 10],
+                      },
+                    },
+                  ],
+                }"
+                class="kompas-steps-popper mx-auto border-4 rounded-full flex items-center" style="width:60px;height:60px;"
+              >
+                <div @click.prevent="item.popper = !item.popper" class="relative" :id="`popperButton-${index}`">
+                  <span class="kompas-icon-medal text-center w-full block">
+                    <img class="m-auto" :src="item.image" :alt="item.title">
+                  </span>
+                  <span v-if="!item.status" class="absolute text-brand-1 font-bold top-2/4 left-2/4" style="transform: translate(-50%, -50%);"><font-awesome-icon :icon="['fas', 'lock']" /></span>
+                </div>
+                <template #popper>
+                  <div class="bg-grey-600 p-4 text-white text-xs w-48 block rounded" :id="`popperBox-${index}`">
+                    <span class="flex">
+                      <span class="font-bold flex-grow">{{ item.title }}</span>
+                      <span><font-awesome-icon class="cursor-pointer" @click="item.popper = false" :icon="['fas', 'times']" /></span>
+                    </span>
+                    {{ item.popperInfo }}
+                  </div>
+                </template>
+              </PopperVue>
+
+              <div v-if="index !== readingStatus.length -1" class="absolute flex align-center items-center align-middle content-center" style="width: calc(100% - 3.5rem); top: 50%; transform: translate(160%, -50%)">
+                <div class="w-full bg-blue-100 items-center align-middle align-center flex-1">
+                  <div :class="!item.status ? 'bg-blue-100' : 'bg-blue-royal-60'" class="w-0 h-1" style="width: 100%;"></div>
+                </div>
+              </div>
+            </div>
+      
+            <div class="kompas-steps-title text-center text-xs" :class="getActiveClass(index)">
+              {{ item.title }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

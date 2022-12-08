@@ -1,0 +1,25 @@
+<div class="shadow-md">
+  <!-- 1 more chance before fail -->
+  <div v-if="warningIndicator === 1" class="flex flex-row border-2 border-orange-40 items-center text-orange-tangerine-700 py-3 mb-4 text-left rounded-sm">
+    <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-xl mx-3" />
+    <span class="mx-2 font-sans text-xs">Tersisa 1 kesempatan lagi untuk percobaan masuk. Periksa kembali email dan kata sandi.</span>
+  </div>
+
+  <!-- Fail 10 times warning -->
+  <div v-if="warningIndicator === 2" class="flex flex-row border-2 border-errorTextColor text-errorTextColor items-center py-3 mb-4 text-left rounded-sm">
+    <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-xl mx-3" />
+    <span class="mx-2 font-sans text-xs">Anda telah gagal masuk 10 kali. Silakan coba lagi dalam {{ formatTime() }}.</span>
+  </div>
+
+  <!-- Fail 15 times on general auth (input email/phone num) -->
+  <div v-if="authBlocked" class="flex flex-row border-2 border-errorTextColor text-errorTextColor items-center py-3 mb-4 text-left rounded-sm">
+    <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-xl mx-3" />
+    <span class="mx-2 font-sans text-xs">Anda telah melakukan percobaan masuk 15 kali. Silakan coba lagi dalam {{ formatTime() }}.</span>
+  </div>
+
+  <!-- User login success but still blocked within timer -->
+  <div v-if="$store.state.kompasAuth.loginBlocked" class="flex flex-row border-2 border-errorTextColor text-errorTextColor items-center py-3 mb-4 text-left rounded-sm">
+    <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-xl mx-3" />
+    <span class="mx-2 font-sans text-xs">{{$store.state.kompasAuth.loginBlockedMsg}} Silakan coba lagi dalam {{formatTime()}}. </span>
+  </div>
+</div>

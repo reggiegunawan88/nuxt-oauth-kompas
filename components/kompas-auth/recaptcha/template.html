@@ -1,0 +1,7 @@
+<div class="mt-3">
+  <vue-recaptcha
+     :sitekey="$config.googleKey"
+     :load-recaptcha-script="true"
+     @verify="markRecaptchaAsVerified"
+     ></vue-recaptcha>
+</div>

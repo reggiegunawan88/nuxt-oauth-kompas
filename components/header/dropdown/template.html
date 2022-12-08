@@ -1,0 +1,28 @@
+<!-- dropdown button -->
+<div v-if="loginStatus" class="flex items-center justify-end w-1/3">
+  <div class="relative outline-none" @blur="hideDropdownBlur" tabindex="0">
+    <a @click.prevent="toggleDropdown" class="cursor-pointer">
+      <div class="flex flex-row gap-x-4 text-white items-center">
+        <div class="flex bg-white rounded-full h-6 w-6 items-center justify-center relative">
+          <span class="capitalize text-xxs mt-[3px] text-blue-royal-60 font-bold">{{ initialName }}</span>
+          <!-- dot sign -->
+          <div v-if="notifications > 0" class="hidden absolute mt-[-5px] mr-[-5px] top-0 right-0 h-2 w-2 bg-orange-40 rounded-full"></div>
+          <!-- dot sign -->
+          <!-- membership icon -->
+          <img v-if="userMembership.isActive === 'Aktif Berlangganan'" class="absolute mb-[-3px] mr-[-4px] bottom-0 right-0 h-[12px] w-[12px]" src="~/assets/kelola-akun/crown-royal-blue-60.svg" alt="User" />
+          <!-- membership icon -->
+        </div>
+        <font-awesome-icon class="text-base" :icon="['fas', 'chevron-down']" />
+      </div>
+    </a>
+    <!-- toggle dropdown onclick -->
+    <div v-if="showDropdown" style="margin-top: 50px" class="fixed top-0 bottom-0 overflow-y-scroll right-0 z-10 border-default bg-grey-100 border-grey-200 flex flex-col font-sans text-sm w-76">
+      <header-dropdown-profile :userMembership="userMembership" />
+      <!-- navbar menu -->
+      <div class="p-4">
+        <header-dropdown-navbar :notifications="notifications" />
+        <header-dropdown-help-center />
+      </div>
+    </div>
+  </div>
+</div>

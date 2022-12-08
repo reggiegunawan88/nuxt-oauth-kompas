@@ -1,0 +1,64 @@
+<!-- Password section -->
+<div class="flex flex-col mt-2">
+  <div class="flex flex-row relative">
+    <!-- Input password -->
+    <input
+      id="password"
+      maxlength="25"
+      v-model="passwordValue"
+      name="password"
+      :type="[showPassword ? 'text' : 'password']"
+      class="bg-white font-sans leading-tight p-4 h-10 rounded-sm text-base text-customTextColor w-full focus:outline-none"
+      :class="isPasswordEmpty || (score > 0 && score < 2) ? 'border-2 focus:ring-2 focus:border-errorTextColor border-errorTextColor' : 'border-default focus:ring-2 focus:border-blue-royal-60 border-gray-100'"
+      @blur="fillPassword(passwordValue)"
+      @change="fillPassword(passwordValue)"
+      @keydown.tab="fillPassword(passwordValue)"
+      @keyup="passwordValue === '' ? null: fillPassword(passwordValue)"
+      @keydown.space.prevent
+    />
+    <button type="button" class="absolute flex flex-row focus:outline-none self-center outline-none pr-5 right-0 text-grey-50" @click="showPassword = !showPassword">
+      <font-awesome-icon :icon="showPassword? ['fas','eye'] : ['fas', 'eye-slash']" class="laptopM:mr-2" />
+    </button>
+  </div>
+
+  <!-- Password check -->
+  <!-- bar checker -->
+  <div v-if="passwordValue.length">
+    <div class="grid grid-cols-3 gap-2">
+      <div>
+        <kompas-auth-passCheck v-if="score == 0" :password="passwordValue" @score="onScore" />
+        <kompas-auth-passCheck v-else-if="score > 0" :password="passwordValue" @score="onScore" />
+      </div>
+      <div>
+        <kompas-auth-passCheck v-if="score == 0" :password="passwordValue" style="background-color: #dddddd" @score="onScore" />
+        <kompas-auth-passCheck v-else-if="score >= 2" :password="passwordValue" @score="onScore" />
+        <kompas-auth-passCheck v-else style="background-color: #dddddd" />
+      </div>
+      <div>
+        <kompas-auth-passCheck v-if="score == 0" :password="passwordValue" style="background-color: #dddddd" @score="onScore" />
+        <kompas-auth-passCheck v-else-if="score > 3" :password="passwordValue" @score="onScore" />
+        <kompas-auth-passCheck v-else style="background-color: #dddddd" />
+      </div>
+    </div>
+    <!-- wording checker: lemah | sedang | kuat -->
+    <div class="text-right">
+      <small v-if="score < 2" :password="passwordValue" style="color: #d00d12" @score="onScore">Lemah. </small>
+      <small v-if="score >=2 && score < 4" :password="passwordValue" style="color: #ff7a00" @score="onScore">Sedang. </small>
+      <small v-if="score === 4" :password="passwordValue" style="color: #50a718" @score="onScore">Kuat.</small>
+    </div>
+  </div>
+
+  <!-- warning empty pass -->
+  <div v-if="isPasswordEmpty" class="flex flex-row focus:ring-2 error-text-input items-center">
+    <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+    <span class="leading-none ml-2 text-xs">Kata sandi harus diisi</span>
+  </div>
+
+  <!-- warning weak pass -->
+  <div v-if="passwordValue.length">
+    <div v-if="score < 2" class="flex flex-row focus:ring-2 error-text-input items-center">
+      <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+      <span class="leading-none ml-2 text-xs">Kata sandi lemah. Diwajibkan menggunakan minimal 6 karakter dengan kombinasi huruf dan angka.</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<div class="pt-12 pb-40">
+  <!-- start reading section -->
+  <div class="flex flex-row gap-x-10 max-w-md desktopL:max-w-xl mx-auto mt-12">
+    <!-- text section -->
+    <div class="flex flex-col gap-y-6 mx-4 mt-10">
+      <div class="flex flex-col font-sans gap-y-2 text-center tablet:text-left">
+        <p class="text-gray-600 font-bold text-1xl laptopM:text-3xl">Anda Memiliki 5 Kuota Baca Artikel Premium Kompas.id</p>
+        <p class="text-grey-50">Baca berita eksklusif Kompas.id karena Anda mendapatkan 5 artikel berbayar setiap bulannya secara <b>GRATIS</b> .</p>
+      </div>
+      <button class="btn-submit text-lg tablet:text-xl tablet:w-[fit-content] rounded bg-blue-royal-60" @click="startReading">Mulai Baca</button>
+    </div>
+    <!-- img ilustration section -->
+    <img src="~/assets/onboarding/kompas-mulai-baca.png" class="hidden tablet:block" />
+  </div>
+
+  <!-- exclusive digital content section -->
+  <div class="flex justify-center">
+    <div class="flex flex-col gap-y-6 mx-4 mt-10 max-w-md desktopL:max-w-xl">
+      <div class="flex flex-col font-sans mx-4 text-center gap-y-2">
+        <p class="text-xl text-gray-600 laptopM:text-2xl font-bold">Konten Digital Eksklusif</p>
+        <p class="text-grey-50">Nikmati lebih banyak konten dalam format digital, eksklusif hanya di Kompas.id.</p>
+      </div>
+      <!-- list images -->
+      <div class="grid grid-cols-2 desktopL:grid-cols-4 gap-8">
+        <!-- tutur visual -->
+        <div class="flex flex-col gap-y-4 text-center cursor-pointer" @click="redirectTurvis">
+          <img src="~/assets/onboarding/image-tutur-visual.png" />
+          <div class="flex flex-col gap-y-1">
+            <p class="text-sm font-bold">Tutur Visual</p>
+            <p class="text-sm">Konten jurnalistik dalam bentuk multimedia interaktif.</p>
+          </div>
+        </div>
+        <!-- infografik -->
+        <div class="flex flex-col gap-y-4 text-center cursor-pointer" @click="redirectInfografik">
+          <img src="~/assets/onboarding/image-infografik.png" />
+          <div class="flex flex-col gap-y-1">
+            <p class="text-sm font-bold">Infografik</p>
+            <p class="text-sm">Data disajikan dalam bentuk grafis dengan tema beragam.</p>
+          </div>
+        </div>
+        <!-- video -->
+        <div class="flex flex-col gap-y-4 text-center cursor-pointer" @click="redirectVideo">
+          <img src="~/assets/onboarding/image-video.png" />
+          <div class="flex flex-col gap-y-1">
+            <p class="text-sm font-bold">Video</p>
+            <p class="text-sm">Tonton berbagai video berita, dokumenter, dan siaran langsung.</p>
+          </div>
+        </div>
+        <!-- riset -->
+        <div class="flex flex-col gap-y-4 text-center cursor-pointer" @click="redirectRiset">
+          <img src="~/assets/onboarding/image-riset.png" />
+          <div class="flex flex-col gap-y-1">
+            <p class="text-sm font-bold">Riset</p>
+            <p class="text-sm">Menyajikan hasil survei dan kajian data Litbang Kompas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<div>
+  <!-- promotion section -->
+  <!-- skeleton loading -->
+  <div v-if="!dataLoaded" class="flex flex-col gap-y-4 pt-8">
+    <div name="skeleton" class="h-5 rounded-sm w-2/12 bg-gray-150 animate-pulse"></div>
+    <div name="skeleton" class="h-31 rounded-sm w-full bg-gray-150 animate-pulse"></div>
+  </div>
+  <div v-else>
+    <p class="font-sans font-bold pt-8 text-customTextColor text-left text-xl">Promosi</p>
+    <div class="grid items-center justify-self-center pt-4">
+      <img class="justify-self-center" src="./../../../../assets/kelola-akun/empty-state-promosi.png" alt="empty-promosi" />
+      <b class="justify-self-center font-pt-sans text-customTextColor pt-4">Belum Ada Promosi</b>
+      <p class="justify-self-center font-pt-sans text-grey-50">Nantikan promosi eksklusif hanya untuk Anda.</p>
+    </div>
+    <!-- <div v-if="firstName !== ''"
+			class="flex-shrink-0 pt-9 font-pt-sans order-last justify-self-end font-bold text-blue-royal-60 underline text-left">
+			<a href="https://gerai.kompas.id/promosi/">Lihat promo lainnya</a>
+		</div> -->
+    <!-- <div class="grid grid-cols-2 pb-13.8">
+	   <div class="flex flex-col">
+		  <img class="rounded-lg h-36 w-81 mt-4 mb-4 flex items-center justify-center" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHQ0fBRZ5tQfXTcQh4IM4QKKrH4jI9QQ44VDOMWZlcrJP1nOMVcmLqDykVdEVoXc0T-nU&usqp=CAU" alt="Ads1"> <b>GoPay Payday Hadir Lagi Untukmu</b>
+		  <p class="text-sm">Masa berlaku: 23 – 31 Maret 2020</p>
+	   </div>
+	   <div class="flex flex-col ml-4 font-pt-sans font-base">
+		  <img class="rounded-lg h-36 w-81 mt-4 mb-4 flex items-center justify-center" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHQ0fBRZ5tQfXTcQh4IM4QKKrH4jI9QQ44VDOMWZlcrJP1nOMVcmLqDykVdEVoXc0T-nU&usqp=CAU" alt="Ads2"> <b>GoPay Payday Hadir Lagi Untukmu</b>
+		  <p class="text-sm">Masa berlaku: 23 – 31 Maret 2020</p>
+	   </div>
+	</div> -->
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<!-- modal content -->
+<div class="h-[fit-content] flex flex-col justify-items-center gap-y-4 bg-white rounded p-5 z-50 overflow-y-auto">
+  <!-- title and desc -->
+  <div class="flex flex-row justify-between items-center">
+    <p class="font-sans font-bold text-xl">Hak Akses Anda</p>
+    <font-awesome-icon :icon="['fas', 'times']" class="text-gray-300 cursor-pointer" @click="$store.dispatch('modal/hideModalAccessRight')" />
+  </div>
+  <ul class="flex flex-col list-outside list-disc gap-y-6 leading-6 mx-6">
+    <!-- content list -->
+    <li>
+      <b>Baca Artikel Bebas Akses Sepuasnya</b> <br />
+      Anda dapat membaca seluruh artikel berlabel "Bebas Akses" sepuasnya.
+    </li>
+    <li>
+      <b>Coba Baca Artikel Berbayar</b> <br />
+      Anda dapat mencoba membaca artikel berbayar sebanyak 5 artikel per bulan. Berlangganan sekarang untuk akses tanpa batas.
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,76 @@
+<!-- Kompas email login -->
+<div>
+  <!-- Email field -->
+  <div class="flex flex-col gap-y-2 text-gray-60">
+    <p ref="email" class="font-sans text-base font-bold">Email</p>
+    <div class="flex flex-row justify-between gap-x-5">
+      <p class="break-all">{{ emailValue }}</p>
+      <span class="text-sm text-blue-royal-60 font-bold cursor-pointer" @click="changeEmail">Ubah</span>
+    </div>
+  </div>
+
+  <!-- Password field -->
+  <p ref="password" class="font-sans text-base my-2 mt-4 font-bold text-customTextColor">Kata Sandi</p>
+  <div class="flex flex-row relative">
+    <input
+      id="password"
+      v-model="password"
+      name="password"
+      :type="[showPassword ? 'text' : 'password']"
+      class="bg-white"
+      :class="isPasswordEmpty || incorrectPassword? 'border-input-error': 'border-input'"
+      @blur="fillPassword(password)"
+      @change="fillPassword(password)"
+      @keydown.tab="fillPassword(password)"
+      @keyup="password === '' ? null: fillPassword(password)"
+      @keyup.enter="validateForm"
+      @keydown.space.prevent
+    />
+    <button
+      id="btn_hidden_password"
+      class="absolute flex flex-row focus:outline-none self-center items-center justify-center outline-none pr-5 right-0 text-grey-50"
+      @click="showPassword = !showPassword"
+    >
+      <font-awesome-icon :icon="showPassword? ['fas','eye'] : ['fas', 'eye-slash']" class="laptopM:mr-2" />
+    </button>
+  </div>
+
+  <!-- empty password warning -->
+  <div v-if="isPasswordEmpty" class="flex flex-row error-text-input items-center">
+    <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+    <span class="leading-none ml-2 text-xs">Kata sandi harus diisi.</span>
+  </div>
+
+  <!-- pass error warning  -->
+  <div v-if="incorrectPassword" class="font-sans font-normal flex flex-row text-errorTextColor text-xs my-2 items-center">
+    <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+    <span class="leading-none ml-2 text-xs">Kata sandi Anda salah.</span>
+  </div>
+
+  <!-- Submit section -->
+  <div class="flex flex-row justify-between pt-4">
+    <div class="flex flex-row">
+      <input id="rememberMe" type="checkbox" v-model="checkbox" name="rememberMe" class="border border-gray-100 h-4 leading-tight mt-1 mr-2 w-4" @change="validateCheckbox(checkbox)" />
+      <p class="font-sans text-sm text-customTextColor">Ingat saya.</p>
+    </div>
+    <div class="self-center">
+      <NuxtLink @click.native="forgotPass" to="/reset-password/send-link" class="text-sm hyperlink-text" id="url_lupa_sandi"> Lupa kata sandi? </NuxtLink>
+    </div>
+  </div>
+
+  <!-- Button submit -->
+  <button
+    id="masuk"
+    :disabled="$store.state.kompasAuth.warningIndicator == 2 || $store.state.kompasAuth.loginBlocked || showSpinner"
+    class="btn-submit w-full"
+    :class="
+        $store.state.kompasAuth.warningIndicator == 2 || $store.state.kompasAuth.loginBlocked || showSpinner
+         ? 'cursor-not-allowed'
+          : 'cursor-pointer'
+      "
+    @click="validateForm"
+  >
+    <p v-if="!showSpinner">Masuk</p>
+    <font-awesome-icon v-else :icon="['fas', 'circle-notch']" class="animate-spin" />
+  </button>
+</div>

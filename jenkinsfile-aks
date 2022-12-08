@@ -1,0 +1,72 @@
+pipeline {
+  agent any
+  stages {
+    stage('Docker Build') {
+      steps {
+        script {
+          if (env.GIT_BRANCH == 'origin/development') {
+            sh "docker build -t kmazsearegistry.azurecr.io/nuxt-oauth2-kompasid-dev:${env.BUILD_NUMBER} ."
+          }
+          else if (env.GIT_BRANCH == 'origin/master') {
+            sh "docker build -t kmazsearegistry.azurecr.io/nuxt-oauth2-kompasid-prd:${env.BUILD_NUMBER} ."
+          }
+          else {}
+        }
+      }
+    }
+
+    stage('Docker Push') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'acr_credentials', passwordVariable: 'acrpass', usernameVariable: 'acruser')]) {
+          script {
+            if (env.GIT_BRANCH == 'origin/development') {
+              sh "docker login kmazsearegistry.azurecr.io -u ${env.acruser} -p ${env.acrpass}"
+              sh "docker push kmazsearegistry.azurecr.io/nuxt-oauth2-kompasid-dev:${env.BUILD_NUMBER}"
+            }
+            else if (env.GIT_BRANCH == 'origin/master') {
+              sh "docker login kmazsearegistry.azurecr.io -u ${env.acruser} -p ${env.acrpass}"
+              sh "docker push kmazsearegistry.azurecr.io/nuxt-oauth2-kompasid-prd:${env.BUILD_NUMBER}"
+            }
+            else{}
+          }
+        }
+      }
+    }
+
+    stage('Docker Remove Image') {
+      steps {
+        script {
+          if (env.GIT_BRANCH == 'origin/development') {
+            sh "docker rmi kmazsearegistry.azurecr.io/nuxt-oauth2-kompasid-dev:${env.BUILD_NUMBER}"
+          }
+          else if (env.GIT_BRANCH == 'origin/master') {
+            sh "docker rmi kmazsearegistry.azurecr.io/nuxt-oauth2-kompasid-prd:${env.BUILD_NUMBER}"
+          }
+          else{}
+        }
+      }
+    }
+
+    stage('Apply Kubernetes Files ') {
+      steps {
+        script {
+          if (env.GIT_BRANCH == 'origin/development') {
+            withKubeConfig([credentialsId: 'kube-km-aks-dev01']) {
+              sh 'cat kube/deployment.yaml | sed "s/{{DEPLOYMENT_NAME}}/nuxt-oauth2-kompasid-dev/g" | sed "s/{{STAGE}}/dev/g" | sed "s/{{BUILD_NUMBER}}/$BUILD_NUMBER/g" | kubectl apply -f -'
+              sh 'cat kube/service.yaml | sed "s/{{DEPLOYMENT_NAME}}/nuxt-oauth2-kompasid-dev/g" | sed "s/{{NODE_PORT}}/30009/g" | kubectl apply -f -'
+            }
+          }
+          else if (env.GIT_BRANCH == 'origin/master') {
+            withKubeConfig([credentialsId: 'kube-km-aks-prod-01']) {
+              sh 'cat kube/deployment.yaml | sed "s/{{DEPLOYMENT_NAME}}/nuxt-oauth2-kompasid-prd/g" | sed "s/{{STAGE}}/prd/g" | sed "s/{{BUILD_NUMBER}}/$BUILD_NUMBER/g" | kubectl apply -f - -n nuxt-oauth2-kompasid-prd'
+              sh 'cat kube/service.yaml | sed "s/{{DEPLOYMENT_NAME}}/nuxt-oauth2-kompasid-prd/g" | sed "s/{{NODE_PORT}}/32009/g" | kubectl apply -f - -n nuxt-oauth2-kompasid-prd'
+            }
+          }
+          else{}
+        }
+      }
+    }
+  }
+}
+
+

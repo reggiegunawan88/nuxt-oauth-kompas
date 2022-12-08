@@ -1,0 +1,26 @@
+<div class="pt-12 pb-20">
+  <!-- Content section -->
+  <div class="max-w-sm mx-auto px-4 pb-24 text-center">
+    <!-- loading spinner -->
+    <div v-if="jwtActive === null">
+      <kompas-auth-spinner />
+      <p class="font-sans text-base mt-3 text-customTextColor text-center">Tunggu sebentar ...</p>
+    </div>
+
+    <!-- if token active -->
+    <div v-else class="flex flex-col font-sans text-gray-600 gap-y-3">
+      <p class="font-bold pt-8 text-xl">Ubah Nomor Ponsel</p>
+      <!-- reusable phone num component -->
+      <div class="flex flex-col gap-y-2">
+        <p class="font-bold text-left">Nomor Ponsel Baru</p>
+        <reusable-phone-number :phone-number-value="phoneNumber" :country-code-value="countryCode || '62'" @valueChanged="setPhoneNumber($event)" />
+      </div>
+      <p class="text-xs text-grey-50 text-left">Pastikan Anda menggunakan nomor WhatsApp sebagai nomor ponsel Anda.</p>
+      <!-- btn submit -->
+      <button class="btn-submit w-full" @click="submitPhoneNum" :disabled="loading">
+        <p v-if="!loading">Simpan</p>
+        <font-awesome-icon v-else :icon="['fas', 'circle-notch']" class="animate-spin" />
+      </button>
+    </div>
+  </div>
+</div>

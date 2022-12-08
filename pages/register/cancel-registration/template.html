@@ -1,0 +1,24 @@
+<div class="pt-20 pb-20 min-h-screen">
+  <!-- loading spinner -->
+  <div v-if="$store.state.kompasAuth.jwtActive === null">
+    <kompas-auth-spinner />
+  </div>
+
+  <!-- token valid -->
+  <div v-if="$store.state.kompasAuth.jwtActive === true" class="px-4 pb-20 m-3">
+    <p class="font-bold font-serif leading-normal pt-8 text-2xl text-center text-customTextColor">Yakin Ingin Membatalkan Pendaftaran Akun Kompas.id?</p>
+    <p class="font-sans leading-relaxed max-w-sm mx-auto pt-3 pb-3 text-base text-center text-gray-600">
+      Dengan membatalkan pendaftaran, seluruh informasi Anda di Kompas.id akan hilang dan tidak dapat dipulihkan kembali.
+    </p>
+    <!-- Btn Section -->
+    <div class="flex w-full justify-center">
+      <button class="flex font-sans font-bold rounded-lg px-5 mt-8 h-10 items-center bg-green-50 text-white text-xl focus:outline-none" @click="cancelRegister">Batalkan Pendaftaran</button>
+    </div>
+  </div>
+
+  <!-- token invalid -->
+  <div v-else-if="$store.state.kompasAuth.jwtActive === false" class="px-4 pb-20 m-3">
+    <p class="font-bold font-serif leading-normal pt-8 text-2xl text-center text-customTextColor">Tautan Sudah Tidak Berlaku</p>
+    <p class="font-sans leading-relaxed max-w-sm mx-auto pt-2 pb-3 text-base text-center text-gray-600">Tautan tidak bisa digunakan atau sudah tidak valid.</p>
+  </div>
+</div>

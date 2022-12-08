@@ -1,0 +1,140 @@
+/* Reusable tailwind style for button, input, hyperlink text, etc */
+
+/**
+  * Button
+  */
+.btn-primary,
+.btn-primary-outlined,
+.btn-primary-borderless,
+.btn-secondary,
+.btn-secondary-outlined,
+.btn-secondary-borderless,
+.btn-error,
+.btn-error-outlined,
+.btn-error-borderless,
+.btn-default,
+.btn-default-outlined,
+.btn-default-borderless,
+.btn-disabled,
+.btn-disabled-outlined,
+.btn-disabled-borderless {
+  @apply font-sans rounded-lg px-4 py-3 my-2 h-10 flex justify-center items-center font-bold text-base focus:outline-none;
+}
+.btn-disabled {
+  @apply font-sans rounded-lg px-4 py-3 my-2 h-10 flex justify-center items-center bg-gray-50 text-gray-450 font-bold text-base focus:outline-none cursor-default;
+}
+.btn-submit {
+  @apply font-sans rounded-lg px-4 py-3 my-2 h-10 flex justify-center items-center bg-green-50 text-white font-bold text-base focus:outline-none;
+}
+
+/* Primary */
+.btn-primary {
+  @apply bg-brand-1 text-white;
+}
+
+.btn-primary-outlined {
+  @apply bg-white border-default border-brand-1 text-brand-1;
+}
+
+.btn-primary-borderless {
+  @apply bg-white border-none text-brand-1;
+}
+
+/* Secondary */
+.btn-secondary {
+  @apply bg-green-50 text-white;
+}
+
+.btn-secondary-outlined {
+  @apply bg-white border-default border-green-50 text-green-50;
+}
+
+.btn-secondary-borderless {
+  @apply bg-white border-none text-green-50;
+}
+
+/* Error */
+.btn-error {
+  @apply bg-red-50 text-white;
+}
+
+.btn-error-outlined {
+  @apply bg-white border-default border-red-50 text-red-50;
+}
+
+.btn-error-borderless {
+  @apply bg-white border-none text-red-50;
+}
+
+/* Default */
+.btn-default {
+  @apply bg-grey-20 text-grey-60;
+}
+
+.btn-default-outlined {
+  @apply bg-white border-default border-grey-60 text-grey-60;
+}
+
+.btn-default-borderless {
+  @apply bg-white border-none text-grey-60;
+}
+
+/* Disabled */
+.btn-disabled {
+  @apply bg-grey-30 text-grey-40;
+}
+
+.btn-disabled-outlined {
+  @apply bg-white border-default border-grey-40 text-grey-40;
+}
+
+.btn-disabled-borderless {
+  @apply bg-white border-none text-grey-40;
+}
+
+.btn-brand-1-outline {
+  @apply font-sans rounded-lg px-4 py-3 my-2 h-10 flex justify-center items-center bg-white border-default border-brand-1 text-brand-1 font-bold text-base focus:outline-none;
+}
+.btn-brand-1-borderless {
+  @apply font-sans rounded-lg px-4 py-3 my-2 h-10 flex justify-center items-center bg-transparent border-default border-brand-1 text-brand-1 font-bold focus:outline-none;
+}
+/**
+  * Border
+  */
+.border-input {
+  @apply border-default border-gray-100 font-sans leading-tight p-4 h-10 rounded-sm text-base text-gray-600 w-full focus:outline-none focus:ring-2 focus:border-blue-royal-50;
+}
+.border-select-input {
+  @apply border-default border-gray-100 font-sans leading-tight pl-4 pr-2 h-10 rounded-sm text-base text-gray-600 w-full focus:outline-none focus:ring-2 focus:border-blue-royal-50;
+}
+.border-input-error {
+  @apply border-2 border-errorTextColor font-sans leading-tight p-4 h-10 rounded-sm text-base text-gray-600 w-full focus:outline-none focus:ring-2 focus:border-errorTextColor;
+}
+.error-text-input {
+  @apply text-errorTextColor text-xs mt-2;
+}
+.hyperlink-text {
+  @apply font-sans text-blue-royal-60 font-bold leading-normal underline;
+}
+.tab-menu {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /*git Firefox */
+  margin-bottom: -2px;
+  @apply font-bold whitespace-nowrap laptop:text-base mobileS:text-sm text-grey-40 overflow-x-auto;
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.tab-menu::-webkit-scrollbar {
+  display: none;
+}
+
+.select-default {
+  @apply block w-full transition duration-100 ease-in-out rounded pl-3 pr-5 py-2 text-base text-customTextColor border-default border-gray-100 focus:ring-2 focus:ring-gray-50 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+.input-default {
+  @apply block w-full transition duration-100 ease-in-out rounded pl-3 pr-5 py-2 text-base text-customTextColor border-default border-gray-100 focus:ring-2 focus:ring-gray-50 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+/* custom styling for onboarding image banner slider (mobile view) */
+.onboarding-img-slider {
+  @apply grid grid-flow-col tablet:grid-cols-3 whitespace-nowrap tablet:whitespace-normal px-4 tablet:px-11 py-4 tablet:py-6 overflow-x-auto gap-x-5 tablet:gap-x-8 rounded-lg border-default border-grey-20 shadow-md text-center text-grey-50;
+}

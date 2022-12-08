@@ -1,0 +1,11 @@
+version: '3'
+services:
+  account.kompas.id:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gcr.io/kmn-dev/nuxt-oauth2-kompasid
+    image: gcr.io/kmn-dev/nuxt-oauth2-kompasid
+    restart: unless-stopped
+    ports:
+      - "5000:5000"

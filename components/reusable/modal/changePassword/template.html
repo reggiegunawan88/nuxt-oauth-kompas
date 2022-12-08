@@ -1,0 +1,109 @@
+<div class="modal-outer" v-if="$store.state.modal.modalChangePassword">
+   <!-- modal content -->
+   <div class="fixed overflow-x-hidden overflow-y-auto w-full h-full z-[1000]">
+      <!-- modal overlay -->
+      <transition name="fade" appear>
+         <div
+            class="fixed top-0 right-0 left-0 bottom-0 content-none z-50 opacity-75 bg-customTextColor cursor-pointer"
+            @click.self="cancelEdit"
+         ></div>
+      </transition>
+      <!-- modal content -->
+      <div class="relative w-[320px] tablet:w-[480px] mx-auto my-32 z-[100]">
+         <div class="bg-white rounded w-full p-6">
+            <div class="flex items-center mb-5">
+               <p class="flex-auto font-sans font-bold text-xl text-customTextColor">Ubah sandi</p>
+               <button class="flex-none text-grey-40" @click="cancelEdit">
+                  <font-awesome-icon class="text-base" :icon="['fas', 'times']" />
+               </button>
+            </div>
+            <div class="grid grid-cols-1 gap-4">
+               <div class="grid grid-cols-1 gap-2">
+                   <!-- Input current password -->
+                  <label ref="currentPassword" class="text-base font-bold">
+                     Kata Sandi Saat Ini<span class="text-errorTextColor">*</span>
+                  </label>
+                  <div class="relative">
+                     <input
+                        :type="[showCurrentPassword ? 'text' : 'password']"
+                        id="currentPassword"
+                        v-model="currentPassword"
+                        :maxlength="25"
+                        class="flex px-3 py-2 h-10 w-full border-2 bg-white font-sans leading-tight rounded-sm text-base text-customTextColor focus:outline-none focus:border-none"
+                        :class="currentPassEmpty || invalidCurrentPassword ? 'focus:ring-2 focus:border-errorTextColor border-errorTextColor' : 'focus:ring-2 focus:border-blue-royal-60 border-gray-100'"
+                        @keydown.space.prevent @change="fillCurrentPassword()"
+                        @blur="fillCurrentPassword()"
+                     />
+                     <!-- button show/hide password -->
+                     <button @click="showCurrentPassword = !showCurrentPassword" class="absolute text-grey-50 top-2 right-3">
+                        <font-awesome-icon :icon="showCurrentPassword? ['fas','eye'] : ['fas', 'eye-slash']" />
+                     </button>
+                  </div>
+                  <!-- warning msg -->
+                  <div v-if="currentPassEmpty" class="flex flex-row text-errorTextColor items-center">
+                     <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" /> <span
+                        class="leading-none ml-2 text-xs">Kata sandi saat ini harus diisi.</span>
+                  </div>
+                  <div v-else-if="invalidCurrentPassword" class="flex flex-row text-errorTextColor items-center">
+                     <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" /> <span
+                        class="leading-none ml-2 text-xs">Kata sandi saat ini tidak sesuai. Periksa Kembali.</span>
+                  </div>
+                  <span class="text-xs text-grey-50" v-else>Kata sandi Anda saat ini.</span>
+               </div>
+               <div>
+                  <!-- Input new password -->
+                  <label ref="newPassword" class="text-base font-bold">
+                     Kata Sandi Baru<span class="text-errorTextColor">*</span>
+                  </label>
+                  <reusable-password />
+                  <!-- current and new password are similar -->
+                  <div v-if="invalidNewPassword" class="flex flex-row text-errorTextColor text-xs items-center">
+                     <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" />
+                     <span class="leading-none ml-2 text-xs">Kata sandi baru Anda tidak bisa sama dengan kata sandi lama.
+                        Silakan periksa kembali.</span>
+                  </div>
+                  <span class="text-xs text-grey-50" v-if="$store.getters['password/getPasswordScore'] <= 1">Disarankan menggunakan minimal 8 karakter dengan huruf kapital, angka, dan simbol (@, #, $, dst.).</span>
+               </div>
+               <div class="grid grid-cols-1 gap-2">
+                  <!-- input confirmation password -->
+                  <label ref="confirmationPassword" class="text-base font-bold">
+                     Konfirmasi Kata Sandi Baru<span class="text-errorTextColor">*</span>
+                  </label>
+                  <div class="relative">
+                     <input
+                        :type="[showConfirmationPassword ? 'text' : 'password']"
+                        id="confirmPassword"
+                        v-model="confirmPassword"
+                        :maxlength="25"
+                        class="flex px-3 py-2 h-10 w-full border-2 bg-white font-sans leading-tight rounded-sm text-base text-customTextColor focus:outline-none focus:border-none"
+                        :class="confirmationPassEmpty || invalidConfirmationPassword ? 'focus:ring-2 focus:border-errorTextColor border-errorTextColor' : 'focus:ring-2 focus:border-blue-royal-60 border-gray-100'"
+                        @keydown.space.prevent @change="fillConfirmPassword()"
+                        @blur="fillConfirmPassword()"
+                     />
+                     <!-- button show/hide password -->
+                     <button @click="showConfirmationPassword = !showConfirmationPassword" class="absolute text-grey-50 top-2 right-3">
+                        <font-awesome-icon :icon="showConfirmationPassword? ['fas','eye'] : ['fas', 'eye-slash']" />
+                     </button>
+                  </div>
+                  <!-- warning empty pass -->
+                  <div v-if="confirmationPassEmpty" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+                     <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" /> <span
+                        class="leading-none ml-2 text-xs">Konfirmasi kata sandi baru harus diisi.</span>
+                  </div>
+                  <!-- warning current and new password is similar -->
+                  <div v-if="invalidConfirmationPassword" class="flex flex-row text-errorTextColor text-xs mt-2 items-center">
+                     <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="text-sm" /> <span
+                        class="leading-none ml-2 text-xs">Konfirmasi kata sandi baru harus sama dengan kata sandi baru. Silakan
+                        periksa lagi.</span>
+                  </div>
+               </div>
+            </div>
+            <!-- Button -->
+            <div class="flex flex-row mt-3 gap-x-6">
+               <button type="submit" value="submit" class="btn-submit" @click="validateForm()">Simpan</button>
+               <button class="btn-submit-borderless" @click="cancelEdit">Batal</button>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

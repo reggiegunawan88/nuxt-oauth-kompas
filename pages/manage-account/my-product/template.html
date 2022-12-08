@@ -1,0 +1,15 @@
+<div class="tablet:min-h-full tablet:border-default tablet:border-gray-100 rounded">
+  <div class="tablet:pb-13.8 pt-8 mobileS:px-4 tablet:px-6">
+    <!-- Text section -->
+    <div class="flex flex-col">
+      <p class="font-bold text-2xl text-customTextColor font-sans mb-4">Tiket</p>
+      <p class="text-base text-customTextColor font-sans mb-4">Daftar tiket yang sudah Anda beli di Kompas.</p>
+    </div>
+    <!-- Navbar section -->
+    <reusable-tabMenu :list-menu="tabMenu" />
+
+    <!-- Sub-page for tiket -->
+    <nuxt-child />
+    <backtoTop />
+  </div>
+</div>

@@ -1,0 +1,63 @@
+<div>
+  <!-- skeleton loading list -->
+  <div v-if="deviceList.length === 0" class="grid grid-cols-1 gap-5 mt-4 laptopL:grid-cols-2">
+    <div class="rounded-md p-4 h-20 bg-grey-30 animate-pulse"></div>
+    <div class="rounded-md p-4 h-20 bg-grey-30 animate-pulse"></div>
+    <div class="rounded-md p-4 h-20 bg-grey-30 animate-pulse"></div>
+    <div class="rounded-md p-4 h-20 bg-grey-30 animate-pulse"></div>
+    <div class="rounded-md p-4 h-20 bg-grey-30 animate-pulse"></div>
+    <div class="rounded-md p-4 h-20 bg-grey-30 animate-pulse"></div>
+  </div>
+
+  <div v-else class="grid grid-cols-1 gap-5 mt-4 laptopL:grid-cols-2">
+    <!-- card list section -->
+    <!-- 1st iteration: for ACTIVE DEVICE -->
+    <div v-for="device in userDevices" v-if="device.key === activeDeviceKey" class="border-default border-grey-30">
+      <div class="flex flex-row p-4 items-center justify-between">
+        <!-- conditional icon -->
+        <div>
+          <font-awesome-icon v-if="device.deviceType === 'desktop'" :icon="['fas','laptop']" class="text-2xl" />
+          <font-awesome-icon v-if="device.deviceType === 'tablet'" :icon="['fas','tablet-alt']" class="text-2xl mx-1" />
+          <font-awesome-icon v-if="device.deviceType === 'smartphone' || device.deviceType === 'phablet'" :icon="['fas','mobile-alt']" class="text-2xl mx-1.5" />
+        </div>
+        <!-- description -->
+        <div class="flex-col w-full mx-3">
+          <p class="font-sans font-bold text-base text-customTextColor">{{ellipsisText(device.device)}}</p>
+          <p class="font-sans font-bold text-base text-green-50">Perangkat ini</p>
+        </div>
+        <!-- close btn -->
+        <button class="focus:outline-none" @click="revokeDevice(device)">
+          <font-awesome-icon class="text-grey-40 text-2xl" :icon="['fas', 'times']" />
+        </button>
+      </div>
+    </div>
+
+    <!-- 2nd iteration: for INACTIVE DEVICES -->
+    <div v-for="device in userDevices" v-if="device.key !== activeDeviceKey" class="border-default border-grey-30">
+      <div class="flex flex-row p-4 items-center justify-between">
+        <!-- conditional icon -->
+        <div>
+          <font-awesome-icon v-if="device.deviceType === 'desktop'" :icon="['fas','laptop']" class="text-2xl" />
+          <font-awesome-icon v-if="device.deviceType === 'tablet'" :icon="['fas','tablet-alt']" class="text-2xl mx-1" />
+          <font-awesome-icon v-if="device.deviceType === 'smartphone' || device.deviceType === 'phablet'" :icon="['fas','mobile-alt']" class="text-2xl mx-1.5" />
+        </div>
+        <!-- description -->
+        <div class="flex-col w-full mx-3">
+          <p class="font-sans font-bold text-base text-customTextColor">{{ellipsisText(device.device)}}</p>
+          <p class="font-sans text-base text-grey-50">Terakhir aktif {{convertTimestamp(device.timeStamp)}}</p>
+        </div>
+        <!-- close btn -->
+        <button class="focus:outline-none" @click="revokeDevice(device)">
+          <font-awesome-icon class="text-grey-40 text-2xl" :icon="['fas', 'times']" />
+        </button>
+      </div>
+    </div>
+    <!-- end of card section -->
+  </div>
+
+  <!-- revoke all devices button -->
+  <!-- <div class="flex items-center justify-center my-8 mx-auto">
+    <button class="btn-secondary-outlined" @click="revokeAllDevices">Keluar
+      di Semua Perangkat</button>
+  </div> -->
+</div>
