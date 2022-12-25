@@ -1,7 +1,7 @@
 # OAuth 2.0 by Kompas.id 
 
 ## Description
-This project was initiate and built for Kompas Gramedia's subsidiary: Kompas Daily Newspaper as one of the biggest media company in Indonesia, as an authentication gate using OAuth 2.0. I was involved for almost 80% code of the project as a front end software engineer.
+This project was initiate and built for Kompas Gramedia's subsidiary: Kompas Daily Newspaper as one of the biggest media company in Indonesia, as an authentication gate using OAuth 2.0. I was involved for almost 80% code of the project when I was working as a front end software engineer at Kompas Gramedia.
 The OAuth 2.0 system is using access token (JWT format) that represents the authorization to access resources on behalf of the end-user.
 Tech stacks:
 - NuxtJS (VueJS framework)
