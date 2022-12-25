@@ -1,6 +1,6 @@
 # OAuth 2.0 by Kompas.id 
 
-<p align="center"
+<p align="center">
 <img width="887" alt="image" src="https://user-images.githubusercontent.com/44907916/209456314-3f8d5092-8df7-4eb4-b763-c6fa9338fc1a.png">
 </p>
 
