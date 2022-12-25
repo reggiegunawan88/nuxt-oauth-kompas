@@ -1,5 +1,8 @@
 # OAuth 2.0 by Kompas.id 
-<image alt="kompas-logo" src="https://d3w4qaq4xm1ncv.cloudfront.net/assets/kompas-logo-57.svg" />
+
+<p align="center"
+<image alt="kompas-logo" src="https://www.intothelightid.org/wp-content/uploads/2018/07/logo-harian-kompas.jpg" />
+</p>
 
 ## Description
 This project was initiate and built for Kompas Gramedia's subsidiary: Kompas Daily Newspaper as one of the biggest media company in Indonesia, as an authentication gate using OAuth 2.0. I was involved for almost 80% code of the project when I was working as a front end software engineer at Kompas Gramedia.
